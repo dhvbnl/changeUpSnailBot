@@ -1,12 +1,24 @@
 #include "vex.h"
 
-//tasks/threads
-vex::thread drivetrainControl();
+//threads
+thread drivetrainControl();
 
 //setters
 void setSpeed(int leftSpeed, int rightSpeed);
 
 //getters
-int getLeftSpeed();
-int getRightSpeed();
+int getLeftSpeedIn();
+int getRightSpeedIn();
 
+int getLFrontSpeed();
+int getLBackSpeed();
+int getRBackSpeed();
+int getRFrontSpeed();
+
+int getLFrontTemp();
+int getLBackTemp();
+int getRBackTemp();
+int getRFrontTemp();
+
+//control 
+const char* tempInfo();
