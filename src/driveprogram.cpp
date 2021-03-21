@@ -17,9 +17,9 @@ void driveprogram(void) {
   while (1) {
     // Drivetrain
     leftdrivespeed =
-        Controller1.Axis3.position() + Controller1.Axis4.position();
+        Controller.Axis3.position() + Controller.Axis4.position();
     rightdrivespeed =
-        Controller1.Axis3.position() - Controller1.Axis4.position();
+        Controller.Axis3.position() - Controller.Axis4.position();
 
     lFront.spin(directionType::fwd, leftdrivespeed, pct);
     lBack.spin(directionType::fwd, leftdrivespeed, pct);
@@ -28,24 +28,24 @@ void driveprogram(void) {
 
     // Intake
     if (intakestate == true) {
-      intakespeed = Controller1.Axis2.position();
+      intakespeed = Controller.Axis2.position();
     }
 
     lIntake.spin(directionType::fwd, intakespeed, pct);
     rIntake.spin(directionType::fwd, intakespeed, pct);
 
     // Rollers
-    Controller1.ButtonR2.pressed(togglerollerOFF);
+    Controller.ButtonR2.pressed(togglerollerOFF);
 
-    if (Controller1.ButtonA.pressing()) {
+    if (Controller.ButtonA.pressing()) {
       taskHOLD = vex::task(ballHoard);
     }
     
-    if (Controller1.ButtonX.pressing()) {
-      //Controller1.Screen.print("HIAUSFH");
+    if (Controller.ButtonX.pressing()) {
+      //Controller.Screen.print("HIAUSFH");
       taskREMOVETWO = vex::task(removeTwo);
     }
-    if (Controller1.ButtonB.pressing()) {
+    if (Controller.ButtonB.pressing()) {
       taskCLEAN = vex::task(ballClean);
     } 
 
@@ -60,14 +60,14 @@ int ballHoard() {
   while (lineTop.value(pct) >= 65) {
     rollertopspeed = 0;
     rollerbottomspeed = 100;
-    if (Controller1.ButtonL1.pressing() || Controller1.ButtonR2.pressing()) {
+    if (Controller.ButtonL1.pressing() || Controller.ButtonR2.pressing()) {
       return 0;
     }
   }
   while (lineMiddle.value(pct) >= 65) {
     rollertopspeed = 0;
     rollerbottomspeed = 40;
-    if (Controller1.ButtonL1.pressing() || Controller1.ButtonR2.pressing()) {
+    if (Controller.ButtonL1.pressing() || Controller.ButtonR2.pressing()) {
       return 0;
     }
   }
@@ -80,7 +80,7 @@ int removeOne() {
   while (lineBottom.value(pct) >= 65) {
     rollertopspeed = 0;
     rollerbottomspeed = 0;
-    if (Controller1.ButtonL1.pressing() || Controller1.ButtonR2.pressing()) {
+    if (Controller.ButtonL1.pressing() || Controller.ButtonR2.pressing()) {
       return 0;
     }
   }
@@ -92,14 +92,14 @@ int removeTwo() {
   while (lineMiddle.value(pct) >= 65) {
     rollertopspeed = 0;
     rollerbottomspeed = 50;
-    if (Controller1.ButtonA.pressing() || Controller1.ButtonR2.pressing()) {
+    if (Controller.ButtonA.pressing() || Controller.ButtonR2.pressing()) {
       return 0;
     }
   }
   while (lineBottom.value(pct) >= 65) {
     rollertopspeed = 0;
     rollerbottomspeed = 0;
-    if (Controller1.ButtonA.pressing() || Controller1.ButtonR2.pressing() ) {
+    if (Controller.ButtonA.pressing() || Controller.ButtonR2.pressing() ) {
       return 0;
     }
   }
@@ -180,7 +180,7 @@ int ballShoot() {
 
 int shootCustom() {
   while (true) {
-    if (Controller1.ButtonR1.pressing()) {
+    if (Controller.ButtonR1.pressing()) {
       rollertopcontrol = 100;
       rollerbottomcontrol = 100;
       rollertopspeed = rollertopcontrol;
@@ -188,7 +188,7 @@ int shootCustom() {
       vex::task::sleep(1000);
       rollertopspeed = 0;
       rollerbottomspeed = 0;
-    } else if (Controller1.ButtonL1.pressing()) {
+    } else if (Controller.ButtonL1.pressing()) {
       rollertopcontrol = 100;
       rollerbottomcontrol = 100;
       rollertopspeed = rollertopcontrol;
@@ -197,7 +197,7 @@ int shootCustom() {
       rollerbottomspeed = 0;
       vex::task::sleep(300);
       rollertopspeed = 0;
-    } else if (Controller1.ButtonL2.pressing()) {
+    } else if (Controller.ButtonL2.pressing()) {
       rollertopcontrol = 100;
       rollerbottomcontrol = 100;
       rollertopspeed = rollertopcontrol;

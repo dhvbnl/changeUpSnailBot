@@ -8,7 +8,7 @@ using code = vision::code;
 brain  Brain;
 
 // VEXcode device constructors
-controller Controller1 = controller(primary);
+controller Controller = controller(primary);
 motor lFront = motor(PORT11, ratio18_1, true);
 motor rollerBottom = motor(PORT8, ratio18_1, false);
 motor lBack = motor(PORT12, ratio18_1, true);

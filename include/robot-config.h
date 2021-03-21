@@ -5,7 +5,7 @@ extern brain Brain;
 using signature = vision::signature;
 
 // VEXcode devices
-extern controller Controller1;
+extern controller Controller;
 extern motor lFront;
 extern motor rollerBottom;
 extern motor lBack;
