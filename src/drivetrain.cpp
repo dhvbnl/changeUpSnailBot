@@ -2,6 +2,7 @@
 #include "controller.h"
 
 const int tempLimit = 55;
+const double quadraticA = 0.01;
 
 thread drivetrainControl() {
   while (true) {
@@ -21,13 +22,13 @@ void setSpeed(int leftSpeed, int rightSpeed) {
 // getters
 int getLeftSpeedIn() {
   int rawVal = getAxis3Pos() + getAxis4Pos();
-  int newVal = 0.01 * pow(rawVal, 2);
+  int newVal = quadraticA * pow(rawVal, 2);
   return newVal;
 }
 
 int getRightSpeedIn() {
   int rawVal = getAxis3Pos() - getAxis4Pos();
-  int newVal = 0.01 * pow(rawVal, 2);
+  int newVal = quadraticA * pow(rawVal, 2);
   return newVal;
 }
 
