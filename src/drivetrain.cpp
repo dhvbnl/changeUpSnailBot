@@ -1,18 +1,18 @@
 #include "drivetrain.h"
 #include "controller.h"
 
-const int tempLimit = 55;
-const double quadraticA = 0.01;
-
+//thread for drivetrain to respond to joystick movements
 thread drivetrainControl() {
   while (true) {
-    setSpeed(getLeftSpeedIn(), getRightSpeedIn());
+    setSpeedDrivetrain(getLeftSpeedIn(), getRightSpeedIn());
     wait(20, msec);
   }
 }
 
 // setters
-void setSpeed(int leftSpeed, int rightSpeed) {
+
+//sets speed of drivetrain based on left and right velocity inputs
+void setSpeedDrivetrain(int leftSpeed, int rightSpeed) {
   lFront.setVelocity(leftSpeed, pct);
   lBack.setVelocity(leftSpeed, pct);
   rBack.setVelocity(rightSpeed, pct);
@@ -20,12 +20,14 @@ void setSpeed(int leftSpeed, int rightSpeed) {
 }
 
 // getters
+
+//gets movement speed based on joystick location and 
+//runs through a quadratic to motion profile
 int getLeftSpeedIn() {
   int rawVal = getAxis3Pos() + getAxis4Pos();
   int newVal = quadraticA * pow(rawVal, 2);
   return newVal;
 }
-
 int getRightSpeedIn() {
   int rawVal = getAxis3Pos() - getAxis4Pos();
   int newVal = quadraticA * pow(rawVal, 2);
@@ -43,11 +45,24 @@ int getRBackTemp() {return rBack.temperature(celsius);}
 int getRFrontTemp() {return rFront.temperature(celsius);}
 
 // control
-const char* tempInfo()
-{
- if(getLFrontTemp() > tempLimit) return "Left Front HOT";
- else if(getLBackTemp() > tempLimit) return "Left Back HOT";
- else if(getRBackTemp() > tempLimit) return "Right Back HOT";
- else if(getRFrontTemp() > tempLimit) return "Right Front HOT";
- else return "All Good";
+
+//checks tempeatures of all drive motors are returns in a string which motors are hot
+std::string tempInfoDrive() {
+  std::string tempReturn;
+  int loopCounter = 0;
+  if (getLFrontTemp() > tempLimit)
+    tempReturn = "LF ";
+    loopCounter++;
+  if (getLBackTemp() > tempLimit)
+    tempReturn += "LR ";
+    loopCounter++;
+  if (getRBackTemp() > tempLimit)
+    tempReturn += "RB ";
+    loopCounter++;
+  if (getRFrontTemp() > tempLimit)
+    tempReturn += "RF ";
+    loopCounter++;
+  if(loopCounter == 0)
+    tempReturn = "All Good";
+  return tempReturn;
 }

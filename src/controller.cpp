@@ -3,6 +3,8 @@
 const int deadzone = 5;
 
 // joysticks getters
+
+//returns position of respective axises taking in account a deadzone
 int getAxis1Pos() 
 {
   int axisPos = Controller.Axis1.position();

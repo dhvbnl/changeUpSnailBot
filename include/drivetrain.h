@@ -1,10 +1,14 @@
 #include "vex.h"
 
+//constants
+const int tempLimit = 55;
+const double quadraticA = 0.01;
+
 //threads
 thread drivetrainControl();
 
 //setters
-void setSpeed(int leftSpeed, int rightSpeed);
+void setSpeedDrivetrain(int leftSpeed, int rightSpeed);
 
 //getters
 int getLeftSpeedIn();
@@ -21,4 +25,4 @@ int getRBackTemp();
 int getRFrontTemp();
 
 //control 
-const char* tempInfo();
+std::string tempInfoDrive();
