@@ -2,7 +2,7 @@
 #include "drivetrain.h"
 #include "controller.h"
 
-thread screenGUI()
+void screenGUI()
 {
   while(true)
   {

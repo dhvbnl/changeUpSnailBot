@@ -1,11 +1,11 @@
 #include "vex.h"
 
 //constants
-const int tempLimit = 55;
+const int tempLimitDrive = 55;
 const double quadraticA = 0.01;
 
-//threads
-thread drivetrainControl();
+//complete functions
+void drivetrainControl();
 
 //setters
 void setSpeedDrivetrain(int leftSpeed, int rightSpeed);

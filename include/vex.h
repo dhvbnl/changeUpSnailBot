@@ -16,6 +16,9 @@
 #include "v5_vcs.h"
 #include "robot-config.h"
 
+//global constants
+//const int tempLimit = 55;
+
 #define waitUntil(condition)                                                   \
   do {                                                                         \
     wait(5, msec);                                                             \

@@ -1,10 +1,10 @@
 #include "vex.h"
 
 //constants
-const int tempLimit = 55;
+const int tempLimitIntake = 55;
 
 //threads
-thread intakeControl();
+void intakeControl();
 
 //setters
 void setSpeedIntake(int speed);

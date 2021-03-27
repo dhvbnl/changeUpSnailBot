@@ -2,10 +2,11 @@
 #include "controller.h"
 
 //thread for drivetrain to respond to joystick movements
-thread drivetrainControl() {
+void drivetrainControl() {
   while (true) {
+    Controller.Screen.print("hi");
     setSpeedDrivetrain(getLeftSpeedIn(), getRightSpeedIn());
-    wait(20, msec);
+    wait(10, msec);
   }
 }
 
@@ -13,10 +14,10 @@ thread drivetrainControl() {
 
 //sets speed of drivetrain based on left and right velocity inputs
 void setSpeedDrivetrain(int leftSpeed, int rightSpeed) {
-  lFront.setVelocity(leftSpeed, pct);
-  lBack.setVelocity(leftSpeed, pct);
-  rBack.setVelocity(rightSpeed, pct);
-  rFront.setVelocity(rightSpeed, pct);
+  lFront.spin(fwd, leftSpeed, pct);
+  lBack.spin(fwd, leftSpeed, pct);
+  rBack.spin(fwd, rightSpeed, pct);
+  rFront.spin(fwd, rightSpeed, pct);
 }
 
 // getters
@@ -24,13 +25,29 @@ void setSpeedDrivetrain(int leftSpeed, int rightSpeed) {
 //gets movement speed based on joystick location and 
 //runs through a quadratic to motion profile
 int getLeftSpeedIn() {
+  int newVal;
   int rawVal = getAxis3Pos() + getAxis4Pos();
-  int newVal = quadraticA * pow(rawVal, 2);
+  if(rawVal > 0)
+  {
+    newVal = quadraticA * pow(rawVal, 2);
+  }
+  else
+  {
+    newVal = -quadraticA * pow(rawVal, 2);
+  }
   return newVal;
 }
 int getRightSpeedIn() {
+  int newVal;
   int rawVal = getAxis3Pos() - getAxis4Pos();
-  int newVal = quadraticA * pow(rawVal, 2);
+  if(rawVal > 0)
+  {
+    newVal = quadraticA * pow(rawVal, 2);
+  }
+  else
+  {
+    newVal = -quadraticA * pow(rawVal, 2);
+  }
   return newVal;
 }
 
@@ -50,16 +67,16 @@ int getRFrontTemp() {return rFront.temperature(celsius);}
 std::string tempInfoDrive() {
   std::string tempReturn;
   int loopCounter = 0;
-  if (getLFrontTemp() > tempLimit)
+  if (getLFrontTemp() > tempLimitDrive)
     tempReturn = "LF ";
     loopCounter++;
-  if (getLBackTemp() > tempLimit)
+  if (getLBackTemp() > tempLimitDrive)
     tempReturn += "LR ";
     loopCounter++;
-  if (getRBackTemp() > tempLimit)
+  if (getRBackTemp() > tempLimitDrive)
     tempReturn += "RB ";
     loopCounter++;
-  if (getRFrontTemp() > tempLimit)
+  if (getRFrontTemp() > tempLimitDrive)
     tempReturn += "RF ";
     loopCounter++;
   if(loopCounter == 0)

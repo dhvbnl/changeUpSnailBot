@@ -1,9 +1,10 @@
 #include "intakes.h"
 
-thread intakeControl() {
+void intakeControl() {
   while (true) {
     setSpeedIntake(getIntakeSpeed());
-    wait(20, msec);
+    wait(10, msec);
+    thread(intakeControl).join();
   }
 }
 
@@ -11,8 +12,8 @@ thread intakeControl() {
 
 // sets speed for both intakes based on one speed parameter
 void setSpeedIntake(int speed) {
-  lIntake.setVelocity(speed, pct);
-  rIntake.setVelocity(speed, pct);
+  lIntake.spin(fwd, speed, pct);
+  rIntake.spin(fwd, speed, pct);
 }
 
 //getters
@@ -30,10 +31,10 @@ int getRIntakeTemp() { return rIntake.temperature(celsius); }
 std::string tempInfoIntake() {
   std::string tempReturn;
   int loopCounter = 0;
-  if (getLIntakeTemp() > tempLimit)
+  if (getLIntakeTemp() > tempLimitIntake)
     tempReturn = "R ";
     loopCounter++;
-  if (getRIntakeTemp() > tempLimit)
+  if (getRIntakeTemp() > tempLimitIntake)
     tempReturn += "L ";
     loopCounter++;
   if(loopCounter == 0)

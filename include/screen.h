@@ -1,4 +1,4 @@
 #include "vex.h"
 
-//threads
-thread screenGUI();
+//complete functions
+void screenGUI();

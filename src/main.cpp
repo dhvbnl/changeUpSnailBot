@@ -2,24 +2,19 @@
 
 using namespace vex;
 competition Competition;
-void driveprogram();
 
-void pre_auton(void) {
-  vexcodeInit();
-}
+void preauton();
+void opcontrol();
 
-void autonomous(void) {
-}
-
-void usercontrol(void) {
-  driveprogram();
+void autonomous(void) 
+{
 }
 
 int main() {
   Competition.autonomous(autonomous);
-  Competition.drivercontrol(usercontrol);
+  Competition.drivercontrol(opcontrol);
 
-  pre_auton();
+  preauton();
   while (true) {
     wait(100, msec);
   }
