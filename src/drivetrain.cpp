@@ -2,10 +2,9 @@
 #include "controller.h"
 
 //thread for drivetrain to respond to joystick movements
-void drivetrainControl() {
+int drivetrainControl() {
   while (true) {
-    Controller.Screen.print("hi");
-    setSpeedDrivetrain(getLeftSpeedIn(), getRightSpeedIn());
+    setSpeedDrivetrain(getLeftSpeedInLinear(), getRightSpeedInLinear());
     wait(10, msec);
   }
 }
@@ -14,39 +13,49 @@ void drivetrainControl() {
 
 //sets speed of drivetrain based on left and right velocity inputs
 void setSpeedDrivetrain(int leftSpeed, int rightSpeed) {
-  lFront.spin(fwd, leftSpeed, pct);
-  lBack.spin(fwd, leftSpeed, pct);
-  rBack.spin(fwd, rightSpeed, pct);
-  rFront.spin(fwd, rightSpeed, pct);
+  lFront.spin(fwd, leftSpeed, volt);
+  lBack.spin(fwd, leftSpeed, volt);
+  rBack.spin(fwd, rightSpeed, volt);
+  rFront.spin(fwd, rightSpeed, volt);
 }
 
 // getters
 
+//gets movement speed based on joystick location and
+//converts to voltage evenly
+int getLeftSpeedInLinear() {
+  return (getAxis3Pos() + getAxis4Pos()) / voltageConversationDrive;
+}
+
+int getRightSpeedInLinear() {
+  return (getAxis3Pos() - getAxis4Pos()) / voltageConversationDrive;
+}
+
 //gets movement speed based on joystick location and 
-//runs through a quadratic to motion profile
-int getLeftSpeedIn() {
+//runs through a quadratic to slew
+int getLeftSpeedInSlew() {
   int newVal;
   int rawVal = getAxis3Pos() + getAxis4Pos();
   if(rawVal > 0)
   {
-    newVal = quadraticA * pow(rawVal, 2);
+    newVal = quadraticA * pow(rawVal, powerRatioB);
   }
   else
   {
-    newVal = -quadraticA * pow(rawVal, 2);
+    newVal = quadraticA * pow(rawVal, powerRatioB);
   }
   return newVal;
 }
-int getRightSpeedIn() {
+int getRightSpeedInSlew() {
   int newVal;
   int rawVal = getAxis3Pos() - getAxis4Pos();
   if(rawVal > 0)
   {
-    newVal = quadraticA * pow(rawVal, 2);
+    newVal = quadraticA * pow(rawVal, powerRatioB);
   }
   else
   {
-    newVal = -quadraticA * pow(rawVal, 2);
+    newVal = quadraticA * pow(rawVal, powerRatioB);
   }
   return newVal;
 }

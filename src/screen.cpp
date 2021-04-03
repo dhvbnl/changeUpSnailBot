@@ -2,10 +2,11 @@
 #include "drivetrain.h"
 #include "controller.h"
 
-void screenGUI()
+int screenGUI()
 {
   while(true)
   {
+    wait(10, msec);
   }
 }
 

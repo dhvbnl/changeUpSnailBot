@@ -49,8 +49,8 @@ void driveprogram(void) {
       taskCLEAN = vex::task(ballClean);
     } 
 
-    rollerTop.spin(forward, rollertopspeed, pct);
-    rollerBottom.spin(forward, rollerbottomspeed, pct);
+    //rollerTop.spin(forward, rollertopspeed, pct);
+    //rollerBottom.spin(forward, rollerbottomspeed, pct);
     wait(10, msec);
   }
 }

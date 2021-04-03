@@ -1,14 +1,15 @@
-#include "vex.h"
 #include "drivetrain.h"
 #include "controller.h"
 #include "screen.h"
 #include "intakes.h"
+#include "rollers.h"
 
 void opcontrol()
 {
-  vex::thread(drivetrainControl).detach();
-  vex::thread(intakeControl).detach();
-  vex::thread(screenGUI).detach();
+  task driveMove(drivetrainControl);
+  task intakeMove(intakeControl);
+  task rollerMove(rollerControl);
+  task screenChange(screenGUI);
   while(true)
   {
     wait(100, msec);
