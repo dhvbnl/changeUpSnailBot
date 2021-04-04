@@ -77,6 +77,9 @@ int getLBackSpeed() {return lBack.velocity(pct);}
 int getRBackSpeed() {return rBack.velocity(pct);}
 int getRFrontSpeed() {return rFront.velocity(pct);}
 
+int getInertialRotation() { return Inertial.rotation();}
+int getInertialHeading() { return Inertial.heading();}
+
 int getLeftEncoderRotation() { return encoderLeft.rotation(deg); }
 int getRightEncoderRotation() { return encoderRight.rotation(deg); }
 
