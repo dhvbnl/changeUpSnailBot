@@ -37,6 +37,9 @@ int getPos() {
     head += theta;
     xPos += deltaX;
     yPos += deltaY;
+
+    previousLeft = currentLeft;
+    previousRight = currentRight;
   } 
   return 0;
 }
