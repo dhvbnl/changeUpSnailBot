@@ -1,9 +1,5 @@
-#include "vex.h"
-
 //constants
 const int lineMax = 68;
-const int tempLimitRollers = 55;
-
 
 //complete functions
 int rollerControl();

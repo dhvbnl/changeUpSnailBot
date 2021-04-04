@@ -1,6 +1,4 @@
-#include "rollers.h"
-#include "intakes.h"
-#include "controller.h"
+#include "vex.h"
 
 //global rollerSpeed checker
 int rollerSpeed = 0;
@@ -219,10 +217,10 @@ void resetRollers() {
 std::string tempInfoRollers() {
   std::string tempReturn;
   int loopCounter = 0;
-  if (getLRollerTemp() > tempLimitRollers)
+  if (getLRollerTemp() > tempLimit)
     tempReturn = "R ";
   loopCounter++;
-  if (getRRollerTemp() > tempLimitRollers)
+  if (getRRollerTemp() > tempLimit)
     tempReturn += "L ";
   loopCounter++;
   if (loopCounter == 0)

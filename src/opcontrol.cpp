@@ -1,9 +1,4 @@
-#include "opcontrol.h"
-#include "drivetrain.h"
-#include "controller.h"
-#include "screen.h"
-#include "intakes.h"
-#include "rollers.h"
+#include "vex.h"
 
 void opcontrol()
 {

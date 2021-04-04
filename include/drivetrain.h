@@ -1,10 +1,6 @@
-#include "vex.h"
-
 //constants
-const int tempLimitDrive = 55;
 const double quadraticA = 0.12;
 const int powerRatioB = 1;
-const double voltageConversationDrive = 8 + (1/3);
 
 //complete functions
 int drivetrainControl();
@@ -27,6 +23,9 @@ int getLBackSpeed();
 int getRBackSpeed();
 int getRFrontSpeed();
 
+int getLeftEncoderRotation();
+int getRightEncoderRotation();
+
 int getLFrontTemp();
 int getLBackTemp();
 int getRBackTemp();
@@ -34,6 +33,7 @@ int getRFrontTemp();
 
 //control 
 void resetDrivetrain();
+void resetEncoders();
 void calibrateInertial();
 
 std::string tempInfoDrive();

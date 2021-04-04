@@ -1,2 +1,2 @@
-#include "vex.h"
-
+int getPos();
+int setPos();

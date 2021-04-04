@@ -1,1 +1,1 @@
-#include "vex.h"
+void preauton();

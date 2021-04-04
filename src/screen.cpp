@@ -1,6 +1,4 @@
-#include "screen.h"
-#include "drivetrain.h"
-#include "controller.h"
+#include "vex.h"
 
 int screenGUI()
 {

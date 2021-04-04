@@ -1,6 +1,6 @@
-#include "intakes.h"
-#include "controller.h"
+#include "vex.h"
 
+//used to check if being controlled by macro
 bool intakeState = true;
 
 int intakeControl() {
@@ -32,7 +32,7 @@ void setIntakeLock() {
 //getters
 
 int getIntakeSpeed() {
-  return getAxis2Pos() / voltageConversationIntake;
+  return getAxis2Pos() / voltageConverstion;
 }
 
 int getLIntakeSpeed() { return lIntake.velocity(pct); }
@@ -60,10 +60,10 @@ void resetIntakes() {
 std::string tempInfoIntake() {
   std::string tempReturn;
   int loopCounter = 0;
-  if (getLIntakeTemp() > tempLimitIntake)
+  if (getLIntakeTemp() > tempLimit)
     tempReturn = "R ";
     loopCounter++;
-  if (getRIntakeTemp() > tempLimitIntake)
+  if (getRIntakeTemp() > tempLimit)
     tempReturn += "L ";
     loopCounter++;
   if(loopCounter == 0)

@@ -1,5 +1,4 @@
-#include "drivetrain.h"
-#include "controller.h"
+#include "vex.h"
 
 //thread for drivetrain to respond to joystick movements
 int drivetrainControl() {
@@ -37,11 +36,11 @@ void setDrivetrainLock() {
 //gets movement speed based on joystick location and
 //converts to voltage evenly
 int getLeftSpeedInLinear() {
-  return (getAxis3Pos() + getAxis4Pos()) / voltageConversationDrive;
+  return (getAxis3Pos() + getAxis4Pos()) / voltageConverstion;
 }
 
 int getRightSpeedInLinear() {
-  return (getAxis3Pos() - getAxis4Pos()) / voltageConversationDrive;
+  return (getAxis3Pos() - getAxis4Pos()) / voltageConverstion;
 }
 
 //gets movement speed based on joystick location and 
@@ -78,6 +77,9 @@ int getLBackSpeed() {return lBack.velocity(pct);}
 int getRBackSpeed() {return rBack.velocity(pct);}
 int getRFrontSpeed() {return rFront.velocity(pct);}
 
+int getLeftEncoderRotation() { return encoderLeft.rotation(deg); }
+int getRightEncoderRotation() { return encoderRight.rotation(deg); }
+
 int getLFrontTemp() {return lFront.temperature(celsius);}
 int getLBackTemp() {return lBack.temperature(celsius);}
 int getRBackTemp() {return rBack.temperature(celsius);}
@@ -93,6 +95,11 @@ void resetDrivetrain() {
   rFront.resetRotation();
 }
 
+void resetEncoders() {
+  encoderLeft.resetRotation();
+  encoderRight.resetRotation();
+}
+
 void calibrateInertial() {
   Inertial.calibrate();
   while(Inertial.isCalibrating())
@@ -105,16 +112,16 @@ void calibrateInertial() {
 std::string tempInfoDrive() {
   std::string tempReturn;
   int loopCounter = 0;
-  if (getLFrontTemp() > tempLimitDrive)
+  if (getLFrontTemp() > tempLimit)
     tempReturn = "LF ";
     loopCounter++;
-  if (getLBackTemp() > tempLimitDrive)
+  if (getLBackTemp() > tempLimit)
     tempReturn += "LR ";
     loopCounter++;
-  if (getRBackTemp() > tempLimitDrive)
+  if (getRBackTemp() > tempLimit)
     tempReturn += "RB ";
     loopCounter++;
-  if (getRFrontTemp() > tempLimitDrive)
+  if (getRFrontTemp() > tempLimit)
     tempReturn += "RF ";
     loopCounter++;
   if(loopCounter == 0)

@@ -1,9 +1,6 @@
-#include "preauton.h"
-#include "drivetrain.h"
-#include "intakes.h"
-#include "rollers.h"
+#include "vex.h"
 
-void preauton(void) {
+void preauton() {
   vexcodeInit();
 
   resetDrivetrain();

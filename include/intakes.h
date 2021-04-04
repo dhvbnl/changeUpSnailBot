@@ -1,8 +1,4 @@
-#include "vex.h"
-
 //constants
-const int tempLimitIntake = 55;
-const double voltageConversationIntake = 8 + (1/3);
 
 //complete functions
 int intakeControl();

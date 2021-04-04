@@ -1,5 +1,3 @@
-#include "vex.h"
-
 //getters
 int getAxis1Pos();
 int getAxis2Pos();
