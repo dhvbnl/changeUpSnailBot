@@ -56,24 +56,24 @@ int setPos(double x, double y) {
   // Using quadrants to calculate absolute angle to turn to
   if (x > curr_xPos && y > curr_yPos) {
     Controller.Screen.print("1");
-    turningBasePID(90 - refAngle);
+    //turningBasePID(90 - refAngle);
   } 
   else if (x < curr_xPos && y > curr_yPos) {
     Controller.Screen.print("2");
-    turningBasePID(270 + refAngle);
+    //turningBasePID(270 + refAngle);
   } 
   else if (x < curr_xPos && y < curr_yPos) {
     Controller.Screen.print("3");
-    turningBasePID(270 - refAngle);
+    //turningBasePID(270 - refAngle);
   } 
   else if (x > curr_xPos && y < curr_yPos) { 
     Controller.Screen.print("4");
-    turningBasePID(90 + refAngle);
+    //turningBasePID(90 + refAngle);
   } 
   else {  
     Controller.Screen.print("5");
   }
-  driveInertial(hyp, 50, fwd);
+  //driveInertial(hyp, 50, fwd);
   
   return 0;
 }

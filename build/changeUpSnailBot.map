@@ -122,6 +122,14 @@ Discarded input sections
                 0x0000000000000000       0x30 build/src/drivetrain.o
  .ARM.exidx.text._Z14getRFrontSpeedv
                 0x0000000000000000        0x8 build/src/drivetrain.o
+ .text._Z19getInertialRotationv
+                0x0000000000000000       0x28 build/src/drivetrain.o
+ .ARM.exidx.text._Z19getInertialRotationv
+                0x0000000000000000        0x8 build/src/drivetrain.o
+ .text._Z18getInertialHeadingv
+                0x0000000000000000       0x28 build/src/drivetrain.o
+ .ARM.exidx.text._Z18getInertialHeadingv
+                0x0000000000000000        0x8 build/src/drivetrain.o
  .text._Z22getLeftEncoderRotationv
                 0x0000000000000000       0x30 build/src/drivetrain.o
  .ARM.exidx.text._Z22getLeftEncoderRotationv
@@ -212,8 +220,12 @@ Discarded input sections
  .llvm_addrsig  0x0000000000000000        0x0 build/src/mapping.o
  .text          0x0000000000000000        0x0 build/src/odometry.o
  .text._Z6getPosv
-                0x0000000000000000      0x1a0 build/src/odometry.o
+                0x0000000000000000      0x1e8 build/src/odometry.o
  .ARM.exidx.text._Z6getPosv
+                0x0000000000000000        0x8 build/src/odometry.o
+ .text._Z6setPosdd
+                0x0000000000000000      0x148 build/src/odometry.o
+ .ARM.exidx.text._Z6setPosdd
                 0x0000000000000000        0x8 build/src/odometry.o
  .bss.currentLeft
                 0x0000000000000000        0x8 build/src/odometry.o
@@ -234,12 +246,14 @@ Discarded input sections
  .bss.head      0x0000000000000000        0x8 build/src/odometry.o
  .bss.theta     0x0000000000000000        0x8 build/src/odometry.o
  .bss.lradius   0x0000000000000000        0x8 build/src/odometry.o
+ .rodata.str1.1
+                0x0000000000000000        0xa build/src/odometry.o
  .comment       0x0000000000000000       0x2e build/src/odometry.o
  .note.GNU-stack
                 0x0000000000000000        0x0 build/src/odometry.o
  .ARM.attributes
                 0x0000000000000000       0x3a build/src/odometry.o
- .llvm_addrsig  0x0000000000000000        0x0 build/src/odometry.o
+ .llvm_addrsig  0x0000000000000000        0x1 build/src/odometry.o
  .text          0x0000000000000000        0x0 build/src/opcontrol.o
  .llvm_addrsig  0x0000000000000000        0x4 build/src/opcontrol.o
  .text          0x0000000000000000        0x0 build/src/preauton.o
