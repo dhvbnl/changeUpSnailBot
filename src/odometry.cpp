@@ -45,6 +45,35 @@ int getPos() {
   return 0;
 }
 
-int setPos() {
+int setPos(double x, double y) {
+  double curr_xPos = xPos;
+  double curr_yPos = yPos;
+  double xdist = fabs(fabs(x) - fabs(curr_xPos));
+  double ydist = fabs((y) - fabs(curr_yPos));
+  double hyp = sqrt((xdist * xdist) + (ydist * ydist));
+  double refAngle = fabs(atan2(ydist, xdist) * 180 / M_PI);
+
+  // Using quadrants to calculate absolute angle to turn to
+  if (x > curr_xPos && y > curr_yPos) {
+    Controller.Screen.print("1");
+    turningBasePID(90 - refAngle);
+  } 
+  else if (x < curr_xPos && y > curr_yPos) {
+    Controller.Screen.print("2");
+    turningBasePID(270 + refAngle);
+  } 
+  else if (x < curr_xPos && y < curr_yPos) {
+    Controller.Screen.print("3");
+    turningBasePID(270 - refAngle);
+  } 
+  else if (x > curr_xPos && y < curr_yPos) { 
+    Controller.Screen.print("4");
+    turningBasePID(90 + refAngle);
+  } 
+  else {  
+    Controller.Screen.print("5");
+  }
+  driveInertial(hyp, 50, fwd);
+  
   return 0;
 }
