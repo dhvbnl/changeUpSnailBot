@@ -1,3 +1,4 @@
+#include "opcontrol.h"
 #include "drivetrain.h"
 #include "controller.h"
 #include "screen.h"

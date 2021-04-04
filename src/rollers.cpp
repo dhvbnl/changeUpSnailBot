@@ -2,10 +2,15 @@
 #include "intakes.h"
 #include "controller.h"
 
+//global rollerSpeed checker
 int rollerSpeed = 0;
+//global descore checker
 int shootState = 2;
+//time for shoot exepction handling
 timer alignRollers = timer();
 
+
+//macro threads;
 thread hoardAll;
 thread shootAll;
 thread cleanAll;
@@ -15,7 +20,7 @@ thread descoreTwo;
 int rollerControl() {
   while (true) {
     runMacros();
-    setSpeedRollers();
+    setRollerSpeed();
     wait(10, msec);
   }
 }
@@ -23,23 +28,19 @@ int rollerControl() {
 // setters
 
 // sets speed for both rollers based on global speed
-void setSpeedRollers() {
+void setRollerSpeed() {
   lRoller.spin(fwd, rollerSpeed, pct);
   rRoller.spin(fwd, rollerSpeed, pct);
 }
 
 // sets speed for both rollers based on one speed parameter
-void setSpeedRollersCustom(int speed) {
-  lRoller.spin(fwd, speed, pct);
-  rRoller.spin(fwd, speed, pct);
-}
 
-void setRollerCoast() {
+void setRollerCreep() {
   rRoller.setBrake(coast);
   lRoller.setBrake(coast);
 }
 
-void setRollerBrake() {
+void setRollerLock() {
   rRoller.setBrake(brake);
   lRoller.setBrake(brake);
 }
@@ -112,55 +113,54 @@ int shootAllRollers() {
   if (getbottomLineInfo()) {
     rollerSpeed = 100;
     while (getbottomLineInfo())
-      task::sleep(50);
+      wait(50, msec);
     while (!getmiddleLineInfo())
-      task::sleep(50);
+      wait(50, msec);
     shootAllRollers();
   } else if (getmiddleLineInfo()) {
     rollerSpeed = 100;
     while (getmiddleLineInfo())
-      task::sleep(50);
+      wait(50, msec);
     while (!gettopLineInfo())
-      task::sleep(50);
+      wait(50, msec);
     shootAllRollers();
   } else if (gettopLineInfo()) {
     rollerSpeed = 100;
     while (gettopLineInfo())
-      task::sleep(50);
+      wait(50, msec);
   } else {
     rollerSpeed = 30;
     alignRollers.clear();
     while (getBallsDetected() == 0 && alignRollers.time(msec) < 300)
-      task::sleep(50);
+      wait(50, msec);
     rollerSpeed = 0;
   }
-  task::sleep(250);
+  wait(250, msec);
   rollerSpeed = 0;
   return 0;
 }
 
 int hoardAllRollers() {
   while (!getbottomLineInfo())
-    task::sleep(50);
+    wait(50, msec);
   rollerSpeed = 30;
   while (!getmiddleLineInfo())
-    task::sleep(50);
-  // rollerSpeed = -25;
+    wait(50, msec);
   rollerSpeed = 0;
   while (!getbottomLineInfo())
-    task::sleep(50);
+    wait(50, msec);
   rollerSpeed = 20;
   while (!gettopLineInfo())
-    task::sleep(50);
+    wait(50, msec);
   rollerSpeed = 0;
   return 0;
 }
 
 int clearAllRollers() {
   pauseIntake();
-  setSpeedIntake(-75);
+  setIntakeSpeed(-75);
   rollerSpeed = -100;
-  task::sleep(500);
+  wait(500, msec);
   rollerSpeed = 0;
   playIntake();
   return 0;
@@ -168,14 +168,14 @@ int clearAllRollers() {
 
 int descoreOneBall() {
   if (getBallsDetected() > 0) {
-    task::sleep(300);
+    wait(300, msec);
     pauseIntake();
-    setSpeedIntake(75);
+    setIntakeSpeed(75);
     while (getbottomLineInfo())
-      task::sleep(50);
+      wait(50, msec);
     while (!getbottomLineInfo())
-      task::sleep(50);
-    setSpeedIntake(-100);
+      wait(50, msec);
+    setIntakeSpeed(-100);
     wait(200, msec);
     playIntake();
   }
@@ -184,29 +184,34 @@ int descoreOneBall() {
 
 int descoreTwoBalls() {
   if (getBallsDetected() > 0) {
-    task::sleep(100);
+    wait(100, msec);
     pauseIntake();
-    setSpeedIntake(75);
+    setIntakeSpeed(75);
     while (getbottomLineInfo())
-      task::sleep(50);
+      wait(50, msec);
     while(getmiddleLineInfo())
-      task::sleep(50);
+      wait(50, msec);
     while (!getbottomLineInfo())
-      task::sleep(50);
+      wait(50, msec);
       if(rollerSpeed < 50)
         rollerSpeed = 100;
     while (!getmiddleLineInfo())
-      task::sleep(50);
+      wait(50, msec);
       if(rollerSpeed < 50)
         rollerSpeed = 100;
     rollerSpeed = 0;
     while(!getbottomLineInfo())
       wait(50, msec);
-    setSpeedIntake(-100);
+    setIntakeSpeed(-100);
     wait(200, msec);
     playIntake();
   }
   return 0;
+}
+
+void resetRollers() {
+  lRoller.resetRotation();
+  rRoller.resetRotation();
 }
 
 // checks tempeatures of all intake motors are returns in a string which motors

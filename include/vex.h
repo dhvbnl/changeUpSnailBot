@@ -1,23 +1,13 @@
-/*----------------------------------------------------------------------------*/
-/*                                                                            */
-/*    Module:       vex.h                                                     */
-/*    Author:       Vex Robotics                                              */
-/*    Created:      1 Feb 2019                                                */
-/*    Description:  Default header for V5 projects                            */
-/*                                                                            */
-/*----------------------------------------------------------------------------*/
-//
+//standard c headers
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+//vex specific headers
 #include "v5.h"
 #include "v5_vcs.h"
 #include "robot-config.h"
-
-//global constants
-//const int tempLimit = 55;
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \

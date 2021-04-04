@@ -4,7 +4,7 @@
 //thread for drivetrain to respond to joystick movements
 int drivetrainControl() {
   while (true) {
-    setSpeedDrivetrain(getLeftSpeedInLinear(), getRightSpeedInLinear());
+    setDrivetrainSpeed(getLeftSpeedInLinear(), getRightSpeedInLinear());
     wait(10, msec);
   }
 }
@@ -12,11 +12,24 @@ int drivetrainControl() {
 // setters
 
 //sets speed of drivetrain based on left and right velocity inputs
-void setSpeedDrivetrain(int leftSpeed, int rightSpeed) {
+void setDrivetrainSpeed(int leftSpeed, int rightSpeed) {
   lFront.spin(fwd, leftSpeed, volt);
   lBack.spin(fwd, leftSpeed, volt);
   rBack.spin(fwd, rightSpeed, volt);
   rFront.spin(fwd, rightSpeed, volt);
+}
+
+void setDrivetrainCreep() {
+  lFront.setStopping(coast);
+  lBack.setStopping(coast);
+  rBack.setStopping(coast);
+  rFront.setStopping(coast);
+}
+void setDrivetrainLock() {
+  lFront.setStopping(brake);
+  lBack.setStopping(brake);
+  rBack.setStopping(brake);
+  rFront.setStopping(brake);
 }
 
 // getters
@@ -71,6 +84,22 @@ int getRBackTemp() {return rBack.temperature(celsius);}
 int getRFrontTemp() {return rFront.temperature(celsius);}
 
 // control
+
+//reset all Motors
+void resetDrivetrain() {
+  lFront.resetRotation();
+  lBack.resetRotation();
+  rBack.resetRotation();
+  rFront.resetRotation();
+}
+
+void calibrateInertial() {
+  Inertial.calibrate();
+  while(Inertial.isCalibrating())
+    wait(100, msec);
+  Inertial.resetHeading();
+  Inertial.resetRotation();
+}
 
 //checks tempeatures of all drive motors are returns in a string which motors are hot
 std::string tempInfoDrive() {

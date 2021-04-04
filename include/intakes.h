@@ -8,7 +8,10 @@ const double voltageConversationIntake = 8 + (1/3);
 int intakeControl();
 
 //setters
-void setSpeedIntake(int speed);
+void setIntakeSpeed(int speed);
+
+void setIntakeCreep();
+void setIntakeLock();
 
 //getters
 int getIntakeSpeed();
@@ -16,20 +19,14 @@ int getIntakeSpeed();
 int getLIntakeSpeed();
 int getRIntakeSpeed();
 
-int getLIntakeEfficiency();
-int getRIntakeEffiency();
-int getLIntakePower();
-int getRIntakePower();
-double getLIntakeTorque();
-double getRIntakeTorque();
-
 int getLIntakeTemp();
 int getRIntakeTemp();
 
-bool getLIntakeStress();
-bool getRIntakeStress();
-
 //control 
-std::string tempinfoIntake();
 void pauseIntake();
 void playIntake();
+
+void resetIntakes();
+
+std::string tempinfoIntake();
+

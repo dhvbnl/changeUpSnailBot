@@ -5,9 +5,8 @@ bool intakeState = true;
 
 int intakeControl() {
   while (true) {
-    if(intakeState){
-      setSpeedIntake(getIntakeSpeed());
-    }
+    if(intakeState)
+      setIntakeSpeed(getIntakeSpeed());
     wait(10,msec);
   }
 }
@@ -15,9 +14,19 @@ int intakeControl() {
 //setters
 
 // sets speed for both intakes based on one speed parameter
-void setSpeedIntake(int speed) {
+void setIntakeSpeed(int speed) {
   lIntake.spin(fwd, speed, volt);
   rIntake.spin(fwd, speed, volt);
+}
+
+void setIntakeCreep() {
+  rIntake.setBrake(coast);
+  rIntake.setBrake(coast);
+}
+
+void setIntakeLock() {
+  rIntake.setBrake(brake);
+  rIntake.setBrake(brake);
 }
 
 //getters
@@ -29,27 +38,10 @@ int getIntakeSpeed() {
 int getLIntakeSpeed() { return lIntake.velocity(pct); }
 int getRIntakeSpeed() { return rIntake.velocity(pct); }
 
-int getLIntakeEfficiency() { return lIntake.efficiency(); }
-int getRIntakeEffiency() { return rIntake.efficiency(); }
-int getLIntakePower() { return lIntake.power(); }
-int getRIntakePower() { return rIntake.power(); }
-double getLIntakeTorque() { return lIntake.torque(); }
-double getRIntakeTorque() { return rIntake.torque(); }
-
 int getLIntakeTemp() { return lIntake.temperature(celsius); }
 int getRIntakeTemp() { return rIntake.temperature(celsius); }
 
-//doesn't work
-bool getLIntakeStress() { 
-  if(getLIntakeSpeed() > 80 && getLIntakePower() > 5)
-    return true;
-  return false; 
-}
-bool getRIntakeStress() { return rIntake.efficiency(); }
-
 // control
-
-//checks tempeatures of all intake motors are returns in a string which motors are hot
 
 void pauseIntake(){
   intakeState = false;
@@ -59,6 +51,12 @@ void playIntake(){
   intakeState = true;
 }
 
+void resetIntakes() {
+  lIntake.resetRotation();
+  rIntake.resetRotation();
+}
+
+//checks tempeatures of all intake motors are returns in a string which motors are hot
 std::string tempInfoIntake() {
   std::string tempReturn;
   int loopCounter = 0;

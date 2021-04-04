@@ -1,11 +1,10 @@
 #include "vex.h"
-//#include "threads.h"
+#include "opcontrol.h"
 
 using namespace vex;
 competition Competition;
 
 void preauton();
-void opcontrol();
 
 void autonomous(void) 
 {

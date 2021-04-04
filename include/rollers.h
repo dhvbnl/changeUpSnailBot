@@ -9,11 +9,10 @@ const int tempLimitRollers = 55;
 int rollerControl();
 
 //setters
-void setSpeedRollers();
-void setSpeedRollersCustom(int speed);
+void setRollerSpeed();
 
-void setRollerCoast();
-void setRollerBrake();
+void setRollerCreep();
+void setRollerLock();
 
 //getters
 int getLRollerSpeed();
@@ -37,5 +36,7 @@ int hoardAllRollers();
 int clearAllRollers();
 int descoreOneBall();
 int descoreTwoBalls();
+
+void resetRollers();
 
 std::string tempInfoRollers();

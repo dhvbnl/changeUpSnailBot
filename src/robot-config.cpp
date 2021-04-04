@@ -1,10 +1,8 @@
 #include "vex.h"
 
 using namespace vex;
-using signature = vision::signature;
 using code = vision::code;
 
-// A global instance of brain used for printing to the V5 Brain screen
 brain  Brain;
 
 // VEXcode device constructors
@@ -31,8 +29,9 @@ line lineTop = line(Brain.ThreeWirePort.B);
 line lineMiddle = line(Brain.ThreeWirePort.C);
 line lineBottom = line(Brain.ThreeWirePort.D);
 
-// VEXcode generated functions
-// define variable for remote controller enable/disable
+encoder encoderLeft = encoder(Brain.ThreeWirePort.E);
+encoder encoderRight = encoder(Brain.ThreeWirePort.G);
+
 bool RemoteControlCodeEnabled = true;
 
 void vexcodeInit( void ) {

@@ -10,7 +10,10 @@ const double voltageConversationDrive = 8 + (1/3);
 int drivetrainControl();
 
 //setters
-void setSpeedDrivetrain(int leftSpeed, int rightSpeed);
+void setDrivetrainSpeed(int leftSpeed, int rightSpeed);
+
+void setDrivetrainCreep();
+void setDrivetrainLock();
 
 //getters
 int getLeftSpeedInLinear();
@@ -30,4 +33,7 @@ int getRBackTemp();
 int getRFrontTemp();
 
 //control 
+void resetDrivetrain();
+void calibrateInertial();
+
 std::string tempInfoDrive();

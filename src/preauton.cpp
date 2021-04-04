@@ -1,14 +1,20 @@
 #include "preauton.h"
+#include "drivetrain.h"
+#include "intakes.h"
+#include "rollers.h"
 
 void preauton(void) {
   vexcodeInit();
 
-  lFront.setBrake(coast);
-  lBack.setBrake(coast);
-  rBack.setBrake(coast);
-  rFront.setBrake(coast);
+  resetDrivetrain();
+  resetIntakes();
+  resetRollers();
 
-  rRoller.setBrake(brake);
-  lRoller.setBrake(brake);
+  setDrivetrainCreep();
+  setIntakeCreep();
+  setRollerLock();
+
+  calibrateInertial();
+
 }
 

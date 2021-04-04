@@ -2,8 +2,6 @@ using namespace vex;
 
 extern brain Brain;
 
-using signature = vision::signature;
-
 // VEXcode devices
 extern controller Controller;
 extern motor lFront;
@@ -23,4 +21,7 @@ extern line lineTop;
 extern line lineMiddle;
 extern line lineBottom;
 
-void  vexcodeInit( void );
+extern encoder encoderLeft;
+extern encoder encoderRight;
+
+void  vexcodeInit();
