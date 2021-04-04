@@ -40,6 +40,7 @@ int getPos() {
 
     previousLeft = currentLeft;
     previousRight = currentRight;
+    wait(10, msec);
   } 
   return 0;
 }
