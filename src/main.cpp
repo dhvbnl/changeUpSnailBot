@@ -5,6 +5,8 @@ competition Competition;
 
 void autonomous(void) 
 {
+
+
 }
 
 int main() {
