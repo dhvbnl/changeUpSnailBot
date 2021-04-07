@@ -5,8 +5,7 @@ competition Competition;
 
 void autonomous(void) 
 {
-
-
+  skills();
 }
 
 int main() {

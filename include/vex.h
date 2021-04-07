@@ -23,7 +23,7 @@
 //global constant variables
 const int tempLimit = 55;
 const double voltageConverstion = 100/12;
-const double odometryWheelToInch = 2.75/360;
+const double odometryWheelToInch = (2.75 * M_PI) / 360;
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \
