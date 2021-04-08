@@ -68,19 +68,20 @@ int getPos(double &xPos111, double &yPos111) {
    //         Brain.Screen.print("\r\n ");
    // Brain.Screen.print(yPos111);
    //         Brain.Screen.print("\r\n ");
-    Brain.Screen.print(tempX); 
+   /* Brain.Screen.print(tempX); 
             Brain.Screen.print("\r\n ");
     Brain.Screen.print(tempY); 
             Brain.Screen.print("\r\n ");
 
     Brain.Screen.print(deltaX); 
             Brain.Screen.print("\r\n ");
-    Brain.Screen.print(deltaY); 
+    Brain.Screen.print(deltaY); */
 
     xPos111 = tempX + deltaX;
     yPos111 = tempY + deltaY;
+    wait(500, msec); 
     
-    Brain.Screen.print(" After ");
+  /*  Brain.Screen.print(" After ");
     Brain.Screen.print(xPos111);
         Brain.Screen.print("\r\n ");
     Brain.Screen.print(yPos111);
@@ -103,9 +104,6 @@ int getPos(double &xPos111, double &yPos111) {
             Brain.Screen.print("\r\n "); 
     Brain.Screen.print(temp111);
             Brain.Screen.print("\r\n "); */
-  
-    previousLeft = currentLeft;
-    previousRight = currentRight;
 
     //wait(100, msec);
     /*Brain.Screen.print(xPos);
@@ -117,12 +115,10 @@ int getPos(double &xPos111, double &yPos111) {
     Controller.Screen.print(xPos);
     Controller.Screen.print("\n ");
     Controller.Screen.print(yPos); */
-
-    wait(500, msec);  
     Brain.Screen.clearLine();
+    return 0;
 
   //} 
-  return 0;
 }
 
 /*int setPos(double x, double y) {
