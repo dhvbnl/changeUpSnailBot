@@ -1,5 +1,5 @@
 #include "vex.h"
-#include "autonfunctions.h"
+#include "auton-functions.h"
 
 //constants
 const double trackWidth = 4.625;
