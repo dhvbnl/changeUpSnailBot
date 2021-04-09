@@ -126,38 +126,7 @@ int speedr = 0;
 int speedl = 0;
 
 
-int acceleratel() {
-  //bool fwd = true;
-  acc.dist *= 360 / (2.75 * M_PI);
-  acc.dist += encoderLeft.rotation(degrees);
-  double lorig = encoderLeft.rotation(degrees);
-  int speedl = 0;
-  //int speed = 0;
-  if (acc.speedup) {    
-    while (encoderLeft.rotation(degrees) < acc.dist) {
-      speedl = (17.64285714 * pow(encoderLeft.rotation(degrees) - lorig, 2)) - (48.6547619 * (encoderLeft.rotation(degrees) - lorig)) + 28.875;
-      if (!acc.fwd) speedl *= -1;
-      if (speedl > 100) speedl = 100;
-      speedl /= 8.33;
-      Brain.Screen.print("left ");
-      Brain.Screen.print(speedl);
-      wait(10, msec);
-      Brain.Screen.clearLine();
-      
-      //return speedl;
-    }
-    
-  } else {
-    while (encoderLeft.rotation(degrees) < acc.dist) {
-      speedl = (17.64285714 * pow(encoderLeft.rotation(degrees) - lorig, 2)) - (110.1309524 * (encoderLeft.rotation(degrees) - lorig)) + 167.1964286;   
-      if (!acc.fwd) speedl *= -1;
-      if (speedl > 100) speedl = 100;
-      speedl /= 8.33;
-     // return speedl;
-    }
-  }
-  return 0;
-}
+
 
 
 int accelerater() {
