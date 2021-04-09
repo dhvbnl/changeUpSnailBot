@@ -66,7 +66,7 @@ void turningBasePID(double targetdeg) {
 }
 
 void inertialDrive(double dist, int speed, bool fwd) {
- // speed /= 8.33;
+  // speed /= 8.33;
   // dist = dist * (360 / 20.25);
   Inertial.resetRotation();
   double inchessf = 360 / (2.75 * M_PI);
@@ -161,7 +161,7 @@ void inertialDrive(double dist, int speed, bool fwd) {
   }
   return 0;
 } */
-//hi
+
 /* int acceleratel() {
   //bool fwd = true;
   acc.dist *= 360 / (2.75 * M_PI);
@@ -194,3 +194,4 @@ void inertialDrive(double dist, int speed, bool fwd) {
   }
   return 0;
 } */
+

@@ -1,10 +1,4 @@
 int getPos();
 int setPos();
-void turningBasePID(double targetdeg);
-void inertialDrive(double dist, int speed, bool fwd);
-struct Acceleration;
-int accelerater(Acceleration acc);
-int acceleratel(double dist, bool speedup, bool fwd);
-void test(void);
-void driveprofile (int dist, bool fwd);
 void skills();
+struct Coordinate;
