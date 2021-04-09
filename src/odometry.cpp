@@ -10,8 +10,7 @@ struct Coordinate {
 } coor;
 
 int getPos() {
-  
-  while (true) {
+    
     double currentLeft = 0;
     double currentRight = 0;
     double previousLeft = 0;
@@ -24,6 +23,8 @@ int getPos() {
     double head = 0;
     double theta = 0;
     double lradius = 0;
+
+  while (true) {
     
     // odometryWheelToInch is a constant global to all our program files... its value is (2.75 * M_PI) / 360
     currentLeft = getLeftEncoderRotation() * odometryWheelToInch; 
@@ -31,9 +32,9 @@ int getPos() {
     deltaL = currentLeft - previousLeft;
     deltaR = currentRight - previousRight;
     
-    theta = ((deltaR - deltaL) / trackWidth);
-    lradius = deltaL / theta;
-    linearDistance = 2 * (lradius + (trackWidth / 2)) * sin(theta / 2);
+    /////////theta = ((deltaR - deltaL) / trackWidth);
+    ////////lradius = deltaL / theta; 
+    ////////linearDistance = 2 * (lradius + (trackWidth / 2)) * sin(theta / 2); // sin(theta/2) here will be 0 if robot is not turning (theoretically)
 
     deltaX = linearDistance * cos(head + theta / 2);
     deltaY = linearDistance * sin(head + theta / 2);
