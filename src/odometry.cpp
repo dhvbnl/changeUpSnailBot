@@ -3,6 +3,8 @@
 
 //constants
 const double trackWidth = 4.625;
+const double convertinches = (2.75 * M_PI) / 360;
+const double convertdegrees = 360 / (2.75 * M_PI);
 
 struct Coordinate {
   double xPos;
@@ -126,50 +128,39 @@ int speedr = 0;
 int speedl = 0;
 
 
-
-
-
 int accelerater() {
-  /* Controller.Screen.clearScreen();
-  Controller.Screen.print(acc.dist); */
-  acc.dist *= 360 / (2.75 * M_PI);
-  acc.dist += encoderLeft.rotation(degrees);
-
-  double rorig = encoderRight.rotation(degrees);
-  Controller.Screen.clearScreen();
-  Controller.Screen.print(rorig);
-  //int speedr = 0;
-  //int count = 0;
-  //int speed = 0;
+  //acc.dist *= 360 / (2.75 * M_PI);
+  
+  acc.dist += (encoderLeft.rotation(degrees) * convertinches);
+  double rorig = fabs(encoderRight.rotation(degrees)) * convertinches;
   if (acc.speedup) {
-    while (fabs(encoderRight.rotation(degrees)) < acc.dist) {
-      speedr = (17.64285714 * pow(fabs(encoderRight.rotation(degrees)) - rorig, 2)) - (48.6547619 * (fabs(encoderRight.rotation(degrees)) - rorig)) + 28.875;
+    while ((fabs(encoderRight.rotation(degrees)) * convertinches) < acc.dist) {
+      speedr = (4.410714286 * pow((fabs(encoderRight.rotation(degrees)) * convertinches) - rorig, 2)) - (24.32738095 * ((fabs(encoderRight.rotation(degrees)) * convertinches) - rorig)) + 28.875; //quadratic
+      speedr = pow(2, ((fabs(encoderRight.rotation(degrees)) * convertinches) - rorig));
       if (!acc.fwd) speedr *= -1;
       if (speedr > 100) speedr = 100;
-      speedr /= 8.33;
-      //count++;
-     // Brain.Screen.print(count);
+      speedr /= 8.33;      
+      //Brain.Screen.print(fabs(encoderRight.rotation(degrees)));
       //Brain.Screen.print(" ");
-      
-      Brain.Screen.print(fabs(encoderRight.rotation(degrees)));
-      Brain.Screen.print(" ");
-      Brain.Screen.print(acc.dist);
+      //Brain.Screen.print(acc.dist);
       wait(10, msec);
-      Brain.Screen.clearLine();
-      //return speedr;
-     
+      //Brain.Screen.clearLine();
     }
-    Brain.Screen.print("finished");
+    //Brain.Screen.print("finished");
   } else {
-    while (fabs(encoderRight.rotation(degrees)) < acc.dist) {
-      speedr = (17.64285714 * pow(fabs(encoderRight.rotation(degrees)) - rorig, 2)) - (110.1309524 * (fabs(encoderRight.rotation(degrees)) - rorig)) + 167.1964286;
+    int n = 0;
+    if (acc.dist < 8) {
+      n = 8 - acc.dist;
+    }
+    while ((fabs(encoderRight.rotation(degrees)) * convertinches) < acc.dist) {
+      //speedr = (4.410714286 * pow((fabs(encoderRight.rotation(degrees)) * convertinches) - rorig, 2)) - (55.06547619 * ((fabs(encoderRight.rotation(degrees)) * convertinches) - rorig)) + 167.1964286; //quadratic
+      speedr = 256 * pow(0.5, (((fabs(encoderRight.rotation(degrees))) * convertinches) - rorig) + n); //exponential
       if (!acc.fwd) speedr *= -1;
       if (speedr > 100) speedr = 100;
       speedr /= 8.33;
-      return speedr;
+      wait(10, msec);
     }
   }
-  Brain.Screen.print("hi");
   return 0;
 }
 
@@ -184,56 +175,42 @@ void driveprofile (int dist, bool fwd) {
   } else {
     acceldist = dist / 2;
   }
-  dist *= 360 / (2.75 * M_PI);
+  dist *= convertdegrees;
   double actdist = fabs(encoderRight.rotation(degrees)) + dist;
   if (fwd) {
     acc.dist = acceldist;
     acc.speedup = true;
     acc.fwd = fwd;
   
-  acceldist *= 360 / (2.75 * M_PI);
- 
-//   thread getspeedl(acceleratel, &acc);
-  
-  //thread thread2(accelerater); 
-  thread thread1(accelerater); 
-/*   thread * aaaa = new thread(foo);
-  
-//thread( int  (* callback)(void *), void *arg );
+    acceldist *= convertdegrees;
 
-Acceleration* accc = new Acceleration();
-
-
-thread abcd(foo1, &acc);
-thread* abcd1 = new thread(foo1, &acc); */
+    thread thread1(accelerater); 
 
     //accelerate
     int targetL = fabs(encoderLeft.rotation(degrees)) + acceldist;
     int targetR = fabs(encoderRight.rotation(degrees)) + acceldist;
     while ((fabs(encoderLeft.rotation(degrees)) < targetL) && 
       fabs(encoderRight.rotation(degrees)) < targetR) {
-      Brain.Screen.clearScreen();
+/*       Brain.Screen.clearScreen();
       Brain.Screen.print(encoderLeft.rotation(degrees));
       Brain.Screen.print(" ");
       Brain.Screen.print(targetL);
       Brain.Screen.print(" ");
       Brain.Screen.print(fabs(encoderRight.rotation(degrees)));
       Brain.Screen.print(" ");
-      Brain.Screen.print(targetR);
-  /*     lFront.spin(vex::directionType::fwd, speedr , volt); //is it 12? i think its like speed in pct / 8.33 which is 12 if speed is 100 but im not sure
+      Brain.Screen.print(targetR); */
+      lFront.spin(vex::directionType::fwd, speedr , volt); 
       lBack.spin(vex::directionType::fwd, speedr , volt);
       rFront.spin(vex::directionType::fwd, speedr, volt);
-      rBack.spin(vex::directionType::fwd, speedr, volt);  */
+      rBack.spin(vex::directionType::fwd, speedr, volt); 
       wait(100, msec);
     }
     if (accelerater() == 0) thread1.interrupt();
-    //thread2.interrupt();
-    //getl = encoderLeft.rotation(degrees);
     getr = fabs(encoderRight.rotation(degrees));
     Brain.Screen.clearScreen();
     Brain.Screen.print("done");
-    while (getr < (actdist - 2 * acceldist)) {
-      lFront.spin(vex::directionType::fwd, 12 , volt); //is it 12? i think its like speed in pct / 8.33 which is 12 if speed is 100 but im not sure
+    while (getr < (actdist - (2 * acceldist))) {
+      lFront.spin(vex::directionType::fwd, 12 , volt); 
       lBack.spin(vex::directionType::fwd, 12 , volt);
       rFront.spin(vex::directionType::fwd, 12, volt);
       rBack.spin(vex::directionType::fwd, 12, volt);
@@ -257,9 +234,10 @@ thread* abcd1 = new thread(foo1, &acc); */
         }
       } */
     }
+
     acc.speedup = false;
     thread thread3(accelerater); 
-    //thread thread4(accelerater); 
+
     //decelerate 
     Brain.Screen.clearScreen();
     Brain.Screen.print("done2");
@@ -268,7 +246,7 @@ thread* abcd1 = new thread(foo1, &acc); */
     targetR = fabs(encoderRight.rotation(degrees)) + acceldist;
     while ((fabs(encoderLeft.rotation(degrees)) < targetL) && 
       fabs(encoderRight.rotation(degrees)) < targetR) {
-      lFront.spin(vex::directionType::fwd, speedr , volt); //is it 12? i think its like speed in pct / 8.33 which is 12 if speed is 100 but im not sure
+      lFront.spin(vex::directionType::fwd, speedr , volt);
       lBack.spin(vex::directionType::fwd, speedr , volt);
       rFront.spin(vex::directionType::fwd, speedr, volt);
       rBack.spin(vex::directionType::fwd, speedr, volt);
