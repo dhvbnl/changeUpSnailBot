@@ -56,7 +56,7 @@ int getPosition()
 		  {
 	        if (fabs(thetaEncoderRad - thetaInertialRad) > 0.01)
 		      {
-              printf("Warning: Intertial and enocoder readings not consistent!\n");
+              printf("Warning: Inertial and enocoder readings not consistent!\n");
           }
 
           //printf(" deltaL: %f", deltaL);
