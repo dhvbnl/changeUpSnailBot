@@ -6,6 +6,7 @@ void preauton() {
   resetDrivetrain();
   resetIntakes();
   resetRollers();
+  resetEncoders();
 
   setDrivetrainCreep();
   setIntakeCreep();
