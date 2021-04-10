@@ -16,7 +16,7 @@ int accelerate() {
   if (acc.fwd) {
     acc.dist += lorig;
     while ((encoderLeft.rotation(degrees) * convertInches) < acc.dist) {
-      speed = 1.2 * exp(0.1 * (fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig))) + 1;
+      speed = 1.2 * exp(0.1 * (fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig)))  + 0.5;
       if (speed > 8.4)
         speed = 8.4;
       wait(10, msec);
@@ -24,7 +24,7 @@ int accelerate() {
   } else {
     acc.dist = lorig - acc.dist;
     while ((encoderLeft.rotation(degrees) * convertInches) > acc.dist) {
-      speed = 1.2 * exp(0.1 * ((fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig)))) + 1;
+      speed = 1.2 * exp(0.1 * ((fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig)))) + 0.5;
       if (speed > 8.4)
         speed = 8.4;
       wait(10, msec);
@@ -43,7 +43,7 @@ int decelerate() {
     }
     acc.dist += lorig;
     while ((encoderLeft.rotation(degrees) * convertInches) < acc.dist) {
-      speed = 1.2 * exp((-0.1 * fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig + n)) + 2)  +1;
+      speed = 1.2 * exp((-0.1 * fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig + n)) + 2) - 0.5;
         if (speed > 8.4) speed = 8.4;
         if (speed < 1.4) speed = 0;
         wait(10, msec);
@@ -54,7 +54,7 @@ int decelerate() {
     }
     acc.dist = lorig - acc.dist;
     while ((encoderLeft.rotation(degrees) * convertInches) > acc.dist) {
-      speed = 1.2 * exp((-0.1 * fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig + n)) + 2) + 1;
+      speed = 1.2 * exp((-0.1 * fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig + n)) + 2) - 0.5; 
         if (speed > 8.4) speed = 8.4;
         if (speed < 1.4) speed = 0;
         wait(10, msec);
@@ -63,7 +63,7 @@ int decelerate() {
   return 0;
 }
 
-int driveprofile(int dist, bool  fwd) {
+int driveProfile(int dist, bool  fwd) {
   Inertial.resetRotation();
   int acceldist = 0;
   int targetL = 0;

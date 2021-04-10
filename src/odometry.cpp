@@ -1,6 +1,7 @@
 #include "vex.h"
 #include "math.h"
 #include "auton-functions.h"
+#include "motion-profile.h"
 
 // Global constants
 const double trackWidth = 4.625;
@@ -58,7 +59,6 @@ int getPosition()
 		      {
               printf("Warning: Inertial and enocoder readings not consistent!\n");
           }
-
           //printf(" deltaL: %f", deltaL);
           //printf(" deltaR: %f", deltaR);
           //printf(" theta (radians): %f", thetaRad);
@@ -75,7 +75,7 @@ int getPosition()
           linearDistance = 2 * (lRadius + (trackWidth / 2)) * sin(thetaRad / 2.0); 
       }
 
-      // Calculate the incremental 2-dimensional coordinates.
+      // Calculate the incremental 2-dimensional coordinates x & y
       deltaX = linearDistance * cos(headRad + (thetaRad / 2.0));
       deltaY = linearDistance * sin(headRad + (thetaRad / 2.0));
 
@@ -115,7 +115,7 @@ int setPos(double x, double y) {
   double ydist = fabs((y) - fabs(curr_yPos));
   double hyp = sqrt((xdist * xdist) + (ydist * ydist));
   double refAngle = fabs(atan2(ydist, xdist) * 180 / M_PI);
-
+  wait(100, msec);
   // Using quadrants to calculate absolute angle to turn to
   if (x > curr_xPos && y > curr_yPos) {
     Controller.Screen.print("1");
@@ -136,20 +136,21 @@ int setPos(double x, double y) {
   else {  
     Controller.Screen.print("5");
   }
-  inertialDrive(hyp, 50, true);
-
+  printf(" refAng: %f", refAngle);
+  driveProfile(hyp, true);
   return 0;
 } 
 
 void skills() {
   // 60 second program
-  lFront.setStopping(coast);
-  lBack.setStopping(coast);
-  rBack.setStopping(coast);
-  rFront.setStopping(coast);
+  lFront.setStopping(brake);
+  lBack.setStopping(brake);
+  rBack.setStopping(brake);
+  rFront.setStopping(brake);
   
-  Brain.Screen.print("done");
   thread pos(getPosition); 
-  setPos(0,0);
-                      
+  setPos(20, 20);
+  setPos(10, 0);
+  setPos(-10, -10);
+  setPos(0,0);            
 }

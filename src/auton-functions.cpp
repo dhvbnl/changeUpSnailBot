@@ -2,25 +2,25 @@
 
 void turningBasePID(double targetdeg) {
   // proportionality constants
-  float kP = 0.39;
-  float kI = 0.0009;
-  float kD = 0.5;
+  double kP = 0.39;
+  double kI = 0.0009;
+  double kD = 0.5;
   // PID loop variables
-  float error = 3;
-  float integral = 0;
-  float derivative = 0;
-  float prevError = 0;
-  float motorPower = 0;
+  double error = 3;
+  double integral = 0;
+  double derivative = 0;
+  double prevError = 0;
+  double motorPower = 0;
   bool useright = true;
 
   while (error >= 3) {
     // PID loop to determine motorPower at any given point in time
-    float head = Inertial.heading(degrees);
-    int errorright = targetdeg - head;
+    double head = Inertial.heading(degrees);
+    double errorright = targetdeg - head;
     if (targetdeg < head) {
       errorright = 360 - head + targetdeg;
     }
-    int errorleft = fabs(targetdeg - head);
+    double errorleft = fabs(targetdeg - head);
     if (targetdeg > head) {
       errorleft = 360 + head - targetdeg;
     }
@@ -129,69 +129,4 @@ void inertialDrive(double dist, int speed, bool fwd) {
   lFront.stop();
   rFront.stop();
 }
-/* int acceleratel() {
-  //bool fwd = true;
-  acc.dist *= 360 / (2.75 * M_PI);
-  acc.dist += encoderLeft.rotation(degrees);
-  double lorig = encoderLeft.rotation(degrees);
-  int speedl = 0;
-  //int speed = 0;
-  if (acc.speedup) {    
-    while (encoderLeft.rotation(degrees) < acc.dist) {
-      speedl = (17.64285714 * pow(encoderLeft.rotation(degrees) - lorig, 2)) - (48.6547619 * (encoderLeft.rotation(degrees) - lorig)) + 28.875;
-      if (!acc.fwd) speedl *= -1;
-      if (speedl > 100) speedl = 100;
-      speedl /= 8.33;
-      Brain.Screen.print("left ");
-      Brain.Screen.print(speedl);
-      wait(10, msec);
-      Brain.Screen.clearLine();
-      
-      //return speedl;
-    }
-    
-  } else {
-    while (encoderLeft.rotation(degrees) < acc.dist) {
-      speedl = (17.64285714 * pow(encoderLeft.rotation(degrees) - lorig, 2)) - (110.1309524 * (encoderLeft.rotation(degrees) - lorig)) + 167.1964286;   
-      if (!acc.fwd) speedl *= -1;
-      if (speedl > 100) speedl = 100;
-      speedl /= 8.33;
-     // return speedl;
-    }
-  }
-  return 0;
-} */
-
-/* int acceleratel() {
-  //bool fwd = true;
-  acc.dist *= 360 / (2.75 * M_PI);
-  acc.dist += encoderLeft.rotation(degrees);
-  double lorig = encoderLeft.rotation(degrees);
-  int speedl = 0;
-  //int speed = 0;
-  if (acc.speedup) {    
-    while (encoderLeft.rotation(degrees) < acc.dist) {
-      speedl = (17.64285714 * pow(encoderLeft.rotation(degrees) - lorig, 2)) - (48.6547619 * (encoderLeft.rotation(degrees) - lorig)) + 28.875;
-      if (!acc.fwd) speedl *= -1;
-      if (speedl > 100) speedl = 100;
-      speedl /= 8.33;
-      Brain.Screen.print("left ");
-      Brain.Screen.print(speedl);
-      wait(10, msec);
-      Brain.Screen.clearLine();
-      
-      //return speedl;
-    }
-    
-  } else {
-    while (encoderLeft.rotation(degrees) < acc.dist) {
-      speedl = (17.64285714 * pow(encoderLeft.rotation(degrees) - lorig, 2)) - (110.1309524 * (encoderLeft.rotation(degrees) - lorig)) + 167.1964286;   
-      if (!acc.fwd) speedl *= -1;
-      if (speedl > 100) speedl = 100;
-      speedl /= 8.33;
-     // return speedl;
-    }
-  }
-  return 0;
-} */
 
