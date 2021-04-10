@@ -1,9 +1,11 @@
 #include "vex.h"
+#include "math.h"
 #include "auton-functions.h"
 
-//constants
+// Global constants
 const double trackWidth = 4.625;
 const double convertInches = (2.75 * M_PI) / 360;
+const bool isDebug = true;
 
 struct Coordinate {
   double xPos;
@@ -24,45 +26,151 @@ int getPos() {
     double head = 0;
     double theta = 0;
     double lRadius = 0;
+    double prevHead = 0;
 
   while (true) {
     currentLeft = getLeftEncoderRotation() * convertInches; 
     currentRight = -getRightEncoderRotation() * convertInches; 
     deltaL = currentLeft - previousLeft;
     deltaR = currentRight - previousRight;
-    
-    // We think the issues start here... :(
-    theta = ((deltaR - deltaL) / trackWidth);
-    lRadius = deltaL / theta; 
-    linearDistance = 2 * (lRadius + (trackWidth / 2)) * sin(theta / 2); // When the robot moves straight, sin(theta/2) here
-                                                                        // should theoretically be 0 if the robot is not turning...
-                                                                        // meaning linearDistance could be (unwantedly) becoming 0...
+    head = Inertial.heading(degrees) * (M_PI / 180);
+    //printf(" currentLeft: %f", currentLeft);
+    ///printf(" currRight: %f", currentRight);
+    theta = head - prevHead;
 
-    deltaX = linearDistance * cos(head + theta / 2);
-    deltaY = linearDistance * sin(head + theta / 2);
+    //theta = ((deltaR - deltaL) / trackWidth);
+    printf(" theta: %f", theta);
 
-    // Issue #1: When we change the type of these variables (tempX & tempY) to a double or float (as we intend to do), 
-    //           xPos and yPos no longer change (they always remain at 0)...
-    // Issue #2: When tempX & tempY are integers as written below, xPos and yPos change; however, (1) all
-    //           precision is lost, and (2) xPos and yPos continue to increase (very rapidly) even when the robot is no longer moving. 
-    int tempX = coor.xPos;
-    int tempY = coor.yPos;
-   
-    /*Brain.Screen.print(coor.xPos);
-    Brain.Screen.print(" ");
-    Brain.Screen.print(coor.yPos); */
+    if (theta < 0.01 && theta > -0.01) {
+      linearDistance = (deltaL + deltaR) / 2;
+      if (head < 0.08 || head > 6.2) {
+        deltaX = 0;
+        deltaY = linearDistance;
+      } 
+      else {
+        deltaX = linearDistance * cos(head);
+        deltaY = linearDistance * sin(head);
+      }
+    } else {
+      lRadius = deltaL / theta; 
+      linearDistance = 2 * (lRadius + (trackWidth / 2)) * sin(theta / 2); 
+      deltaX = linearDistance * cos(head + theta / 2);
+      deltaY = linearDistance * sin(head + theta / 2);
+    }
 
-    head += theta;
-    coor.xPos = tempX + deltaX; // We tried xPos += deltaX, but that didn't work for some reason; 
-                                // thus, we stored its original value in tempX (above) and used that... same for Y below...
-    coor.yPos = tempY + deltaY;
+    //head = Inertial.heading(degrees) * (M_PI / 180);
+    printf(" head: %f", head);
+    //printf(" linear dist: %f", linearDistance); */
+    /*printf(" head: %f /n", (head * (180 / M_PI)));
+    printf(" Inertial value: %f /n", Inertial.heading(degrees));*/
+    coor.xPos += deltaX; 
+    coor.yPos += deltaY;
+
+    Brain.Screen.print(coor.xPos);
+    Brain.Screen.print(coor.yPos);
+    printf(" xPos: %f", coor.xPos);
+    printf(" yPos: %f \n", coor.yPos); 
 
     previousLeft = currentLeft;
     previousRight = currentRight;
+    prevHead = head;
     
     wait(10, msec); 
     Brain.Screen.clearLine();
   }
+  
+  return 0;
+}
+
+int getPosition()
+{
+    double currentLeft = 0;
+    double currentRight = 0;
+    double previousLeft = 0;
+    double previousRight = 0;
+    double deltaL = 0;
+    double deltaR = 0;
+    double deltaX = 0;
+    double deltaY = 0;
+    double linearDistance = 0;
+    double headRad = 0;
+  	double thetaEncoderRad = 0;
+	  double thetaInertialRad = 0;
+    double thetaRad = 0;
+    double lRadius = 0;
+    double prevHeadRad = 0;
+
+    while (true)
+    {
+      // Reading the odometry encoders
+      currentLeft = getLeftEncoderRotation() * convertInches; 
+      currentRight = -getRightEncoderRotation() * convertInches; 
+      deltaL = currentLeft - previousLeft;
+      deltaR = currentRight - previousRight;
+      thetaEncoderRad = atan2((deltaR - deltaL), trackWidth);
+
+      // Read the heading from the inertial sensor.
+      headRad = Inertial.heading(degrees) * (M_PI / 180);
+  
+      // Convert head from clockwise angle to counterclockwise (unit circle-based) angle
+      headRad = fmod(((2.5 * M_PI) - headRad), (2 * M_PI)); 
+      thetaInertialRad = headRad - prevHeadRad;
+      thetaRad = thetaInertialRad;
+	
+	    // Check whether the angle is consistent between the two different sensors (Inertial, Encoder).
+	    if (isDebug)
+		  {
+	        if (fabs(thetaEncoderRad - thetaInertialRad) > 0.01)
+		      {
+              printf("Warning: Intertial and enocoder readings not consistent!\n");
+          }
+
+          printf(" currentLeft: %f", currentLeft);
+          printf(" currRight: %f", currentRight);
+          printf(" theta (radians): %f", thetaRad);
+	    }
+
+      // Calculate the incremental linear distance traveled
+      if (fabs(thetaRad) < 0.01)
+      {
+          linearDistance = (deltaL + deltaR) / 2.0;
+      }
+      else
+      {
+          lRadius = deltaL / thetaRad; 
+          linearDistance = 2 * (lRadius + (trackWidth / 2)) * sin(thetaRad / 2.0); 
+      }
+
+      // Calculate the incremental 2-dimensional coordinates.
+      deltaX = linearDistance * cos(headRad + (thetaRad / 2.0));
+      deltaY = linearDistance * sin(headRad + (thetaRad / 2.0));
+
+      if (isDebug)
+	    {
+        printf(" head in radians: %f", headRad);
+        printf(" head in degrees: %f /n", (headRad * (180 / M_PI)));
+        printf(" linear distance: %f", linearDistance);
+        printf(" deltaX: %f", deltaX);
+        printf(" deltaY: %f", deltaY);
+      }
+
+      coor.xPos += deltaX; 
+      coor.yPos += deltaY;
+
+      if (isDebug)
+	    {
+        printf(" xPos: %f", coor.xPos);
+        printf(" yPos: %f \n", coor.yPos);
+	    }
+
+      previousLeft = currentLeft;
+      previousRight = currentRight;
+      prevHeadRad = headRad;
+  
+      wait(50, msec); 
+      Brain.Screen.clearLine();
+    }
+  
     return 0;
 }
 
@@ -101,13 +209,13 @@ int setPos(double x, double y) {
 
 void skills() {
   // 60 second program
-  lFront.setStopping(brake);
-  lBack.setStopping(brake);
-  rBack.setStopping(brake);
-  rFront.setStopping(brake);
+  lFront.setStopping(coast);
+  lBack.setStopping(coast);
+  rBack.setStopping(coast);
+  rFront.setStopping(coast);
   
   Brain.Screen.print("done");
-  /* thread pos(getPos); // We intend to run this line as a thread so that it can update
+  thread pos(getPosition); // We intend to run this line as a thread so that it can update
                          // xPos & yPos (localized to this skills() function) as the program 
                          // is running. We plan to reference xPos & yPos frequently in other functions
                          // throughout our program (by passing them in as parameters) 
