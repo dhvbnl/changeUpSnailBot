@@ -57,7 +57,7 @@ int getPosition()
 		  {
 	        if (fabs(thetaEncoderRad - thetaInertialRad) > 0.01)
 		      {
-              printf("Warning: Inertial and enocoder readings not consistent!\n");
+              printf("Warning: Inertial and enocoder readings are not consistent!\n");
           }
           //printf(" deltaL: %f", deltaL);
           //printf(" deltaR: %f", deltaR);
@@ -159,6 +159,7 @@ int setPos(double x, double y) {
         turningBasePID(270);
       }
     }
+    wait(100, msec);
   }
   
   
@@ -175,5 +176,8 @@ void skills() {
   rBack.setStopping(brake);
   rFront.setStopping(brake);
   
-  thread pos(getPosition); 
+  thread pos(getPosition);
+  setPos(0,-40);
+  setPos(20, -20);
+  setPos(0,0);
 }

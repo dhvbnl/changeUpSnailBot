@@ -2,9 +2,10 @@
 
 void turningBasePID(double targetdeg) {
   // proportionality constants
-  double kP = 0.39;
-  double kI = 0.0009;
-  double kD = 0.5;
+  double kP = 0.25;
+  double kI = 0.00001;
+  double kD = 0.6;
+  
   // PID loop variables
   double error = 3;
   double integral = 0;
@@ -13,7 +14,7 @@ void turningBasePID(double targetdeg) {
   double motorPower = 0;
   bool useright = true;
 
-  while (error >= 3) {
+  while (fabs(targetdeg - Inertial.heading(degrees)) > 1) {
     // PID loop to determine motorPower at any given point in time
     double head = Inertial.heading(degrees);
     double errorright = targetdeg - head;
@@ -43,15 +44,14 @@ void turningBasePID(double targetdeg) {
     wait(15, msec);
 
     // powering the motors
-    if (useright == true) {
+    if (useright) {
       lBack.spin(vex::directionType::fwd, motorPower, vex::velocityUnits::pct);
       lFront.spin(vex::directionType::fwd, motorPower, vex::velocityUnits::pct);
       rBack.spin(vex::directionType::fwd, -motorPower, vex::velocityUnits::pct);
       rFront.spin(vex::directionType::fwd, -motorPower,
                   vex::velocityUnits::pct);
     }
-
-    else if (useright == false) {
+    else {
       lBack.spin(vex::directionType::fwd, -motorPower, vex::velocityUnits::pct);
       lFront.spin(vex::directionType::fwd, -motorPower,
                   vex::velocityUnits::pct);
