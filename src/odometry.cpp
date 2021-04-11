@@ -109,35 +109,62 @@ int getPosition()
 }
 
 int setPos(double x, double y) {
+  
   double curr_xPos = coor.xPos;
   double curr_yPos = coor.yPos;
-  double xdist = fabs(fabs(x) - fabs(curr_xPos));
-  double ydist = fabs((y) - fabs(curr_yPos));
+  double xdist = x - curr_xPos;
+  double ydist = y - curr_yPos;
   double hyp = sqrt((xdist * xdist) + (ydist * ydist));
-  double refAngle = fabs(atan2(ydist, xdist) * 180 / M_PI);
+  double refAngle = fabs(atan(ydist/xdist)) * 180 / M_PI;
+  
   wait(100, msec);
-  // Using quadrants to calculate absolute angle to turn to
-  if (x > curr_xPos && y > curr_yPos) {
-    Controller.Screen.print("1");
-    turningBasePID(90 - refAngle);
-  } 
-  else if (x < curr_xPos && y > curr_yPos) {
-    Controller.Screen.print("2");
-    turningBasePID(270 + refAngle);
-  } 
-  else if (x < curr_xPos && y < curr_yPos) {
-    Controller.Screen.print("3");
-    turningBasePID(270 - refAngle);
-  } 
-  else if (x > curr_xPos && y < curr_yPos) { 
-    Controller.Screen.print("4");
-    turningBasePID(90 + refAngle);
-  } 
-  else {  
-    Controller.Screen.print("5");
+
+  if (xdist != 0 || ydist != 0) {
+    // Using quadrants to calculate absolute angle to turn to
+    // Current position (curr_xPos, curr_yPos) is new "center of origin" for quadrant system
+    if (x > curr_xPos && y > curr_yPos) // Quadrant 1 angle
+    {
+      Controller.Screen.print("1");
+      turningBasePID(90 - refAngle);
+    } 
+    else if (x < curr_xPos && y > curr_yPos) // Quadrant 2 angle
+    {
+      Controller.Screen.print("2");
+      turningBasePID(270 + refAngle);
+    } 
+    else if (x < curr_xPos && y < curr_yPos) // Quadrant 3 angle
+    {
+      Controller.Screen.print("3");
+      turningBasePID(270 - refAngle);
+      printf(" refAngle: %f", refAngle);
+    } 
+    else if (x > curr_xPos && y < curr_yPos)
+    { 
+      Controller.Screen.print("4");
+      turningBasePID(90 + refAngle);
+    } 
+    else if (xdist == 0) {
+      hyp = fabs(ydist);
+      if (ydist > 0) {
+        turningBasePID(0);
+      } else {
+        turningBasePID(180);
+      }
+    } 
+    else if (ydist == 0) {
+      hyp = fabs(xdist);
+      if (xdist > 0) {
+        turningBasePID(90);
+      } else {
+        turningBasePID(270);
+      }
+    }
   }
+  
+  
   printf(" refAng: %f", refAngle);
   driveProfile(hyp, true);
+  
   return 0;
 } 
 
@@ -149,8 +176,4 @@ void skills() {
   rFront.setStopping(brake);
   
   thread pos(getPosition); 
-  setPos(20, 20);
-  setPos(10, 0);
-  setPos(-10, -10);
-  setPos(0,0);            
 }
