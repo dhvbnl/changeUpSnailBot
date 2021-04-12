@@ -13,58 +13,61 @@ struct Coordinate {
   double yPos;
 } coor;
 
+
 int getPosition()
 {
-    coor.xPos = 0;
-    coor.yPos = 0;
-    double currentLeft = 0;
-    double currentRight = 0;
-    double previousLeft = 0;
-    double previousRight = 0;
-    double deltaL = 0;
-    double deltaR = 0;
-    double deltaX = 0;
-    double deltaY = 0;
-    double linearDistance = 0;
-    double headRad = 0;
-  	double thetaEncoderRad = 0;
-	  double thetaInertialRad = 0;
-    double thetaRad = 0;
-    double lRadius = 0;
-    double prevHeadRad = 0;
+  double currentLeft = 0.0;
+  double currentRight = 0.0;
+  double previousLeft = 0.0;
+  double previousRight = 0.0;
+  double deltaL = 0.0;
+  double deltaR = 0.0;
+  double deltaX = 0.0;
+  double deltaY = 0.0;
+  double linearDistance = 0.0;
+  double headRad = 0.0;
+  double thetaEncoderRad = 0.0;
+  double thetaInertialRad = 0.0;
+  double thetaRad = 0.0;
+  double lRadius = 0.0;
+  double prevHeadRad = 0.0;
 
-    while (true)
-    {
+  coor.xPos = 0.0;
+  coor.yPos = 0.0;
+
+  while (true)
+  {
       // Reading the odometry encoders
       currentLeft = getLeftEncoderRotation() * convertInches; 
       currentRight = -getRightEncoderRotation() * convertInches; 
       deltaL = currentLeft - previousLeft;
       deltaR = currentRight - previousRight;
 
-      thetaEncoderRad = atan2((deltaR - deltaL), trackWidth); // calculated change in heading 
+      thetaEncoderRad = atan((deltaR - deltaL)/trackWidth); // calculated change in heading 
 
       // Sensor-based heading reading
       headRad = Inertial.heading(degrees) * (M_PI / 180);
-  
+
       // Convert head from clockwise angle to counterclockwise (unit circle-based) angle
       headRad = fmod(((2.5 * M_PI) - headRad), (2 * M_PI)); 
-      
+    
       thetaInertialRad = headRad - prevHeadRad;
       thetaRad = thetaInertialRad;
-	
-	    // Check whether the angle is consistent between the two different sensors (Inertial, Encoder).
-	    if (isDebug)
-		  {
-	        if (fabs(thetaEncoderRad - thetaInertialRad) > 0.01)
-		      {
+  
+      // Check whether the angle is consistent between the two different sensors (Inertial, Encoder).
+      if (isDebug)
+      {
+          if (fabs(thetaEncoderRad - thetaInertialRad) > 0.01)
+          {
               printf("Warning: Inertial and enocoder readings are not consistent!\n");
           }
+
           //printf(" deltaL: %f", deltaL);
           //printf(" deltaR: %f", deltaR);
           //printf(" theta (radians): %f", thetaRad);
-	    }
+      }
 
-      // Calculate the incremental linear distance traveled
+      // Calculate the incremental linear distance traveled.
       if (fabs(thetaRad) < 0.01)
       {
           linearDistance = (deltaL + deltaR) / 2.0;
@@ -72,7 +75,7 @@ int getPosition()
       else
       {
           lRadius = deltaL / thetaRad; 
-          linearDistance = 2 * (lRadius + (trackWidth / 2)) * sin(thetaRad / 2.0); 
+          linearDistance = 2.0 * (lRadius + (trackWidth / 2.0)) * sin(thetaRad / 2.0);
       }
 
       // Calculate the incremental 2-dimensional coordinates x & y
@@ -80,35 +83,34 @@ int getPosition()
       deltaY = linearDistance * sin(headRad + (thetaRad / 2.0));
 
       if (isDebug)
-	    {
-        printf(" head in radians: %f", headRad);
-        printf(" head in degrees: %f \n", (headRad * (180 / M_PI)));
-        printf(" linear distance: %f", linearDistance);
-        printf(" deltaX: %f", deltaX);
-        printf(" deltaY: %f", deltaY);
+      {
+          printf(" head: %f radians (%f degrees)\n", headRad, (headRad * (180 / M_PI)));
+          printf(" linear distance: %f", linearDistance);
+          printf(" deltaX: %f in", deltaX);
+          printf(" deltaY: %f in", deltaY);
       }
 
       coor.xPos += deltaX; 
       coor.yPos += deltaY;
 
       if (isDebug)
-	    {
-        printf(" xPos: %f", coor.xPos);
-        printf(" yPos: %f \n", coor.yPos);
-	    }
+      {
+          printf(" xPos: %f", coor.xPos);
+          printf(" yPos: %f \n", coor.yPos);
+      }
 
       previousLeft = currentLeft;
       previousRight = currentRight;
       prevHeadRad = headRad;
-  
-      wait(50, msec); 
+
+      wait(100, msec); 
       Brain.Screen.clearLine();
-    }
-  
-    return 0;
+  }
+
+  return 0;
 }
 
-int setPos(double x, double y) {
+int setPos (double x, double y) {
   
   double curr_xPos = coor.xPos;
   double curr_yPos = coor.yPos;
@@ -124,23 +126,18 @@ int setPos(double x, double y) {
     // Current position (curr_xPos, curr_yPos) is new "center of origin" for quadrant system
     if (x > curr_xPos && y > curr_yPos) // Quadrant 1 angle
     {
-      Controller.Screen.print("1");
       turningBasePID(90 - refAngle);
     } 
     else if (x < curr_xPos && y > curr_yPos) // Quadrant 2 angle
     {
-      Controller.Screen.print("2");
       turningBasePID(270 + refAngle);
     } 
     else if (x < curr_xPos && y < curr_yPos) // Quadrant 3 angle
     {
-      Controller.Screen.print("3");
       turningBasePID(270 - refAngle);
-      printf(" refAngle: %f", refAngle);
     } 
     else if (x > curr_xPos && y < curr_yPos)
     { 
-      Controller.Screen.print("4");
       turningBasePID(90 + refAngle);
     } 
     else if (xdist == 0) {
@@ -177,7 +174,4 @@ void skills() {
   rFront.setStopping(brake);
   
   thread pos(getPosition);
-  setPos(0,-40);
-  setPos(20, -20);
-  setPos(0,0);
 }
