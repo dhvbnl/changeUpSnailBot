@@ -1,7 +1,7 @@
 #include "vex.h"
 #include "math.h"
-#include "auton-functions.h"
-#include "motion-profile.h"
+/* #include "auton-functions.h"
+#include "motion-profile.h" */
 //#include "rollers.h"
 // Global constants
 const double trackWidth = 4.625;
@@ -141,10 +141,11 @@ int setPos (double x, double y) {
       turningBasePID(90 + refAngle);
     } 
     else if (xdist == 0) {
+      Controller.Screen.print("hi");
       hyp = fabs(ydist);
-      if (ydist > 0) {
+      if (ydist > 0 && Inertial.heading(degrees) != 0) {
         turningBasePID(0);
-      } else {
+      } else if (ydist < 0 && Inertial.heading(degrees) != 180) {
         turningBasePID(180);
       }
     } 

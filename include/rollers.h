@@ -44,5 +44,6 @@ int adescoreOneBall();
 int adescoreTwoBalls();
 int acleanBalls();
 void adescoreChooser();
+void intake(int speed);
 
 std::string tempInfoRollers();

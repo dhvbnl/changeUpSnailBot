@@ -19,6 +19,8 @@
 #include "rollers.h"
 #include "mapping.h"
 #include "odometry.h"
+#include "motion-profile.h"
+#include "auton-functions.h"
 
 //global constant variables
 const int tempLimit = 55;
