@@ -16,7 +16,7 @@ int accelerate() {
   if (acc.fwd) {
     acc.dist += lorig;
     while ((encoderLeft.rotation(degrees) * convertInches) < acc.dist) {
-      speed = 1.2 * exp(0.1 * (fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig)))  + 0.6;
+      speed = 1.2 * exp(0.1 * (fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig)))  + 0.8;
       if (speed > 8.4)
         speed = 8.4;
       wait(10, msec);
@@ -24,7 +24,7 @@ int accelerate() {
   } else {
     acc.dist = lorig - acc.dist;
     while ((encoderLeft.rotation(degrees) * convertInches) > acc.dist) {
-      speed = 1.2 * exp(0.1 * ((fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig)))) + 0.6;
+      speed = 1.2 * exp(0.1 * ((fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig)))) + 0.8;
       if (speed > 8.4)
         speed = 8.4;
       wait(10, msec);
@@ -43,7 +43,7 @@ int decelerate() {
     }
     acc.dist += lorig;
     while ((encoderLeft.rotation(degrees) * convertInches) < acc.dist) {
-      speed = 1.2 * exp((-0.1 * fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig + n)) + 2) + 0.2 ;
+      speed = 1.2 * exp((-0.1 * fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig + n)) + 2) + 0.4 ;
         if (speed > 8.4) speed = 8.4;
         if (speed < 1.4) speed = 0;
         wait(10, msec);
@@ -54,7 +54,7 @@ int decelerate() {
     }
     acc.dist = lorig - acc.dist;
     while ((encoderLeft.rotation(degrees) * convertInches) > acc.dist) {
-      speed = 1.2 * exp((-0.1 * fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig + n)) + 2) + 0.2; 
+      speed = 1.2 * exp((-0.1 * fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig + n)) + 2) + 0.4; 
         if (speed > 8.4) speed = 8.4;
         if (speed < 1.4) speed = 0;
         wait(10, msec);
@@ -96,7 +96,7 @@ int driveProfile(int dist, bool  fwd) {
     targetL = encoderLeft.rotation(degrees) + acceldist; // target to finish acceleration
    
     while (encoderLeft.rotation(degrees) < targetL) {
-      printf("accelerate: %f\n", speed);
+     // printf("accelerate: %f\n", speed);
 
       lFront.spin(vex::directionType::fwd, speed, volt);
       lBack.spin(vex::directionType::fwd, speed, volt);
@@ -116,7 +116,7 @@ int driveProfile(int dist, bool  fwd) {
     // decelerate
     targetL = encoderLeft.rotation(degrees) + acceldist;
     while (encoderLeft.rotation(degrees) < targetL ) {
-      printf("decelerate %f\n", speed);
+     // printf("decelerate %f\n", speed);
       lFront.spin(vex::directionType::fwd, speed, volt);
       lBack.spin(vex::directionType::fwd, speed, volt);
       rFront.spin(vex::directionType::fwd, speed, volt);
@@ -136,7 +136,7 @@ int driveProfile(int dist, bool  fwd) {
     targetL = encoderLeft.rotation(degrees) - acceldist;
    
     while ((encoderLeft.rotation(degrees) > targetL)) {
-      printf("accelerate: %f\n", speed);
+     // printf("accelerate: %f\n", speed);
       lFront.spin(vex::directionType::rev, speed, volt);
       lBack.spin(vex::directionType::rev, speed, volt);
       rFront.spin(vex::directionType::rev, speed, volt);
@@ -160,7 +160,7 @@ int driveProfile(int dist, bool  fwd) {
 
     targetL = encoderLeft.rotation(degrees) - acceldist;
     while (encoderLeft.rotation(degrees) > targetL) {
-      printf("decelerate %f\n", speed);
+      //printf("decelerate %f\n", speed);
       lFront.spin(vex::directionType::rev, speed, volt);
       lBack.spin(vex::directionType::rev, speed, volt);
       rFront.spin(vex::directionType::rev, speed, volt);

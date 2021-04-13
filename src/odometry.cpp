@@ -2,7 +2,7 @@
 #include "math.h"
 #include "auton-functions.h"
 #include "motion-profile.h"
-
+//#include "rollers.h"
 // Global constants
 const double trackWidth = 4.625;
 const double convertInches = (2.75 * M_PI) / 360;
@@ -166,12 +166,3 @@ int setPos (double x, double y) {
   return 0;
 } 
 
-void skills() {
-  // 60 second program
-  lFront.setStopping(brake);
-  lBack.setStopping(brake);
-  rBack.setStopping(brake);
-  rFront.setStopping(brake);
-  
-  thread pos(getPosition);
-}

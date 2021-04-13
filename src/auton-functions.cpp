@@ -1,8 +1,9 @@
 # include "vex.h"
 
 void turningBasePID(double targetdeg) {
+  Controller.Screen.print(" target deg: %f", targetdeg);
   // proportionality constants
-  double kP = 0.25;
+  double kP = 0.4;
   double kI = 0.00001;
   double kD = 0.6;
   

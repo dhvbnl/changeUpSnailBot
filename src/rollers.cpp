@@ -31,6 +31,10 @@ void setRollerSpeed() {
   rRoller.spin(fwd, rollerSpeed, pct);
 }
 
+void setRollerSpeed(int rollerSpeed) {
+  lRoller.spin(fwd, rollerSpeed, pct);
+  rRoller.spin(fwd, rollerSpeed, pct);
+}
 // sets speed for both rollers based on one speed parameter
 
 void setRollerCreep() {
@@ -106,6 +110,16 @@ void descoreChooser() {
     descoreOne = thread(descoreOneBall);
 }
 
+void adescoreChooser() {
+  if(shootState == 2)
+    thread two(adescoreTwoBalls);
+  else if(shootState == 1)
+    thread one(adescoreOneBall);
+}
+void intake(int speed) {
+  lIntake.spin(fwd, speed, pct);
+  rIntake.spin(fwd, speed, pct);
+}
 // shoots all balls from rollers
 int shootAllRollers() {
   if (getbottomLineInfo()) {
@@ -139,6 +153,8 @@ int shootAllRollers() {
 }
 
 int hoardAllRollers() {
+  //pauseIntake();
+  setIntakeSpeed(100);
   while (!getbottomLineInfo())
     wait(50, msec);
   rollerSpeed = 30;
@@ -154,6 +170,24 @@ int hoardAllRollers() {
   return 0;
 }
 
+int ahoardAllRollers() {
+  //pauseIntake();
+  intake(100);
+  while (!getbottomLineInfo())
+    wait(50, msec);
+  rollerSpeed = 30;
+  while (!getmiddleLineInfo())
+    wait(50, msec);
+  rollerSpeed = 0;
+  while (!getbottomLineInfo())
+    wait(50, msec);
+  rollerSpeed = 20;
+  while (!gettopLineInfo())
+    wait(50, msec);
+  rollerSpeed = 0;
+  intake(0);
+  return 0;
+}
 int clearAllRollers() {
   pauseIntake();
   setIntakeSpeed(-75);
@@ -164,6 +198,17 @@ int clearAllRollers() {
   return 0;
 }
 
+int acleanBalls() {
+  //pauseIntake();
+  //setIntakeSpeed(-75);
+  intake(-75);
+  rollerSpeed = -100;
+  wait(500, msec);
+  rollerSpeed = 0;
+  intake(0);
+  //playIntake();
+  return 0;
+}
 int descoreOneBall() {
   if (getBallsDetected() > 0) {
     wait(300, msec);
@@ -176,6 +221,22 @@ int descoreOneBall() {
     setIntakeSpeed(-100);
     wait(200, msec);
     playIntake();
+  }
+  return 0;
+}
+int adescoreOneBall() {
+  if (getBallsDetected() > 0) {
+    wait(300, msec);
+    //pauseIntake();
+    intake(75);
+    while (lineBottom.value(pct) < lineMax)
+      wait(50, msec);
+    while (lineBottom.value(pct) > lineMax)
+      wait(50, msec);
+    intake(-100);
+    wait(200, msec);
+    intake(0);
+    //layIntake();
   }
   return 0;
 }
@@ -206,7 +267,35 @@ int descoreTwoBalls() {
   }
   return 0;
 }
-
+int adescoreTwoBalls() {
+  if (getBallsDetected() > 0) {
+    wait(100, msec);
+    //pauseIntake();
+    //setIntakeSpeed(75);
+    intake(75);
+    while (getbottomLineInfo())
+      wait(50, msec);
+    while(getmiddleLineInfo())
+      wait(50, msec);
+    while (!getbottomLineInfo())
+      wait(50, msec);
+      if(rollerSpeed < 50)
+        rollerSpeed = 100;
+    while (!getmiddleLineInfo())
+      wait(50, msec);
+      if(rollerSpeed < 50)
+        rollerSpeed = 100;
+    rollerSpeed = 0;
+    while(!getbottomLineInfo())
+      wait(50, msec);
+    //setIntakeSpeed(-100);
+    intake(-100);
+    wait(200, msec);
+    intake(0);
+    //playIntake();
+  }
+  return 0;
+}
 void resetRollers() {
   lRoller.resetRotation();
   rRoller.resetRotation();
@@ -226,4 +315,9 @@ std::string tempInfoRollers() {
   if (loopCounter == 0)
     tempReturn = "All Good";
   return tempReturn;
+}
+
+void test() {
+  thread setspeed(rollerControl);
+  hoardAllRollers();
 }
