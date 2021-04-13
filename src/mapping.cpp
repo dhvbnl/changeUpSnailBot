@@ -22,18 +22,30 @@ void skills() {
 
   thread setspeed(rollerControl);
   thread pos(getPosition);
-  //setPos(0, 20);
-  setPos(0,20);
-/*   hoard = thread(ahoardAllRollers);
-  //setPos(0, 28); //move to place to turn to second ball
-  driveProfile(28, true);
-  intake(75);
-  setPos(-26, 28);//get second ball
-  intake(0);
-  //hoard.interrupt();
-  driveProfile(18, false);
-  setPos(-30, 9);
+  //push ball back
+  turningBasePID(25);
+  lFront.spin(fwd, -60, pct);
+  rFront.spin(fwd, -60, pct);
+  lBack.spin(fwd, -60, pct);
+  rBack.spin(fwd, -60, pct);
+  wait(400, msec);
+  lFront.stop();
+  rFront.stop();
+  lBack.stop();
+  rBack.stop();
+
+  //get ball1
+
+  hoard = thread(ahoardAllRollers);
+  setPos(6, 16);
+  setPos(13, 40);
+  driveProfile(15, false);
+  setPos(-4, 45);
+
   shoot = thread(shootAllRollers);
-  adescoreTwoBalls();  */
+  adescoreTwoBalls();
+
+  driveProfile(20, false);
+  clean = thread(acleanBalls);
 
 }

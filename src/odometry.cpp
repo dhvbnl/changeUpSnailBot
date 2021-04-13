@@ -141,26 +141,27 @@ int setPos (double x, double y) {
       turningBasePID(90 + refAngle);
     } 
     else if (xdist == 0) {
-      Controller.Screen.print("hi");
+      Controller.Screen.print(ydist);
       hyp = fabs(ydist);
-      if (ydist > 0 && Inertial.heading(degrees) != 0) {
+      if (ydist > 0 && fabs(Inertial.heading(degrees) - 0) > 1) {
         turningBasePID(0);
-      } else if (ydist < 0 && Inertial.heading(degrees) != 180) {
+      } else if (ydist < 0 && fabs(Inertial.heading(degrees) - 0) > 1) {
         turningBasePID(180);
       }
     } 
     else if (ydist == 0) {
       hyp = fabs(xdist);
-      if (xdist > 0) {
+      if (xdist > 0 && fabs(Inertial.heading(degrees) - 90) > 1) {
         turningBasePID(90);
-      } else {
+      } else if (xdist < 0 && fabs(Inertial.heading(degrees) - 0) > 1) {
         turningBasePID(270);
       }
     }
     wait(100, msec);
   }
   
-  
+  Controller.Screen.clearLine();
+  Controller.Screen.print("here");
   printf(" refAng: %f", refAngle);
   driveProfile(hyp, true);
   
