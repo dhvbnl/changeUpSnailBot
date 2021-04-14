@@ -1,7 +1,7 @@
 # include "vex.h"
-
+timer t = timer();
 void turningBasePID(double targetdeg) {
-  Controller.Screen.print(" target deg: %f", targetdeg);
+  //Controller.Screen.print(" target deg: %f", targetdeg);
   // proportionality constants
   double kP = 0.4;
   double kI = 0.00001;
@@ -14,8 +14,8 @@ void turningBasePID(double targetdeg) {
   double prevError = 0;
   double motorPower = 0;
   bool useright = true;
-
-  while (fabs(targetdeg - Inertial.heading(degrees)) > 1) {
+  t.reset();
+  while (fabs(targetdeg - Inertial.heading(degrees)) > 2 && t.time(msec) < 2000) {
     // PID loop to determine motorPower at any given point in time
     double head = Inertial.heading(degrees);
     double errorright = targetdeg - head;
@@ -46,7 +46,7 @@ void turningBasePID(double targetdeg) {
 
     // powering the motors
     if (useright) {
-      lBack.spin(vex::directionType::fwd, motorPower, vex::velocityUnits::pct);
+      lBack.spin(vex::directionType::fwd, motorPower , vex::velocityUnits::pct);
       lFront.spin(vex::directionType::fwd, motorPower, vex::velocityUnits::pct);
       rBack.spin(vex::directionType::fwd, -motorPower, vex::velocityUnits::pct);
       rFront.spin(vex::directionType::fwd, -motorPower,

@@ -16,7 +16,7 @@ int accelerate() {
   if (acc.fwd) {
     acc.dist += lorig;
     while ((encoderLeft.rotation(degrees) * convertInches) < acc.dist) {
-      speed = 1.4 * exp(0.1 * (fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig)))  + 0.8;
+      speed = 2.5 * exp(0.15 * (fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig)))  - 0.8;
       if (speed > 10)
         speed = 10;
       wait(10, msec);
@@ -24,7 +24,7 @@ int accelerate() {
   } else {
     acc.dist = lorig - acc.dist;
     while ((encoderLeft.rotation(degrees) * convertInches) > acc.dist) {
-      speed = 1.4 * exp(0.1 * ((fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig)))) + 0.8;
+      speed = 1.5 * exp(0.13 * ((fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig)))) ;
       if (speed > 10)
         speed = 10;
       wait(10, msec);
@@ -38,23 +38,23 @@ int decelerate() {
   int n = 0;
 
   if (acc.fwd) {
-    if (acc.dist < 20) {
-      n = 20 - acc.dist;
+    if (acc.dist < 14) {
+      n = 14 - acc.dist;
     }
     acc.dist += lorig;
     while ((encoderLeft.rotation(degrees) * convertInches) < acc.dist) {
-      speed = 1.4 * exp((-0.1 * fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig + n)) + 2) + 0.4 ;
+      speed = 1.1 * exp((-0.2 * fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig + n)) + 2) + 0.8 ;
         if (speed > 10) speed = 10;
         if (speed < 1.4) speed = 0;
         wait(10, msec);
     }
   } else {
-    if (acc.dist < 20) {
-      n = 20 - acc.dist;
+    if (acc.dist < 14) {
+      n = 14 - acc.dist;
     }
     acc.dist = lorig - acc.dist;
     while ((encoderLeft.rotation(degrees) * convertInches) > acc.dist) {
-      speed = 1.4 * exp((-0.1 * fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig + n)) + 2) + 0.4; 
+      speed = 1.1 * exp((-0.2 * fabs((fabs(encoderLeft.rotation(degrees)) * convertInches) - lorig + n)) + 2) + 0.8; 
         if (speed > 10) speed = 10;
         if (speed < 1.4) speed = 0;
         wait(10, msec);
@@ -69,9 +69,9 @@ int driveProfile(int dist, bool  fwd) {
   int targetL = 0;
   double actdist;
 
-  if (dist > 40) 
+  if (dist > 28) 
   {
-    acceldist = 20;
+    acceldist = 14;
   } 
   else {
     acceldist = dist / 2.0;
