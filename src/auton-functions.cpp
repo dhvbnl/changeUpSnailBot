@@ -1,4 +1,5 @@
-# include "vex.h"
+#include "vex.h"
+#include "motion-profile.h"
 timer t = timer();
 void turningBasePID(double targetdeg) {
   //Controller.Screen.print(" target deg: %f", targetdeg);
@@ -65,6 +66,7 @@ void turningBasePID(double targetdeg) {
   lFront.stop();
   rFront.stop();
 }
+
 
 void inertialDrive(double dist, int speed, bool fwd) {
   // speed /= 8.33;

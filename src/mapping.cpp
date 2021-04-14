@@ -36,9 +36,9 @@ void skills() {
 
   //goal1
 
-   hoard = thread(ahoardAllRollers);
+  hoard = thread(ahoardAllRollers);
   setPos(6, 16);
-  setPos(13, 40);
+  setPos(13, 41);
   driveProfile(15, false);
   setPos(-3, 43);
 
@@ -69,7 +69,7 @@ void skills() {
   rFront.spin(fwd, 2, volt);
   lBack.spin(fwd, 2, volt);
   rBack.spin(fwd, 2, volt);
-  wait(800, msec);
+  wait(900, msec);
   lFront.stop();
   rFront.stop();
   lBack.stop();
@@ -85,10 +85,10 @@ void skills() {
 
   //goal 3
   hoard = thread(ahoardAllRollers);
-  setPos(84, 46);
+  setPos(83, 47);
   driveProfile(17, false);
   setPos(95, 27);
-  setPos(127, 63);
+  setPos(126, 69);
 
   lFront.spin(fwd, 1.9, volt);
   rFront.spin(fwd, 1.9, volt);

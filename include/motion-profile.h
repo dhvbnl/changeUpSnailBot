@@ -1,5 +1,5 @@
 struct Acceleration;
-int accelerater(Acceleration acc);
-int acceleratel(double dist, bool speedup, bool fwd);
+int accelerate();
+int decelerate();
 void test(void);
 int driveProfile (int dist, bool fwd);
