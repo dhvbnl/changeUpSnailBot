@@ -46,7 +46,7 @@ void skills() {
   rFront.spin(fwd, 1.9, volt);
   lBack.spin(fwd, 1.9, volt);
   rBack.spin(fwd, 1.9, volt);
-  wait(800, msec);
+  wait(700, msec);
   lFront.stop();
   rFront.stop();
   lBack.stop();
@@ -88,7 +88,7 @@ void skills() {
   setPos(83, 47);
   driveProfile(17, false);
   setPos(95, 27);
-  setPos(126, 69);
+  setPos(124, 60.23);
 
   lFront.spin(fwd, 1.9, volt);
   rFront.spin(fwd, 1.9, volt);
