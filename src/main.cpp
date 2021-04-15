@@ -3,13 +3,8 @@
 using namespace vex;
 competition Competition;
 
-void autonomous(void) 
-{
-  skills();
-}
-
 int main() {
-  Competition.autonomous(autonomous);
+  Competition.autonomous(skills);
   Competition.drivercontrol(opcontrol);
 
   preauton();

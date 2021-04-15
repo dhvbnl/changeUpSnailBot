@@ -15,8 +15,8 @@ int intakeControl() {
 
 // sets speed for both intakes based on one speed parameter
 void setIntakeSpeed(int speed) {
-  lIntake.spin(fwd, speed, volt);
-  rIntake.spin(fwd, speed, volt);
+  lIntake.spin(fwd, speed/voltageConverstion, volt);
+  rIntake.spin(fwd, speed/voltageConverstion, volt);
 }
 
 void setIntakeCreep() {
@@ -32,7 +32,7 @@ void setIntakeLock() {
 //getters
 
 int getIntakeSpeed() {
-  return getAxis2Pos() / voltageConverstion;
+  return getAxis2Pos();
 }
 
 int getLIntakeSpeed() { return lIntake.velocity(pct); }

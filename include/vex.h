@@ -20,12 +20,13 @@
 #include "mapping.h"
 #include "odometry.h"
 #include "motion-profile.h"
-#include "auton-functions.h"
 
 //global constant variables
+const double trackWidth = 4.625;
 const int tempLimit = 55;
 const double voltageConverstion = 100/12;
-const double odometryWheelToInch = (2.75 * M_PI) / 360;
+const double convertInches = (2.75 * M_PI) / 360;
+const double convertDegrees = 360 / (2.75 * M_PI);
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \

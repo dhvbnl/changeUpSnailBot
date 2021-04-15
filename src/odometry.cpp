@@ -1,11 +1,6 @@
 #include "vex.h"
-#include "math.h"
-/* #include "auton-functions.h"
-#include "motion-profile.h" */
-//#include "rollers.h"
+
 // Global constants
-const double trackWidth = 4.625;
-const double convertInches = (2.75 * M_PI) / 360;
 const bool isDebug = true;
 
 struct Coordinate {
@@ -39,14 +34,14 @@ int getPosition()
   {
       // Reading the odometry encoders
       currentLeft = getLeftEncoderRotation() * convertInches; 
-      currentRight = -getRightEncoderRotation() * convertInches; 
+      currentRight = getRightEncoderRotation() * convertInches; 
       deltaL = currentLeft - previousLeft;
       deltaR = currentRight - previousRight;
 
       thetaEncoderRad = atan((deltaR - deltaL)/trackWidth); // calculated change in heading 
 
       // Sensor-based heading reading
-      headRad = Inertial.heading(degrees) * (M_PI / 180);
+      headRad = getInertialHeading() * (M_PI / 180);
 
       // Convert head from clockwise angle to counterclockwise (unit circle-based) angle
       headRad = fmod(((2.5 * M_PI) - headRad), (2 * M_PI)); 
@@ -126,35 +121,35 @@ int setPos (double x, double y) {
     // Current position (curr_xPos, curr_yPos) is new "center of origin" for quadrant system
     if (x > curr_xPos && y > curr_yPos) // Quadrant 1 angle
     {
-      turningBasePID(90 - refAngle);
+      drivetrainTurn(90 - refAngle);
     } 
     else if (x < curr_xPos && y > curr_yPos) // Quadrant 2 angle
     {
-      turningBasePID(270 + refAngle);
+      drivetrainTurn(270 + refAngle);
     } 
     else if (x < curr_xPos && y < curr_yPos) // Quadrant 3 angle
     {
-      turningBasePID(270 - refAngle);
+      drivetrainTurn(270 - refAngle);
     } 
     else if (x > curr_xPos && y < curr_yPos)
     { 
-      turningBasePID(90 + refAngle);
+      drivetrainTurn(90 + refAngle);
     } 
     else if (xdist == 0) {
       Controller.Screen.print(ydist);
       hyp = fabs(ydist);
-      if (ydist > 0 && fabs(Inertial.heading(degrees) - 0) > 1) {
-        turningBasePID(0);
-      } else if (ydist < 0 && fabs(Inertial.heading(degrees) - 0) > 1) {
-        turningBasePID(180);
+      if (ydist > 0 && fabs(getInertialHeading() - 0) > 1) {
+        drivetrainTurn(0);
+      } else if (ydist < 0 && fabs(getInertialHeading() - 0) > 1) {
+        drivetrainTurn(180);
       }
     } 
     else if (ydist == 0) {
       hyp = fabs(xdist);
-      if (xdist > 0 && fabs(Inertial.heading(degrees) - 90) > 1) {
-        turningBasePID(90);
-      } else if (xdist < 0 && fabs(Inertial.heading(degrees) - 0) > 1) {
-        turningBasePID(270);
+      if (xdist > 0 && fabs(getInertialHeading() - 90) > 1) {
+        drivetrainTurn(90);
+      } else if (xdist < 0 && fabs(getInertialHeading() - 0) > 1) {
+        drivetrainTurn(270);
       }
     }
     wait(100, msec);

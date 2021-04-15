@@ -23,8 +23,11 @@ int getLBackSpeed();
 int getRBackSpeed();
 int getRFrontSpeed();
 
-int getLeftEncoderRotation();
-int getRightEncoderRotation();
+double getInertialRotation();
+double getInertialHeading();
+
+double getLeftEncoderRotation();
+double getRightEncoderRotation();
 
 int getLFrontTemp();
 int getLBackTemp();
@@ -35,6 +38,8 @@ int getRFrontTemp();
 void resetDrivetrain();
 void resetEncoders();
 void calibrateInertial();
+void drivetrainTurn(double targetdeg);
+void timeDrive(double speed, int timeLength);
 
 std::string tempInfoDrive();
 

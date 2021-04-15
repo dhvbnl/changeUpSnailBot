@@ -1,5 +1,8 @@
-
-int setPos(double x, double y);
-void skills();
+//constructors
 struct Coordinate;
+
+//setters
+int setPos(double x, double y);
+
+//getters
 int getPosition();

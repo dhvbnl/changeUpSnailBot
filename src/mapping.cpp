@@ -14,95 +14,78 @@ void rightAlliance() {
 
 void skills() {
   // 60 second program
-  lFront.setStopping(brake);
-  lBack.setStopping(brake);
-  rBack.setStopping(brake);
-  rFront.setStopping(brake);
-
+  setDrivetrainLock();
 
   thread setspeed(rollerControl);
   thread pos(getPosition);
-  //push ball back
-   turningBasePID(28);
-  lFront.spin(fwd, -65, pct);
-  rFront.spin(fwd, -65, pct);
-  lBack.spin(fwd, -65, pct);
-  rBack.spin(fwd, -65, pct);
-  wait(400, msec);
-  lFront.stop();
-  rFront.stop();
-  lBack.stop();
-  rBack.stop();
 
-  //goal1
+  // push ball back
+  drivetrainTurn(24);
+  timeDrive(-5.5, 400);
+
+  // goal1
 
   hoard = thread(ahoardAllRollers);
-  setPos(6, 16);
-  setPos(13, 41);
+  //setPos(6, 16);
+  setPos(16, 43);
   driveProfile(15, false);
   setPos(-3, 43);
-
-  lFront.spin(fwd, 1.9, volt);
-  rFront.spin(fwd, 1.9, volt);
-  lBack.spin(fwd, 1.9, volt);
-  rBack.spin(fwd, 1.9, volt);
-  wait(700, msec);
-  lFront.stop();
-  rFront.stop();
-  lBack.stop();
-  rBack.stop();
+  timeDrive(1.8, 800);
 
   shoot = thread(shootAllRollers);
   adescoreTwoBalls();
- 
+  wait(60, msec);
+  clean = thread(acleanBalls);
   driveProfile(20, false);
-  acleanBalls();
-
-  wait(50, msec);
-  //goal 2
+  wait(350, msec);
+  
+  
+  // goal 2
   hoard = thread(ahoardAllRollers);
-  setPos(50, 8);
-  setPos(48, 36); 
-  wait(50, msec);
-  //setPos(48, 40);
-  lFront.spin(fwd, 2, volt);
-  rFront.spin(fwd, 2, volt);
-  lBack.spin(fwd, 2, volt);
-  rBack.spin(fwd, 2, volt);
-  wait(900, msec);
-  lFront.stop();
-  rFront.stop();
-  lBack.stop();
-  rBack.stop();
-
+  //get first ball
+  setPos(51, 6);
+  //get second ball
+  setPos(51, 36);
+  wait(300, msec);
+  hoard.interrupt();
+  //go to goal and shoot
+  timeDrive(3, 1000);
   shoot = thread(shootAllRollers);
-  wait(40, msec);
+  wait(60, msec);
   adescoreOneBall();
-  wait(20, msec);
-  driveProfile(20, false);
-  turningBasePID(340);
-  acleanBalls();   
+  wait(60, msec);
+  clean = thread(acleanBalls);
+  //move back from goal and clean
+  driveProfile(25, false);
+  wait(50, msec);
+  clean.interrupt();
+  
 
-  //goal 3
+  // goal 3
   hoard = thread(ahoardAllRollers);
-  setPos(83, 47);
+  setPos(86, 44);
   driveProfile(17, false);
-  setPos(95, 27);
-  setPos(124, 60.23);
+  setPos(97, 25);
+  setPos(110, 41);
 
-  lFront.spin(fwd, 1.9, volt);
-  rFront.spin(fwd, 1.9, volt);
-  lBack.spin(fwd, 1.9, volt);
-  rBack.spin(fwd, 1.9, volt);
-  wait(800, msec);
-  lFront.stop();
-  rFront.stop();
-  lBack.stop();
-  rBack.stop();
+  timeDrive(1.9, 800);
   shoot = thread(shootAllRollers);
   adescoreTwoBalls();
- 
-  driveProfile(20, false);
-  turningBasePID(345);
-  acleanBalls();
+
+  driveProfile(10, false);
+  clean = thread(acleanBalls);
+  wait(50, msec);
+}
+
+void test(){
+  setDrivetrainLock();
+  drivetrainTurn(45);
+  Brain.Screen.print("KSOAIDFHOIHFOS");
+  wait(500, msec);
+  
+/*   drivetrainTurn(180);
+  wait(500, msec);
+  drivetrainTurn(270);
+  wait(500, msec);
+  drivetrainTurn(0); */
 }

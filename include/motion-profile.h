@@ -1,5 +1,7 @@
+//constructors
 struct Acceleration;
+
+//control
 int accelerate();
 int decelerate();
-void test(void);
 int driveProfile (int dist, bool fwd);

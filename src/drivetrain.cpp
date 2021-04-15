@@ -77,11 +77,11 @@ int getLBackSpeed() {return lBack.velocity(pct);}
 int getRBackSpeed() {return rBack.velocity(pct);}
 int getRFrontSpeed() {return rFront.velocity(pct);}
 
-int getInertialRotation() { return Inertial.rotation();}
-int getInertialHeading() { return Inertial.heading();}
+double getInertialRotation() { return Inertial.rotation();}
+double getInertialHeading() { return Inertial.heading();}
 
-int getLeftEncoderRotation() { return encoderLeft.rotation(deg); }
-int getRightEncoderRotation() { return encoderRight.rotation(deg); }
+double getLeftEncoderRotation() { return encoderLeft.rotation(deg); }
+double getRightEncoderRotation() { return encoderRight.rotation(deg); }
 
 int getLFrontTemp() {return lFront.temperature(celsius);}
 int getLBackTemp() {return lBack.temperature(celsius);}
@@ -131,4 +131,77 @@ std::string tempInfoDrive() {
   if(loopCounter == 0)
     tempReturn = "All Good";
   return tempReturn;
+}
+
+void drivetrainTurn(double targetdeg) {
+   // proportionality constants
+  double kP = 0.4;
+  double kI = 0.001;
+  double kD = 0.8;
+
+  // PID loop variables
+  double error = 3;
+  double integral = 0;
+  double derivative = 0;
+  double prevError = 0;
+  double motorPower = 0;
+  bool useright = true;
+  while (fabs(targetdeg - getInertialHeading()) > 2) {
+    // PID loop to determine motorPower at any given point in time
+    double head = getInertialHeading();
+    double errorright = targetdeg - head;
+    if (targetdeg < head) {
+      errorright = 360 - head + targetdeg;
+    }
+    double errorleft = fabs(targetdeg - head);
+    if (targetdeg > head) {
+      errorleft = 360 + head - targetdeg;
+    }
+    if (errorright < errorleft) {
+      error = errorright;
+      useright = true;
+    } else {
+      error = errorleft;
+      useright = false;
+    }
+    // pid stuff
+    integral = integral + error;
+    if (error == 0 or error > targetdeg) {
+      integral = 0;
+    }
+    derivative = error - prevError;
+    motorPower = (error * kP + integral * kI + derivative * kD);
+    prevError = error;
+
+    wait(15, msec);
+
+    // powering the motors
+    if (useright) {
+      lFront.spin(fwd, motorPower, pct);
+      lBack.spin(fwd, motorPower, pct);
+      rBack.spin(fwd, -motorPower, pct);
+      rFront.spin(fwd, -motorPower, pct);
+    } else {
+      lFront.spin(fwd, -motorPower, pct);
+      lBack.spin(fwd, -motorPower, pct);
+      rBack.spin(fwd, motorPower, pct);
+      rFront.spin(fwd, motorPower, pct);
+    }
+  }
+  lBack.stop();
+  rBack.stop();
+  lFront.stop();
+  rFront.stop();
+}
+
+void timeDrive(double speed, int timeLength) {
+  lFront.spin(fwd, speed, volt);
+  rFront.spin(fwd, speed, volt);
+  lBack.spin(fwd, speed, volt);
+  rBack.spin(fwd, speed, volt);
+  wait(timeLength, msec);
+  lFront.stop();
+  rFront.stop();
+  lBack.stop();
+  rBack.stop();
 }
