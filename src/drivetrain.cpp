@@ -101,6 +101,10 @@ void resetDrivetrain() {
 void resetEncoders() {
   encoderLeft.resetRotation();
   encoderRight.resetRotation();
+  encoderLeft.setRotation(0, degrees);
+  encoderRight.setRotation(0, degrees);
+  encoderLeft.setPosition(0, degrees);
+  encoderRight.setPosition(0, degrees);
 }
 
 void calibrateInertial() {
@@ -135,9 +139,12 @@ std::string tempInfoDrive() {
 
 void drivetrainTurn(double targetdeg) {
    // proportionality constants
-  double kP = 0.4;
-  double kI = 0.001;
-  double kD = 0.8;
+  //double kP = 0.45;
+  //double kI = 0.002;
+  //double kD = 1.0;
+  double kP = 0.43;
+  double kI = 0.0004;
+  double kD = 0.5;
 
   // PID loop variables
   double error = 3;
@@ -200,6 +207,20 @@ void timeDrive(double speed, int timeLength) {
   lBack.spin(fwd, speed, volt);
   rBack.spin(fwd, speed, volt);
   wait(timeLength, msec);
+  lFront.stop();
+  rFront.stop();
+  lBack.stop();
+  rBack.stop();
+}
+
+void arcturn (double left, double right, double turnangle) {
+  while (getInertialHeading() < turnangle - 2 || getInertialHeading() > turnangle + 2) {
+    lFront.spin(fwd, left, volt);
+    lBack.spin(fwd, left, volt);
+    rFront.spin(fwd, right, volt);
+    rBack.spin(fwd, right, volt);
+    wait(10, msec);
+  }
   lFront.stop();
   rFront.stop();
   lBack.stop();

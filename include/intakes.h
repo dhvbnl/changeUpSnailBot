@@ -23,6 +23,6 @@ void pauseIntake();
 void playIntake();
 
 void resetIntakes();
-
+void deploy();
 std::string tempinfoIntake();
 

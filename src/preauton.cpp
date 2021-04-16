@@ -13,6 +13,6 @@ void preauton() {
   setRollerLock();
 
   calibrateInertial();
-  Brain.Screen.print("done");
+  Controller.Screen.print(getLeftEncoderRotation());
 }
 

@@ -1,7 +1,7 @@
 #include "vex.h"
 
 // Global constants
-const bool isDebug = true;
+const bool isDebug = false;
 
 struct Coordinate {
   double xPos;
@@ -57,9 +57,9 @@ int getPosition()
               printf("Warning: Inertial and enocoder readings are not consistent!\n");
           }
 
-          //printf(" deltaL: %f", deltaL);
-          //printf(" deltaR: %f", deltaR);
-          //printf(" theta (radians): %f", thetaRad);
+         /* printf(" deltaL: %f", deltaL);
+          printf(" deltaR: %f", deltaR);
+          printf(" theta (radians): %f", thetaRad); */
       }
 
       // Calculate the incremental linear distance traveled.
@@ -79,10 +79,10 @@ int getPosition()
 
       if (isDebug)
       {
-          printf(" head: %f radians (%f degrees)\n", headRad, (headRad * (180 / M_PI)));
+         /* printf(" head: %f radians (%f degrees)\n", headRad, (headRad * (180 / M_PI)));
           printf(" linear distance: %f", linearDistance);
           printf(" deltaX: %f in", deltaX);
-          printf(" deltaY: %f in", deltaY);
+          printf(" deltaY: %f in", deltaY); */
       }
 
       coor.xPos += deltaX; 
@@ -98,14 +98,22 @@ int getPosition()
       previousRight = currentRight;
       prevHeadRad = headRad;
 
-      wait(100, msec); 
+      wait(10, msec); 
       Brain.Screen.clearLine();
   }
 
   return 0;
 }
 
-int setPos (double x, double y) {
+double getxPos() {
+  return coor.xPos;
+}
+
+double getyPos() {
+  return coor.yPos;
+}
+
+int setPos (double x, double y, bool repeat) {
   
   double curr_xPos = coor.xPos;
   double curr_yPos = coor.yPos;
@@ -135,7 +143,8 @@ int setPos (double x, double y) {
     { 
       drivetrainTurn(90 + refAngle);
     } 
-    else if (xdist == 0) {
+    else if (xdist == 0) 
+    {
       Controller.Screen.print(ydist);
       hyp = fabs(ydist);
       if (ydist > 0 && fabs(getInertialHeading() - 0) > 1) {
@@ -144,7 +153,8 @@ int setPos (double x, double y) {
         drivetrainTurn(180);
       }
     } 
-    else if (ydist == 0) {
+    else if (ydist == 0) 
+    {
       hyp = fabs(xdist);
       if (xdist > 0 && fabs(getInertialHeading() - 90) > 1) {
         drivetrainTurn(90);
@@ -153,13 +163,22 @@ int setPos (double x, double y) {
       }
     }
     wait(100, msec);
+    Controller.Screen.clearLine();
+    Controller.Screen.print("here");
+    printf(" refAng: %f", refAngle);
+    driveProfile(hyp, true);
+    
+    if (repeat) 
+    {
+      if (fabs(x - coor.xPos) > 1 || fabs(y - coor.yPos) > 1) {
+        setPos(x, y, false);
+      }
+    }
   }
-  
-  Controller.Screen.clearLine();
-  Controller.Screen.print("here");
-  printf(" refAng: %f", refAngle);
-  driveProfile(hyp, true);
-  
   return 0;
 } 
 
+void printPos() {
+  printf("x: %f", coor.xPos);
+  printf("y: %f\n", coor.yPos);
+}

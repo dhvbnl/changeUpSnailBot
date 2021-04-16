@@ -15,7 +15,7 @@ int accelerate() {
     acc.dist += lorig;
     while ((getLeftEncoderRotation() * convertInches) < acc.dist) {
       //speed = 2.5 * exp(0.15 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig)))  - 0.8;
-      speed = 2.0 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
+      speed = 4.0 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
       if (speed > 7.5)
         speed = 7.5;
       wait(10, msec);
@@ -24,7 +24,7 @@ int accelerate() {
     acc.dist = lorig - acc.dist;
     while ((getLeftEncoderRotation() * convertInches) > acc.dist) {
       //speed = 1.5 * exp(0.13 * ((fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig)))) ;
-      speed = 2.0 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
+      speed = 4.0 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
       if (speed > 7.5)
         speed = 7.5;
       wait(10, msec);
@@ -43,9 +43,9 @@ int decelerate() {
     }
     acc.dist += lorig;
     while ((getLeftEncoderRotation() * convertInches) < acc.dist) {
-      speed = 1.1 * exp((-0.2 * fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig + n)) + 2) + 0.8 ;
+      speed = 1.1 * exp((-0.2 * fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig + n)) + 2) + 1.6;
         if (speed > 7.5) speed = 7.5;
-        if (speed < 1.4) speed = 0;
+        if (speed < 1.8) speed = 0;
         wait(10, msec);
     }
   } else {
@@ -54,9 +54,9 @@ int decelerate() {
     }
     acc.dist = lorig - acc.dist;
     while ((getLeftEncoderRotation() * convertInches) > acc.dist) {
-      speed = 1.1 * exp((-0.2 * fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig + n)) + 2) + 0.8; 
+      speed = 1.1 * exp((-0.2 * fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig + n)) + 2) + 1.6; 
         if (speed > 7.5) speed = 7.5;
-        if (speed < 1.4) speed = 0;
+        if (speed < 1.8) speed = 0;
         wait(10, msec);
     }
   }
@@ -166,6 +166,7 @@ int driveProfile(int dist, bool  fwd) {
     } 
     thread4.interrupt();   
   }
+  
   lFront.stop();
   lBack.stop();
   rFront.stop();

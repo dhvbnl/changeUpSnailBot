@@ -56,6 +56,12 @@ void resetIntakes() {
   rIntake.resetRotation();
 }
 
+void deploy() {
+  setIntakeSpeed(100);
+  wait(200, msec);
+  setIntakeSpeed(0);
+}
+
 //checks tempeatures of all intake motors are returns in a string which motors are hot
 std::string tempInfoIntake() {
   std::string tempReturn;

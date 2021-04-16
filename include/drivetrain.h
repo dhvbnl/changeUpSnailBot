@@ -40,6 +40,7 @@ void resetEncoders();
 void calibrateInertial();
 void drivetrainTurn(double targetdeg);
 void timeDrive(double speed, int timeLength);
+void arcturn (double left, double right, double turnangle);
 
 std::string tempInfoDrive();
 
