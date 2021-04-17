@@ -113,7 +113,6 @@ void calibrateInertial() {
     wait(100, msec);
   Inertial.resetHeading();
   Inertial.resetRotation();
-  Controller.Screen.print("preauton");
 }
 
 //checks tempeatures of all drive motors are returns in a string which motors are hot

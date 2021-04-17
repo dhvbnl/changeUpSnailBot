@@ -14,7 +14,6 @@ int accelerate() {
   if (acc.fwd) {
     acc.dist += lorig;
     while ((getLeftEncoderRotation() * convertInches) < acc.dist) {
-      //speed = 2.5 * exp(0.15 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig)))  - 0.8;
       speed = 4.0 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
       if (speed > 7.5)
         speed = 7.5;
@@ -23,8 +22,7 @@ int accelerate() {
   } else {
     acc.dist = lorig - acc.dist;
     while ((getLeftEncoderRotation() * convertInches) > acc.dist) {
-      //speed = 1.5 * exp(0.13 * ((fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig)))) ;
-      speed = 4.0 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
+      speed = 3.2 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
       if (speed > 7.5)
         speed = 7.5;
       wait(10, msec);
@@ -43,9 +41,9 @@ int decelerate() {
     }
     acc.dist += lorig;
     while ((getLeftEncoderRotation() * convertInches) < acc.dist) {
-      speed = 1.1 * exp((-0.2 * fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig + n)) + 2) + 1.6;
+      speed = 1.1 * exp((-0.2 * fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig + n)) + 2) + 1.15;
         if (speed > 7.5) speed = 7.5;
-        if (speed < 1.8) speed = 0;
+        if (speed < 1.7) speed = 0;
         wait(10, msec);
     }
   } else {
@@ -54,9 +52,9 @@ int decelerate() {
     }
     acc.dist = lorig - acc.dist;
     while ((getLeftEncoderRotation() * convertInches) > acc.dist) {
-      speed = 1.1 * exp((-0.2 * fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig + n)) + 2) + 1.6; 
+      speed = 1.1 * exp((-0.2 * fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig + n)) + 2) + 1.15; 
         if (speed > 7.5) speed = 7.5;
-        if (speed < 1.8) speed = 0;
+        if (speed < 1.7) speed = 0;
         wait(10, msec);
     }
   }

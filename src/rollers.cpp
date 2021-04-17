@@ -17,8 +17,10 @@ timer alignRollers = timer();
 
 //macro threads;
 thread hoardAll;
+thread hoardReset;
 thread shootAll;
 thread shootOne;
+thread shootTwo;
 thread cleanAll;
 thread descoreOne;
 thread descoreTwo;
@@ -104,11 +106,19 @@ void runMacros() {
     descoreChooser();
   } else if (getRightPos()) {
     stopAllMacros();
+    if(shootState == 2)
+      shootState = 0;
     shootOne = thread(shootOneRollers);
     descoreChooser();
+  } else if (getYPos()) {
+    stopAllMacros();
+    shootTwo = thread(shootTwoRollers);
   } else if (getL2Pos()) {
     stopAllMacros();
     hoardAll = thread(hoardAllRollers);
+  } else if(getUpPos()){
+    stopAllMacros();
+    hoardReset = thread(resetForHoard);
   } else if (getR1Pos()) {
     stopAllMacros();
     cleanAll = thread(clearAllRollers);
@@ -209,8 +219,49 @@ int shootOneRollers() {
   return 0;
 }
 
+int shootTwoRollers(){
+  if(gettopLineInfo() && getmiddleLineInfo()){
+    rollerSpeed = 100;
+    while(getmiddleLineInfo())
+      wait(50, msec);
+    while(gettopLineInfo())
+      wait(50, msec);
+    while(!gettopLineInfo())
+      wait(50, msec);
+    while(gettopLineInfo())
+      wait(50, msec);
+  }
+  else if(getmiddleLineInfo() && getbottomLineInfo()){
+    rollerSpeed = 100;
+    while(getbottomLineInfo())
+      wait(50, msec);
+    while(getmiddleLineInfo())
+      wait(50, msec);
+    while(!getmiddleLineInfo())
+      wait(50, msec);
+    while(getmiddleLineInfo())
+      wait(50, msec);
+    while(gettopLineInfo())
+      wait(50, msec);
+    while(!gettopLineInfo())
+      wait(50, msec);
+    while(gettopLineInfo())
+      wait(50, msec);
+  } else {
+    rollerSpeed = 30;
+    alignRollers.clear();
+    while (getBallsDetected() == 0 && alignRollers.time(msec) < 300)
+      wait(50, msec);
+    rollerSpeed = 0;
+  }
+  wait(50, msec);
+  rollerSpeed = 0;
+  return 0;
+}
+
 int hoardAllRollers() {
-  while (!getbottomLineInfo())
+  resetForHoard();
+  while (!getbottomLineInfo() && !getmiddleLineInfo())
     wait(50, msec);
   rollerSpeed = 50;
   while (!getmiddleLineInfo())
@@ -223,6 +274,16 @@ int hoardAllRollers() {
     wait(10, msec);
   wait(50, msec);
   rollerSpeed = 0;
+  return 0;
+}
+
+int resetForHoard() {
+  if(gettopLineInfo() && !getmiddleLineInfo()) {
+    rollerSpeed = -20;
+    while(!getmiddleLineInfo())
+      wait(50, msec);
+    rollerSpeed = 0;
+  }
   return 0;
 }
 
@@ -299,7 +360,7 @@ int autonRoller(int hoardBalls, int descoreBalls){
     if(shootstart || hoardstop)
       break;
     if(!gettopLineInfo()){
-      rollerSpeed = 25;
+      rollerSpeed = 20;
       while(getmiddleLineInfo())
         wait(50, msec);
       while(!getmiddleLineInfo())
@@ -325,14 +386,15 @@ int autonRoller(int hoardBalls, int descoreBalls){
     wait(50, msec);
   while(gettopLineInfo())
     wait(50, msec);
-  wait(150, msec);
+  wait(100, msec);
   rollerSpeed = 0;
   while(!descoreState)
     wait(50, msec);
+  wait(100, msec);
   shootdone = true;
   rollerSpeed = 0;
-  setIntakeSpeed(-20);
-  wait(400, msec);
+  setIntakeSpeed(-40);
+  wait(200, msec);
   setIntakeSpeed(0);
   while(!cleanstart)
     wait(50, msec);
@@ -364,9 +426,15 @@ int shoot1Side(){
   return 0;
 }
 
+int shootMiddleGoal(){
+  autonRoller(1, 0);
+  return 0;
+}
+
 int adescoreOneBall() {
   descoreState = false;
-    setIntakeSpeed(100);
+  wait(150, msec);
+    setIntakeSpeed(60);
     while (getbottomLineInfo())
       wait(50, msec);
     while(!getbottomLineInfo())
@@ -378,7 +446,8 @@ int adescoreOneBall() {
 
 int adescoreTwoBalls() {
   descoreState = false;
-    setIntakeSpeed(100);
+  wait(150, msec);
+    setIntakeSpeed(60);
     while (!getbottomLineInfo()){
       wait(50, msec);
     }
@@ -389,7 +458,6 @@ int adescoreTwoBalls() {
       runRollersBack();
       wait(50, msec);
     }
-    rollerSpeed = 0;
     while(!getbottomLineInfo())
       wait(50, msec);
     setIntakeSpeed(0);
@@ -447,6 +515,15 @@ int shootTwoRemoveTwo(){
     wait(50, msec);
   wait(100, msec);
   rollerSpeed = 0;
+  return 0;
+}
+
+int acleanBalls() {
+  setIntakeSpeed(-80);
+  rollerSpeed = -100;
+  wait(500, msec);
+  rollerSpeed = 0;
+  setIntakeSpeed(0);
   return 0;
 }
 

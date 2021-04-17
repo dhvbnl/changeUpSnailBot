@@ -4,9 +4,8 @@ thread shoot;
 thread hoard;
 thread hoardTwo;
 thread clean;
-int hi = 2;
 
-void leftAlliance() {
+void rightAlliance() {
   // 15 second program starting on the left side
   //arc
   
@@ -26,7 +25,6 @@ void leftAlliance() {
   clean = thread(acleanBalls);
   arcturn(-6, -3, 90);
   arcturn(-1.6, -5, 178);
-  //timeDrive(-5, 500);
   shoot = thread(shootOneRemoveTwo);
   timeDrive(6, 1500);
   while(getRollerSpeed() > 10) {
@@ -36,7 +34,6 @@ void leftAlliance() {
   timeDrive(-6, 1200);
   wait(100, msec);
   hoardTwo = thread(shootTwoRemoveTwo);
-  //drivetrainTurn(230);
   setPos(-82, -6, false);
   timeDrive(5, 700);
   while(getRollerSpeed() > 10) {
@@ -44,31 +41,31 @@ void leftAlliance() {
   }
   wait(200, msec);
   driveProfile(20, false);
- //timeDrive(-12, 700);
-  //timeDrive(6, 2000);
   
   
   
 
 }
-
-void rightAlliance() {
+                                                    
+void leftAlliance() {
   // 15 second program starting on the right side
+  
   
 }
 
 void skills() {
   // 60 second program
   setDrivetrainLock();
-
   thread setspeed(rollerControl);
   thread pos(getPosition);
+
+  deploy();
+
    // push ball back
   drivetrainTurn(24);
-  timeDrive(-6.5, 400);
+  timeDrive(-6, 400);
 
   // goal2
-
   thread cornerOne(shoot2Corner);
   //setPos(6, 16);
   setPos(16, 44, false);
@@ -80,18 +77,19 @@ void skills() {
   rollerHold();
   setCleanStartTrue();
   driveProfile(20, false);
-  wait(700, msec);
+  wait(500, msec);
   cornerOne.interrupt();
+
   // goal 3
   thread sideOne(shoot2Side);
   //get first ball
-  setPos(50.5, 11, false);
-  setPos(52, 33, false);
+  setPos(50.5, 12, false);
+  setPos(52, 31, false);
   //get second ball
-  wait(200, msec);
+  wait(400, msec);
   setHoardStopTrue();
   //go to goal and shoot
-  timeDrive(6, 800);
+  timeDrive(4, 600);
   //wait(800, msec);
   setShootStartTrue();
   rollerHold();
@@ -101,57 +99,108 @@ void skills() {
   wait(100, msec);
   setCleanStartTrue();
   drivetrainTurn(330);
-  wait(500, msec);
+  wait(200, msec);
   sideOne.interrupt();
-  wait(50, msec);
 
   // goal 4
   thread CornerTwo(shoot2Corner);
-  setPos(97.5, 28, false);
-  //drivetrainTurn(45);
-  
-  //driveProfile(40, true);
-  //timeDrive(7, 1500);
-  driveProfile(7, false);
-  drivetrainTurn(0);
-  timeDrive(6, 900);
-  //setPos(84, 40, false);
-  driveProfile(18, false);
+  setPos(97.5, 25, false);
+  wait(100, msec);
+  driveProfile(5, false);
+  drivetrainTurn(1);
+  driveProfile(21, true);
+  driveProfile(15, false);
   setHoardStopTrue();
-  setPos(110, 44, false);
-  timeDrive(1.9, 800); 
+  setPos(107, 44, false);
+  timeDrive(4, 600); 
   setShootStartTrue();
   rollerHold();
   setCleanStartTrue();
   driveProfile(25, false);
-
-  //start from goal 4
-  //setPos(110, 41);
-/*   drivetrainTurn(63);
-  timeDrive(7, 2500);
-  drivetrainTurn(61);
-  timeDrive(5, 1500);
-  printPos();
-  wait(50, msec);
-
-  driveProfile(20, false); */
-  
-  drivetrainTurn(195);
   CornerTwo.interrupt();
+
+  //goal 5
   thread sideTwo(shoot1Side);
-  driveProfile(40, true);
-  drivetrainTurn(90);
-  driveProfile(30, true);
+  setPos(86, -14, false); 
+  setPos(100, -19, false);
   setHoardStopTrue();
-  timeDrive(6, 400);
+  timeDrive(4, 500);
+  setShootStartTrue();
+  rollerHold();
+  driveProfile(10, false);
+  setCleanStartTrue();
+  drivetrainTurn(80);
+  wait(200, msec);
+  sideTwo.interrupt();
+
+  //goal 6
+  thread cornerThree(shoot2Corner);
+  setPos(105, -48, false);
+  setPos(93, -75, false);
+  driveProfile(15, false);
+  setHoardStopTrue();
+  setPos(109, -79, false);
+  timeDrive(4, 400);
   setShootStartTrue();
   rollerHold();
   setCleanStartTrue();
-  timeDrive(-6, 1000);
+  driveProfile(20, false);
+  cornerThree.interrupt();
+  
+  //goal 7
+  thread sideThree(shoot2Side);
+  setPos(57, -55, false);
+  setPos(54, -66, false);
+  wait(400, msec);
+  setHoardStopTrue();
+  timeDrive(4, 600);
+  setShootStartTrue();
+  rollerHold();
+  setCleanStartTrue();
+  driveProfile(10, false);
+  wait(50, msec);
+  sideThree.interrupt();
+  wait(100, msec);
+  
+  //goal 8
+  thread cornerFour(shoot2Corner);
+  setPos(14, -65, false);
+  wait(100, msec);
+  driveProfile(5, false);
+  drivetrainTurn(200);
+  driveProfile(21, true);
+  driveProfile(18, false);
+  setHoardStopTrue();
+  setPos(-1, -84, false);
+  timeDrive(4, 600);
+  setShootStartTrue();
+  rollerHold();
+  setCleanStartTrue();
+  arcturn(-7, -3, 180);
+  cornerFour.interrupt();
+  //center goal   
+  
+  thread middleGoal(shootMiddleGoal);
+  timeDrive(-4, 1200);
+  setPos(30, -20, false);
+  drivetrainTurn(90);
+  setHoardStopTrue();
+  wait(50, msec);
+  setIntakeSpeed(-100);
+  timeDrive(4, 900);
+  timeDrive(-4, 550);
+  timeDrive(4, 550);
+  timeDrive(-4, 550);
+  timeDrive(4, 550);
+  timeDrive(-4, 550);
+  timeDrive(5, 800);
+  setIntakeSpeed(0);
+  setShootStartTrue();
+  rollerHold();
+  timeDrive(-6, 600);
 
 
 
-  //setPos(65, -4, false); 
 
 }
 

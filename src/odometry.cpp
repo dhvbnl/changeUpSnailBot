@@ -57,9 +57,9 @@ int getPosition()
               printf("Warning: Inertial and enocoder readings are not consistent!\n");
           }
 
-         /* printf(" deltaL: %f", deltaL);
+         printf(" deltaL: %f", deltaL);
           printf(" deltaR: %f", deltaR);
-          printf(" theta (radians): %f", thetaRad); */
+          printf(" theta (radians): %f", thetaRad);
       }
 
       // Calculate the incremental linear distance traveled.
@@ -79,10 +79,10 @@ int getPosition()
 
       if (isDebug)
       {
-         /* printf(" head: %f radians (%f degrees)\n", headRad, (headRad * (180 / M_PI)));
+         printf(" head: %f radians (%f degrees)\n", headRad, (headRad * (180 / M_PI)));
           printf(" linear distance: %f", linearDistance);
           printf(" deltaX: %f in", deltaX);
-          printf(" deltaY: %f in", deltaY); */
+          printf(" deltaY: %f in", deltaY);
       }
 
       coor.xPos += deltaX; 

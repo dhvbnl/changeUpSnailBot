@@ -2,6 +2,7 @@
 
 void opcontrol()
 {
+  setDrivetrainCreep();
   task driveMove(drivetrainControl);
   task intakeMove(intakeControl);
   task rollerMove(rollerControl);

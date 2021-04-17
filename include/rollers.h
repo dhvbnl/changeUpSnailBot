@@ -42,8 +42,11 @@ void descoreChooser();
 
 int shootAllRollers();
 int shootOneRollers();
+int shootTwoRollers();
 
 int hoardAllRollers();
+int resetForHoard();
+
 int clearAllRollers();
 int descoreOneBall();
 int descoreTwoBalls();
@@ -57,12 +60,11 @@ int shoot2Corner();
 int shoot1Corner();
 int shoot2Side();
 int shoot1Side();
+int shootMiddleGoal();
 
-int ahoardAllRollers();
 int adescoreOneBall();
 int adescoreTwoBalls();
 int acleanBalls();
-void adescoreChooser();
 int shootThreeRemoveOne();
 int shootOneRemoveTwo();
 int shootTwoRemoveTwo();
