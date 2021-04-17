@@ -7,11 +7,13 @@ struct Acceleration {
 } acc;
 
 double speed = 0;
-
+//accelerate
 int accelerate() {
+  //robot current position
   double lorig = getLeftEncoderRotation() * convertInches;
- 
+  //if the robot is going forwards
   if (acc.fwd) {
+    //distance we want the robot to go to + where robot currently is
     acc.dist += lorig;
     while ((getLeftEncoderRotation() * convertInches) < acc.dist) {
       speed = 4.0 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
@@ -19,7 +21,9 @@ int accelerate() {
         speed = 7.5;
       wait(10, msec);
     }
+  //if the robot is going backwards
   } else {
+    //distance we want the robot to go to - where the robot currently is (becaues the robot is going backwards)
     acc.dist = lorig - acc.dist;
     while ((getLeftEncoderRotation() * convertInches) > acc.dist) {
       speed = 3.2 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
@@ -30,15 +34,19 @@ int accelerate() {
   }
   return 0;
 }
-
+//decelerate
 int decelerate() {
+  //robot current position (in inches)
   double lorig = getLeftEncoderRotation() * convertInches;
   int n = 0;
-
+  //if the robot is going forward
   if (acc.fwd) {
+    //changing "x" to make sure that the robot can decelerate properly no matter 
+    //the distance
     if (acc.dist < 14) {
       n = 14 - acc.dist;
     }
+    //robot current position added to distance it needs to decelerate
     acc.dist += lorig;
     while ((getLeftEncoderRotation() * convertInches) < acc.dist) {
       speed = 1.1 * exp((-0.2 * fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig + n)) + 2) + 1.15;
@@ -46,10 +54,14 @@ int decelerate() {
         if (speed < 1.7) speed = 0;
         wait(10, msec);
     }
+  //if the robot is going backwards
   } else {
+    //changing "x" to make sure that the robot can decelerate properly no matter 
+    //the distance
     if (acc.dist < 14) {
       n = 14 - acc.dist;
     }
+    //distance it needs to decelerate subtracted from robot current position (because encoder reads going backwards as negative)
     acc.dist = lorig - acc.dist;
     while ((getLeftEncoderRotation() * convertInches) > acc.dist) {
       speed = 1.1 * exp((-0.2 * fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig + n)) + 2) + 1.15; 
@@ -61,12 +73,14 @@ int decelerate() {
   return 0;
 }
 
+//driver function
 int driveProfile(int dist, bool  fwd) {
   Inertial.resetRotation();
   double acceldist = 0;
   int targetL = 0;
   double actdist;
-
+  
+  //determines acceleration and deceleration distance
   if (dist > 28) 
   {
     acceldist = 14;
@@ -82,20 +96,18 @@ int driveProfile(int dist, bool  fwd) {
   } else {
     actdist = getLeftEncoderRotation() - dist;
   }
-
+  //going forward
   if (fwd)  {
     acc.dist = acceldist; // feeding acc.dist inch value -- accelerate() handles inches
     acc.fwd = fwd;
 
     thread thread1(accelerate);
 
-    // accelerate-- now we switch back to degrees!
+    // accelerate-- switch to degrees
     acceldist *= convertDegrees;
     targetL = getLeftEncoderRotation() + acceldist; // target to finish acceleration
    
     while (getLeftEncoderRotation() < targetL) {
-     // printf("accelerate: %f\n", speed);
-
       lFront.spin(vex::directionType::fwd, speed, volt);
       lBack.spin(vex::directionType::fwd, speed, volt);
       rFront.spin(vex::directionType::fwd, speed, volt);
@@ -114,7 +126,6 @@ int driveProfile(int dist, bool  fwd) {
     // decelerate
     targetL = getLeftEncoderRotation() + acceldist;
     while (getLeftEncoderRotation() < targetL ) {
-     // printf("decelerate %f\n", speed);
       lFront.spin(vex::directionType::fwd, speed, volt);
       lBack.spin(vex::directionType::fwd, speed, volt);
       rFront.spin(vex::directionType::fwd, speed, volt);
