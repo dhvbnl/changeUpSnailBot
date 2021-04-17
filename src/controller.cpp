@@ -1,6 +1,6 @@
 #include "vex.h"
 
-const int deadzone = 5;
+const int deadzone = 1;
 
 // joysticks getters
 

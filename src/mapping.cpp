@@ -41,9 +41,6 @@ void rightAlliance() {
   }
   wait(200, msec);
   driveProfile(20, false);
-  
-  
-  
 
 }
                                                     
@@ -199,14 +196,11 @@ void skills() {
   rollerHold();
   timeDrive(-6, 600);
 
-
-
-
 }
 
+//test function for whatever needs sole tries
 void test(){
   thread setspeed(rollerControl);
-
   thread test(shoot2Corner);
   wait(3, sec);
   setHoardStopTrue();

@@ -1,4 +1,6 @@
 //constants
+
+//constant for min value when sensor does not detect anything
 const int lineMax = 68;
 
 //complete functions
@@ -6,8 +8,6 @@ int rollerControl();
 
 //setters
 void setRollerSpeed();
-void setRollerSpeed(int rollerSpeed);
-void setRollerSpeedCustom(int customSpeed);
 
 void setRollerCreep();
 void setRollerLock();

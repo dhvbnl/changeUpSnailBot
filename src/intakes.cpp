@@ -3,6 +3,7 @@
 //used to check if being controlled by macro
 bool intakeState = true;
 
+//move intakes based on right joystick
 int intakeControl() {
   while (true) {
     if(intakeState)
@@ -31,9 +32,7 @@ void setIntakeLock() {
 
 //getters
 
-int getIntakeSpeed() {
-  return getAxis2Pos();
-}
+int getIntakeSpeed() { return getAxis2Pos(); }
 
 int getLIntakeSpeed() { return lIntake.velocity(pct); }
 int getRIntakeSpeed() { return rIntake.velocity(pct); }
@@ -56,6 +55,7 @@ void resetIntakes() {
   rIntake.resetRotation();
 }
 
+//deploy at the beginning of the match
 void deploy() {
   setIntakeSpeed(100);
   wait(200, msec);

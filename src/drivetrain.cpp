@@ -3,6 +3,7 @@
 //thread for drivetrain to respond to joystick movements
 int drivetrainControl() {
   while (true) {
+    //set speed based on inputs
     setDrivetrainSpeed(getLeftSpeedInLinear(), getRightSpeedInLinear());
     wait(10, msec);
   }
@@ -107,6 +108,7 @@ void resetEncoders() {
   encoderRight.setPosition(0, degrees);
 }
 
+//calibrate inertial sensor for preauton
 void calibrateInertial() {
   Inertial.calibrate();
   while(Inertial.isCalibrating())
@@ -136,11 +138,9 @@ std::string tempInfoDrive() {
   return tempReturn;
 }
 
+// turn the robot based on absolute position from the original point of the robot
 void drivetrainTurn(double targetdeg) {
    // proportionality constants
-  //double kP = 0.45;
-  //double kI = 0.002;
-  //double kD = 1.0;
   double kP = 0.43;
   double kI = 0.0004;
   double kD = 0.5;
@@ -200,6 +200,7 @@ void drivetrainTurn(double targetdeg) {
   rFront.stop();
 }
 
+//drive movement based on time
 void timeDrive(double speed, int timeLength) {
   lFront.spin(fwd, speed, volt);
   rFront.spin(fwd, speed, volt);
@@ -212,6 +213,7 @@ void timeDrive(double speed, int timeLength) {
   rBack.stop();
 }
 
+//turn based on different left and right speed to move in a curve
 void arcturn (double left, double right, double turnangle) {
   while (getInertialHeading() < turnangle - 2 || getInertialHeading() > turnangle + 2) {
     lFront.spin(fwd, left, volt);

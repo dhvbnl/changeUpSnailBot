@@ -165,14 +165,6 @@ Discarded input sections
  .text          0x00000000        0x0 build/src/opcontrol.o
  .llvm_addrsig  0x00000000        0x4 build/src/opcontrol.o
  .text          0x00000000        0x0 build/src/rollers.o
- .text._Z14setRollerSpeedi
-                0x00000000       0x70 build/src/rollers.o
- .ARM.exidx.text._Z14setRollerSpeedi
-                0x00000000        0x8 build/src/rollers.o
- .text._Z20setRollerSpeedCustomi
-                0x00000000       0x10 build/src/rollers.o
- .ARM.exidx.text._Z20setRollerSpeedCustomi
-                0x00000000        0x8 build/src/rollers.o
  .text._Z14setRollerCreepv
                 0x00000000       0x38 build/src/rollers.o
  .ARM.exidx.text._Z14setRollerCreepv
@@ -225,10 +217,6 @@ Discarded input sections
                 0x00000000       0x10 build/src/rollers.o
  .ARM.exidx.text._Z15getDescoreStatev
                 0x00000000        0x8 build/src/rollers.o
- .text._Z15adescoreChooserv
-                0x00000000       0x50 build/src/rollers.o
- .ARM.exidx.text._Z15adescoreChooserv
-                0x00000000        0x8 build/src/rollers.o
  .text._Z12shoot1Cornerv
                 0x00000000       0x1c build/src/rollers.o
  .ARM.exidx.text._Z12shoot1Cornerv
@@ -265,19 +253,18 @@ Discarded input sections
                 0x00000000        0x1 build/src/robot-config.o
  .llvm_addrsig  0x00000000       0x12 build/src/robot-config.o
  .text          0x00000000        0x0 build/src/mapping.o
- .text._Z12leftAlliancev
-                0x00000000      0x308 build/src/mapping.o
- .ARM.exidx.text._Z12leftAlliancev
-                0x00000000        0x8 build/src/mapping.o
  .text._Z13rightAlliancev
-                0x00000000        0x4 build/src/mapping.o
+                0x00000000      0x308 build/src/mapping.o
  .ARM.exidx.text._Z13rightAlliancev
+                0x00000000        0x8 build/src/mapping.o
+ .text._Z12leftAlliancev
+                0x00000000        0x4 build/src/mapping.o
+ .ARM.exidx.text._Z12leftAlliancev
                 0x00000000        0x8 build/src/mapping.o
  .text._Z4testv
                 0x00000000       0x9c build/src/mapping.o
  .ARM.exidx.text._Z4testv
                 0x00000000        0x8 build/src/mapping.o
- .data.hi       0x00000000        0x4 build/src/mapping.o
  .llvm_addrsig  0x00000000       0x10 build/src/mapping.o
  .text          0x00000000        0x0 build/src/odometry.o
  .text._Z7getxPosv
@@ -2768,15 +2755,15 @@ Linker script and memory map
  .text._Z14descoreOneBallv
                 0x03802b90      0x110 build/src/rollers.o
                 0x03802b90                descoreOneBall()
- .text._Z16adescoreTwoBallsv
-                0x03802ca0      0x1b8 build/src/rollers.o
-                0x03802ca0                adescoreTwoBalls()
- .text._Z15adescoreOneBallv
-                0x03802e58      0x100 build/src/rollers.o
-                0x03802e58                adescoreOneBall()
  .text._Z11autonRollerii
-                0x03802f58      0x510 build/src/rollers.o
-                0x03802f58                autonRoller(int, int)
+                0x03802ca0      0x510 build/src/rollers.o
+                0x03802ca0                autonRoller(int, int)
+ .text._Z16adescoreTwoBallsv
+                0x038031b0      0x1b8 build/src/rollers.o
+                0x038031b0                adescoreTwoBalls()
+ .text._Z15adescoreOneBallv
+                0x03803368      0x100 build/src/rollers.o
+                0x03803368                adescoreOneBall()
  .text._Z12shoot2Cornerv
                 0x03803468       0x1c build/src/rollers.o
                 0x03803468                shoot2Corner()
@@ -3892,13 +3879,13 @@ Linker script and memory map
  .ARM.exidx.text._Z14descoreOneBallv
                 0x0380781c        0x0 build/src/rollers.o
                                   0x8 (size before relaxing)
+ .ARM.exidx.text._Z11autonRollerii
+                0x0380781c        0x0 build/src/rollers.o
+                                  0x8 (size before relaxing)
  .ARM.exidx.text._Z16adescoreTwoBallsv
                 0x0380781c        0x0 build/src/rollers.o
                                   0x8 (size before relaxing)
  .ARM.exidx.text._Z15adescoreOneBallv
-                0x0380781c        0x0 build/src/rollers.o
-                                  0x8 (size before relaxing)
- .ARM.exidx.text._Z11autonRollerii
                 0x0380781c        0x0 build/src/rollers.o
                                   0x8 (size before relaxing)
  .ARM.exidx.text._Z12shoot2Cornerv

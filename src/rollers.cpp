@@ -40,16 +40,6 @@ void setRollerSpeed() {
   lRoller.spin(fwd, rollerSpeed, pct);
   rRoller.spin(fwd, rollerSpeed, pct);
 }
-
-void setRollerSpeed(int rollerSpeed) {
-  lRoller.spin(fwd, rollerSpeed, pct);
-  rRoller.spin(fwd, rollerSpeed, pct);
-}
-
-void setRollerSpeedCustom(int customSpeed)
-{
-  rollerSpeed = customSpeed;
-}
 // sets speed for both rollers based on one speed parameter
 
 void setRollerCreep() {
@@ -62,6 +52,7 @@ void setRollerLock() {
   lRoller.setBrake(brake);
 }
 
+//flags for autonRoller
 void setHoardStopTrue(){ hoardstop = true; };
 void setHoardStopFalse(){ hoardstop = false; };
 void setShootStartTrue(){ shootstart = true; };
@@ -79,6 +70,7 @@ int getRollerSpeed() { return rollerSpeed; };
 int getLRollerTemp() { return lRoller.temperature(celsius); };
 int getRRollerTemp() { return rRoller.temperature(celsius); };
 
+//gets if ball is present in a specific location in the rollers
 bool gettopLineInfo() { return lineTop.value(pct) < lineMax; };
 bool getmiddleLineInfo() { return lineMiddle.value(pct) < lineMax; };
 bool getbottomLineInfo() { return lineBottom.value(pct) < lineMax; };
@@ -134,6 +126,7 @@ void runMacros() {
     shootState = 0;
 }
 
+//stops all macros in order to control tasks running
 void stopAllMacros() {
   shootAll.interrupt();
   shootOne.interrupt();
@@ -142,6 +135,7 @@ void stopAllMacros() {
   descoreOne.interrupt();
 }
 
+//picking which descore to run based on selection
 void descoreChooser() {
   if(shootState == 2)
     descoreTwo = thread(descoreTwoBalls);
@@ -149,12 +143,6 @@ void descoreChooser() {
     descoreOne = thread(descoreOneBall);
 }
 
-void adescoreChooser() {
-  if(shootState == 2)
-    thread two(adescoreTwoBalls);
-  else if(shootState == 1)
-    thread one(adescoreOneBall);
-}
 // shoots all balls from rollers
 int shootAllRollers() {
   if (getbottomLineInfo()) {
@@ -187,6 +175,7 @@ int shootAllRollers() {
   return 0;
 }
 
+//shoots only one ball for match play
 int shootOneRollers() {
   if(gettopLineInfo()){
     rollerSpeed = 100;
@@ -219,6 +208,7 @@ int shootOneRollers() {
   return 0;
 }
 
+//shoots only two balls for match play
 int shootTwoRollers(){
   if(gettopLineInfo() && getmiddleLineInfo()){
     rollerSpeed = 100;
@@ -259,6 +249,7 @@ int shootTwoRollers(){
   return 0;
 }
 
+//hoard balls to collect from the field
 int hoardAllRollers() {
   resetForHoard();
   while (!getbottomLineInfo() && !getmiddleLineInfo())
@@ -277,6 +268,7 @@ int hoardAllRollers() {
   return 0;
 }
 
+//fixes ball positions if they are not next to the correct sensors
 int resetForHoard() {
   if(gettopLineInfo() && !getmiddleLineInfo()) {
     rollerSpeed = -20;
@@ -287,6 +279,7 @@ int resetForHoard() {
   return 0;
 }
 
+//remove all balls to get rid of other coller
 int clearAllRollers() {
   pauseIntake();
   setIntakeSpeed(-75);
@@ -297,7 +290,7 @@ int clearAllRollers() {
   return 0;
 }
 
-
+//remove one ball from goal
 int descoreOneBall() {
   if (getBallsDetected() > 0) {
     wait(300, msec);
@@ -314,7 +307,7 @@ int descoreOneBall() {
   return 0;
 }
 
-
+// remove two balls from goal
 int descoreTwoBalls() {
   if (getBallsDetected() > 0) {
     wait(100, msec);
@@ -341,8 +334,11 @@ int descoreTwoBalls() {
   }
   return 0;
 }
+
 //auton roller macros
 
+//flexible function in order to get balls and remove from the goal for the autonomous program
+//uses flags that can be controlled from mapping so robot does not get stuck anywhere
 int autonRoller(int hoardBalls, int descoreBalls){
   setHoardStopFalse();
   setShootStartFalse();
@@ -406,31 +402,37 @@ int autonRoller(int hoardBalls, int descoreBalls){
   return 0;
 }
 
+//function with parameters contolled to work in a thread
 int shoot2Corner(){
   autonRoller(2, 2);
   return 0;
 }
 
+//function with parameters contolled to work in a thread
 int shoot1Corner(){
   autonRoller(1, 2);
   return 0;
 }
 
+//function with parameters contolled to work in a thread
 int shoot2Side(){
   autonRoller(2, 1);
   return 0;
 }
 
+//function with parameters contolled to work in a thread
 int shoot1Side(){
   autonRoller(1, 1);
   return 0;
 }
 
+//function with parameters contolled to work in a thread
 int shootMiddleGoal(){
   autonRoller(1, 0);
   return 0;
 }
 
+//descore one ball from goal edited for autonomous
 int adescoreOneBall() {
   descoreState = false;
   wait(150, msec);
@@ -444,6 +446,7 @@ int adescoreOneBall() {
   return 0;
 }
 
+//descore one ball from goal edited for autonomous
 int adescoreTwoBalls() {
   descoreState = false;
   wait(150, msec);
@@ -465,6 +468,8 @@ int adescoreTwoBalls() {
   return 0;
 }
 
+//custom function based on specific needs from match control
+//used for C goal 
 int shootThreeRemoveOne(){
   setIntakeSpeed(100);
   while(!getbottomLineInfo())
@@ -484,6 +489,8 @@ int shootThreeRemoveOne(){
   return 0;
 }
 
+//custom function based on specific needs from match control
+//used for F goal 
 int shootOneRemoveTwo(){
   setIntakeSpeed(100);
   rollerSpeed = 100;
@@ -497,6 +504,8 @@ int shootOneRemoveTwo(){
   return 0;
 }
 
+//custom function based on specific needs from match control
+//used for I goal 
 int shootTwoRemoveTwo(){
   rollerSpeed = 100;
   setIntakeSpeed(100);
@@ -518,6 +527,7 @@ int shootTwoRemoveTwo(){
   return 0;
 }
 
+//clean function to remove balls for autonomous
 int acleanBalls() {
   setIntakeSpeed(-80);
   rollerSpeed = -100;
@@ -527,11 +537,13 @@ int acleanBalls() {
   return 0;
 }
 
+//checks if rollers are running, otherwise starts them
 void runRollersBack(){
   if(rollerSpeed < 25)
     rollerSpeed = 50;
 }
 
+//doet not continue until shoot is completed in autonRoller
 void rollerHold(){
   while(!shootdone)
     wait(50, msec);
