@@ -402,31 +402,31 @@ int autonRoller(int hoardBalls, int descoreBalls){
   return 0;
 }
 
-//function with parameters contolled to work in a thread
+//function with parameters controlled to work in a thread
 int shoot2Corner(){
   autonRoller(2, 2);
   return 0;
 }
 
-//function with parameters contolled to work in a thread
+//function with parameters controlled to work in a thread
 int shoot1Corner(){
   autonRoller(1, 2);
   return 0;
 }
 
-//function with parameters contolled to work in a thread
+//function with parameters controlled to work in a thread
 int shoot2Side(){
   autonRoller(2, 1);
   return 0;
 }
 
-//function with parameters contolled to work in a thread
+//function with parameters controlled to work in a thread
 int shoot1Side(){
   autonRoller(1, 1);
   return 0;
 }
 
-//function with parameters contolled to work in a thread
+//function with parameters controlled to work in a thread
 int shootMiddleGoal(){
   autonRoller(1, 0);
   return 0;
