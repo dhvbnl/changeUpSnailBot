@@ -27,32 +27,51 @@ void rightAlliance() {
   //"S" turn to the second goal
   arcturn(-6, -3, 90);
   arcturn(-1.6, -5, 178);
+  clean.interrupt();
   shoot = thread(shootOneRemoveTwo);
   timeDrive(6, 1500);
   while(getRollerSpeed() > 10) {
     wait(50, msec);
   }
+  arcturn(-6, -3.5, 165);
   clean = thread(acleanBalls);
-  timeDrive(-6, 1200);
-  wait(100, msec);
-  hoardTwo = thread(shootTwoRemoveTwo);
+  wait(750, msec);
+  clean.interrupt();
+  wait(300, msec);
+/*   hoardTwo = thread(shootTwoRemoveTwo);
   //set position to third goal
-  setPos(-82, -6, false);
+  setPos(-85, -12, false);
   timeDrive(5, 700);
   while(getRollerSpeed() > 10) {
     wait(50, msec);
   }
   wait(200, msec);
-  driveProfile(20, false);
+  driveProfile(20, false);  */
 
 }
                                                     
 void leftAlliance() {
   // 15 second program starting on the right side
-  
+  thread setspeed(rollerControl);
+  thread pos(getPosition);
+
+  //deploy 
+  deploy();
+  setDrivetrainLock();
+  //move to first goal 
+  arcturn(0, 7, 250);
+  hoard = thread(shootThreeRemoveOne);
+  timeDrive(5, 600);
+  while(getRollerSpeed() > 10) {
+    wait(50, msec);
+  }
+  driveProfile(20, false);
+  hoard.interrupt();
+  clean = thread(acleanBalls);
+  wait(500, msec);
+  drivetrainTurn(10);
   
 }
-
 void skills() {
   // 60 second program
   setDrivetrainLock();
@@ -166,7 +185,7 @@ void skills() {
   //go to first ball
   setPos(57, -55, false);
   //go to second ball
-  setPos(54, -66, false);
+  setPos(53, -66, false);
   wait(400, msec);
   //go to goal
   setHoardStopTrue();
@@ -188,12 +207,12 @@ void skills() {
   driveProfile(5, false);
   //turn and go to second ball
   drivetrainTurn(200);
-  driveProfile(21, true);
+  driveProfile(20, true);
   driveProfile(18, false);
   setHoardStopTrue();
   //go to goal
-  setPos(-1, -84, false);
-  timeDrive(4, 600);
+  setPos(0, -83, false);
+  timeDrive(4, 800);
   //shoot and descore
   setShootStartTrue();
   rollerHold();

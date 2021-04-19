@@ -4,7 +4,7 @@ using namespace vex;
 competition Competition;
 
 int main() {
-  Competition.autonomous(skills);
+  Competition.autonomous(rightAlliance);
   Competition.drivercontrol(opcontrol);
 
   preauton();

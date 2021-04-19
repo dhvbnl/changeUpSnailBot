@@ -531,7 +531,7 @@ int shootTwoRemoveTwo(){
 int acleanBalls() {
   setIntakeSpeed(-80);
   rollerSpeed = -100;
-  wait(500, msec);
+  wait(800, msec);
   rollerSpeed = 0;
   setIntakeSpeed(0);
   return 0;
