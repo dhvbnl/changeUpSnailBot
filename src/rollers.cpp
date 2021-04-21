@@ -116,6 +116,9 @@ void runMacros() {
     cleanAll = thread(clearAllRollers);
   } else if (getR2Pos()) {
     stopAllMacros();
+    shootAll = thread(cycleCombo);
+  } else if (getLeftPos()) {
+    stopAllMacros();
     rollerSpeed = 0;
     playIntake();
   } else if (getAPos())
@@ -265,6 +268,20 @@ int hoardAllRollers() {
     wait(10, msec);
   wait(50, msec);
   rollerSpeed = 0;
+  return 0;
+}
+
+int cycleCombo(){
+  hoardAll = thread(hoardAllRollers);
+  while(getIntakeSpeed() > 5)
+    wait(50, msec);
+  wait(400, msec);
+  hoardAll.interrupt();
+  shootAll = thread(shootAllRollers);
+  ///wait(300, msec);
+  descoreChooser();
+  while(rollerSpeed > 5)
+    wait(50, msec);
   return 0;
 }
 

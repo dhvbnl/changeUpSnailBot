@@ -43,6 +43,7 @@ void descoreChooser();
 int shootAllRollers();
 int shootOneRollers();
 int shootTwoRollers();
+int cycleCombo();
 
 int hoardAllRollers();
 int resetForHoard();
