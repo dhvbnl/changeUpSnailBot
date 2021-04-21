@@ -16,7 +16,8 @@ int accelerate() {
     //distance we want the robot to go to + where robot currently is
     acc.dist += lorig;
     while ((getLeftEncoderRotation() * convertInches) < acc.dist) {
-      speed = 4.0 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
+      //speed = 4.0 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
+      speed = 4.0 * pow((fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1), 2) + 2.6;
       if (speed > 7.5)
         speed = 7.5;
       wait(10, msec);
@@ -26,7 +27,8 @@ int accelerate() {
     //distance we want the robot to go to - where the robot currently is (becaues the robot is going backwards)
     acc.dist = lorig - acc.dist;
     while ((getLeftEncoderRotation() * convertInches) > acc.dist) {
-      speed = 3.2 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
+      //speed = 3.2 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
+      speed = 3.2 * pow((fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1), 2) + 2.6;
       if (speed > 7.5)
         speed = 7.5;
       wait(10, msec);
