@@ -24,6 +24,7 @@ thread shootTwo;
 thread cleanAll;
 thread descoreOne;
 thread descoreTwo;
+thread custom;
 
 int rollerControl() {
   while (true) {
@@ -121,6 +122,9 @@ void runMacros() {
     stopAllMacros();
     rollerSpeed = 0;
     playIntake();
+  } else if (getDownPos()) {
+    stopAllMacros();
+    custom = thread(customMiddle);
   } else if (getAPos())
     shootState = 2;
   else if (getBPos())
@@ -285,6 +289,25 @@ int cycleCombo(){
   return 0;
 }
 
+int customMiddle(){
+  pauseIntake();
+  descoreState = 0;
+  setIntakeSpeed(100);
+  rollerSpeed = 50; 
+  while(!gettopLineInfo())
+    wait(50, msec);
+  rollerSpeed = 0;
+  while(!getbottomLineInfo())
+    wait(50, msec);
+  setIntakeSpeed(0);
+  shootOneRollers();
+  setIntakeSpeed(100);
+  hoardAllRollers();
+  setIntakeSpeed(0);
+  playIntake();
+  return 0;
+}
+
 //fixes ball positions if they are not next to the correct sensors
 int resetForHoard() {
   if(gettopLineInfo() && !getmiddleLineInfo()) {
@@ -373,7 +396,7 @@ int autonRoller(int hoardBalls, int descoreBalls){
     if(shootstart || hoardstop)
       break;
     if(!gettopLineInfo()){
-      rollerSpeed = 20;
+      rollerSpeed = 30;
       while(getmiddleLineInfo())
         wait(50, msec);
       while(!getmiddleLineInfo())
@@ -445,7 +468,12 @@ int shoot1Side(){
 
 //function with parameters controlled to work in a thread
 int shootMiddleGoal(){
-  autonRoller(1, 0);
+  setIntakeSpeed(100);
+  rollerSpeed = 50;
+  while(!gettopLineInfo())
+    wait(50, msec);
+  rollerSpeed = 0;
+  shootAll = thread(customMiddle);
   return 0;
 }
 
@@ -498,11 +526,20 @@ int shootThreeRemoveOne(){
     wait(50, msec);
   while(getbottomLineInfo())
     wait(50, msec);
-  wait(150, msec);
-  setIntakeSpeed(-20);
-  wait(600, msec);
-  rollerSpeed = 0;
+  while(!getbottomLineInfo())
+    wait(50, msec);
   setIntakeSpeed(0);
+  while(getBallsDetected() > 1)
+    wait(50, msec);
+  wait(175, msec);
+  rollerSpeed = 0;
+  setIntakeSpeed(-40);
+  wait(200, msec);
+  setIntakeSpeed(0);
+  rollerSpeed = 30;
+  while(getBallsDetected() < 1)
+    wait(50, msec);
+  rollerSpeed = 0;
   return 0;
 }
 
@@ -511,11 +548,12 @@ int shootThreeRemoveOne(){
 int shootOneRemoveTwo(){
   setIntakeSpeed(100);
   rollerSpeed = 100;
-  while(!gettopLineInfo())
+  while(getbottomLineInfo())
     wait(50, msec);
-  while(gettopLineInfo())
+  while(!getbottomLineInfo())
     wait(50, msec);
-  wait(100, msec);
+  setIntakeSpeed(-10);
+  wait(1000, msec);
   setIntakeSpeed(0);
   rollerSpeed = 0;
   return 0;
@@ -532,14 +570,14 @@ int shootTwoRemoveTwo(){
     wait(50, msec);
   while(!getbottomLineInfo())
     wait(50, msec);
+  setIntakeSpeed(0);
   while(getbottomLineInfo())
     wait(50, msec);
   while(!getmiddleLineInfo())
     wait(50, msec);
-  setIntakeSpeed(0);
   while(getmiddleLineInfo())
     wait(50, msec);
-  wait(100, msec);
+  wait(300, msec);
   rollerSpeed = 0;
   return 0;
 }

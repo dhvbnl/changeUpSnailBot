@@ -44,6 +44,7 @@ int shootAllRollers();
 int shootOneRollers();
 int shootTwoRollers();
 int cycleCombo();
+int customMiddle();
 
 int hoardAllRollers();
 int resetForHoard();

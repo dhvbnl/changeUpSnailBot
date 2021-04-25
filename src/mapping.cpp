@@ -22,32 +22,25 @@ void rightAlliance() {
     wait(50, msec);
   }
   driveProfile(10, false);
-  hoard.interrupt();
-  clean = thread(acleanBalls);
+  
   //"S" turn to the second goal
-  arcturn(-6, -3, 90);
-  arcturn(-1.6, -5, 178);
-  clean.interrupt();
+  arcturn(-7, -3, 90);
+  arcturn(-3, -7, 178);
+  hoard.interrupt();
+  timeDrive(-6, 400);
+  drivetrainTurn(180);
+  timeDrive(6, 1900);
   shoot = thread(shootOneRemoveTwo);
-  timeDrive(6, 1500);
+  wait(500, msec);
   while(getRollerSpeed() > 10) {
     wait(50, msec);
   }
-  arcturn(-6, -3.5, 165);
-  clean = thread(acleanBalls);
-  wait(750, msec);
-  clean.interrupt();
+  timeDrive(-6, 900);
   wait(300, msec);
-/*   hoardTwo = thread(shootTwoRemoveTwo);
+  hoardTwo = thread(shootTwoRemoveTwo);
   //set position to third goal
-  setPos(-85, -12, false);
+  setPos(-85, -8, false);
   timeDrive(5, 700);
-  while(getRollerSpeed() > 10) {
-    wait(50, msec);
-  }
-  wait(200, msec);
-  driveProfile(20, false);  */
-
 }
                                                     
 void leftAlliance() {
@@ -148,18 +141,18 @@ void skills() {
   //goal 5
   thread sideTwo(shoot1Side);
   //go to first ball
-  setPos(86, -14, false); 
+  setPos(86, -15, false); 
   //go to goal
-  setPos(100, -19, false);
+  setPos(100, -16, false);
   setHoardStopTrue();
   timeDrive(4, 500);
   //shoot and descore
   setShootStartTrue();
   rollerHold();
   driveProfile(10, false);
-  setCleanStartTrue();
   drivetrainTurn(80);
-  wait(200, msec);
+  setCleanStartTrue();
+  wait(350, msec);
   sideTwo.interrupt();
 
   //goal 6
@@ -178,6 +171,7 @@ void skills() {
   rollerHold();
   setCleanStartTrue();
   driveProfile(20, false);
+  wait(200, msec);
   cornerThree.interrupt();
   
   //goal 7
@@ -222,26 +216,17 @@ void skills() {
 
   //center goal   
   thread middleGoal(shootMiddleGoal);
-  timeDrive(-4, 1200);
+  timeDrive(-6, 1200);
   //go to first ball
-  setPos(30, -20, false);
-  drivetrainTurn(90);
-  setHoardStopTrue();
+  setPos(30, -24, false);
+  drivetrainTurn(87);
   wait(50, msec);
-  setIntakeSpeed(-100);
   //descore center balls
-  timeDrive(4, 900);
-  timeDrive(-4, 550);
-  timeDrive(4, 550);
-  timeDrive(-4, 550);
-  timeDrive(4, 550);
-  timeDrive(-4, 550);
-  timeDrive(5, 800);
-  setIntakeSpeed(0);
+  timeDrive(4, 1100);
   //shoot red ball 
-  setShootStartTrue();
-  rollerHold();
-  timeDrive(-6, 600);
+  while(getBallsDetected() < 3)
+    wait(50, msec);
+  timeDrive(-6, 1000);
 
 }
 
