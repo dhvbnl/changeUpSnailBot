@@ -11,6 +11,7 @@ bool shootstart = false;
 bool shootdone = false;
 bool cleanstart = false;
 bool descoreState = false;
+bool continueDrive = false;
 //time for shoot exepction handling
 timer alignRollers = timer();
 
@@ -279,7 +280,7 @@ int cycleCombo(){
   hoardAll = thread(hoardAllRollers);
   while(getIntakeSpeed() > 5)
     wait(50, msec);
-  wait(400, msec);
+  //wait(400, msec);
   hoardAll.interrupt();
   shootAll = thread(shootAllRollers);
   ///wait(300, msec);
@@ -333,7 +334,7 @@ int clearAllRollers() {
 //remove one ball from goal
 int descoreOneBall() {
   if (getBallsDetected() > 0) {
-    wait(300, msec);
+    wait(100, msec);
     pauseIntake();
     setIntakeSpeed(75);
     while (getbottomLineInfo())
@@ -515,7 +516,7 @@ int adescoreTwoBalls() {
 
 //custom function based on specific needs from match control
 //used for C goal 
-int shootThreeRemoveOne(){
+int leftHomeGoalCustom(){
   setIntakeSpeed(100);
   while(!getbottomLineInfo())
     wait(50, msec);
@@ -531,15 +532,99 @@ int shootThreeRemoveOne(){
   setIntakeSpeed(0);
   while(getBallsDetected() > 1)
     wait(50, msec);
-  wait(175, msec);
+  wait(100, msec);
   rollerSpeed = 0;
   setIntakeSpeed(-40);
   wait(200, msec);
   setIntakeSpeed(0);
   rollerSpeed = 30;
-  while(getBallsDetected() < 1)
+  while(!gettopLineInfo())
+    wait(50, msec);
+  rollerSpeed = -30;
+  while(!getmiddleLineInfo())
     wait(50, msec);
   rollerSpeed = 0;
+  return 0;
+}
+
+int leftHomeGoalCustomLess(){
+  continueDrive = false;
+  setIntakeSpeed(100);
+  while(!getbottomLineInfo())
+    wait(10, msec);
+  rollerSpeed = 100;
+  setIntakeSpeed(-20);
+  while(gettopLineInfo())
+    wait(50, msec);
+  wait(100, msec);
+  continueDrive = true;
+  rollerSpeed = 0;
+  setIntakeSpeed(0);
+  if(!gettopLineInfo()){
+    rollerSpeed = 30;
+    while(!gettopLineInfo())
+      wait(50, msec);
+    rollerSpeed = 0;
+  }
+  continueDrive = false;
+  return 0;
+}
+
+int middleGoalCustomIntake(){
+  setIntakeSpeed(100);
+  while(!getbottomLineInfo())
+    wait(50, msec);
+  setIntakeSpeed(0);
+  return 0;
+}
+
+int middleGoalCustom(){
+  setIntakeSpeed(100);
+  while(!getbottomLineInfo())
+    wait(50, msec);
+  wait(150, msec);
+  setIntakeSpeed(0);
+  rollerSpeed = 100;
+  while(getBallsDetected() != 0)
+    wait(50, msec);
+  wait(500, msec);
+  continueDrive = true;
+  rollerSpeed = 0;
+  return 0;
+}
+
+int sideGoalCustom(){
+  continueDrive = false;
+  rollerSpeed = 100;
+  while(gettopLineInfo())
+    wait(50, msec);
+  wait(200, msec);
+  rollerSpeed = 0;
+  continueDrive = true;
+  rollerSpeed = 30;
+  while(!gettopLineInfo())
+    wait(50, msec);
+  continueDrive = false;
+  rollerSpeed = -30;
+  while(!getmiddleLineInfo())
+    wait(50, msec);
+  rollerSpeed = 0;
+  return 0;
+}
+
+int rightHomeGoalCustom(){
+  continueDrive = false;
+  setIntakeSpeed(100);
+  rollerSpeed = 100;
+  while(!getbottomLineInfo())
+    wait(50, msec);
+  setIntakeSpeed(0);
+  while(!gettopLineInfo())
+    wait(50, msec);
+  while(gettopLineInfo())
+    wait(50, msec);
+  wait(200, msec);
+  continueDrive = true;
   return 0;
 }
 
@@ -602,6 +687,11 @@ void runRollersBack(){
 void rollerHold(){
   while(!shootdone)
     wait(50, msec);
+}
+
+void waitDrive(){
+    while(!continueDrive)
+      wait(10, msec);
 }
 
 void resetRollers() {

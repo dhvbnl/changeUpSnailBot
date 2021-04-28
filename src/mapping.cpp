@@ -16,7 +16,7 @@ void rightAlliance() {
   setDrivetrainLock();
   //move to first goal 
   arcturn(7, 0, 110);
-  hoard = thread(shootThreeRemoveOne);
+  //hoard = thread(shootThreeRemoveOne);
   timeDrive(5, 600);
   while(getRollerSpeed() > 10) {
     wait(50, msec);
@@ -47,22 +47,45 @@ void leftAlliance() {
   // 15 second program starting on the right side
   thread setspeed(rollerControl);
   thread pos(getPosition);
+  timer t;
 
   //deploy 
   deploy();
   setDrivetrainLock();
-  //move to first goal 
-  arcturn(0, 7, 250);
-  hoard = thread(shootThreeRemoveOne);
-  timeDrive(5, 600);
-  while(getRollerSpeed() > 10) {
-    wait(50, msec);
-  }
-  driveProfile(20, false);
-  hoard.interrupt();
-  clean = thread(acleanBalls);
-  wait(500, msec);
-  drivetrainTurn(10);
+  //move to first goal
+  thread leftCustom(leftHomeGoalCustomLess); 
+  arcturn(3, 8, 315);
+  waitDrive();
+  wait(200, msec);
+  driveProfile(30, false);
+  leftCustom.interrupt();
+  thread middleCustom(middleGoalCustomIntake);
+  setPos(42, -5, false);
+  wait(100, msec);
+  arcturn(0, -6, 147);
+  middleCustom.interrupt();
+  setIntakeSpeed(0);
+  driveProfile(20, true);
+  setPos(-1, -48, false);
+  timeDrive(4, 300);
+  thread sideCustom(sideGoalCustom);
+  waitDrive();
+  wait(200, msec);
+  driveProfile (20, false);
+  drivetrainTurn(140);
+  thread middleCustomScore(middleGoalCustom);
+  arcturn(5, 7, 90);
+  waitDrive();
+  setIntakeSpeed(-8);
+  driveProfile(10, false);
+  thread rightCustom(rightHomeGoalCustom);
+  setPos(-1, -98, false);
+  timeDrive(4, 200);
+  waitDrive();
+  Controller.Screen.print(t.time(seconds));
+  
+
+
   
 }
 void skills() {

@@ -67,11 +67,19 @@ int shootMiddleGoal();
 int adescoreOneBall();
 int adescoreTwoBalls();
 int acleanBalls();
-int shootThreeRemoveOne();
+
+int leftHomeGoalCustom();
+int leftHomeGoalCustomLess();
+int middleGoalCustomIntake();
+int sideGoalCustom();
+int middleGoalCustom();
+int rightHomeGoalCustom();
+
 int shootOneRemoveTwo();
 int shootTwoRemoveTwo();
 
 void runRollersBack();
 void rollerHold();
+void waitDrive();
 
 std::string tempInfoRollers();

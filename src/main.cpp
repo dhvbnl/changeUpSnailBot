@@ -4,7 +4,7 @@ using namespace vex;
 competition Competition;
 
 int main() {
-  Competition.autonomous(rightAlliance);
+  Competition.autonomous(leftAlliance);
   Competition.drivercontrol(opcontrol);
   
   Competition.bStopAllTasksBetweenModes = true;
