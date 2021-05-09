@@ -56,7 +56,7 @@ void leftAlliance() {
   thread leftCustom(leftHomeGoalCustomLess); 
   arcturn(3, 8, 315);
   waitDrive();
-  wait(200, msec);
+  wait(250, msec);
   driveProfile(30, false);
   leftCustom.interrupt();
   thread middleCustom(middleGoalCustomIntake);
@@ -66,22 +66,24 @@ void leftAlliance() {
   middleCustom.interrupt();
   setIntakeSpeed(0);
   driveProfile(20, true);
-  setPos(-1, -48, false);
+  setPos(0, -46, false);
   timeDrive(4, 300);
   thread sideCustom(sideGoalCustom);
   waitDrive();
   wait(200, msec);
-  driveProfile (20, false);
+  driveProfile (24, false);
   drivetrainTurn(140);
   thread middleCustomScore(middleGoalCustom);
-  arcturn(5, 7, 90);
+  //arcturn(5, 7, 85);
+  arcturnTime(5, 7, 1000);
   waitDrive();
   setIntakeSpeed(-8);
   driveProfile(10, false);
   thread rightCustom(rightHomeGoalCustom);
-  setPos(-1, -98, false);
-  timeDrive(4, 200);
-  waitDrive();
+  setPos(3, -103, false);
+  timeDrive(4, 700);
+  //waitDrive();
+  Controller.Screen.clearLine();
   Controller.Screen.print(t.time(seconds));
   
 

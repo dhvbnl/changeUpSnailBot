@@ -227,3 +227,15 @@ void arcturn (double left, double right, double turnangle) {
   lBack.stop();
   rBack.stop();
 }
+
+void arcturnTime (double left, double right, int length) {
+  lFront.spin(fwd, left, volt);
+  lBack.spin(fwd, left, volt);
+  rFront.spin(fwd, right, volt);
+  rBack.spin(fwd, right, volt);
+  wait(length, msec);
+  lFront.stop();
+  rFront.stop();
+  lBack.stop();
+  rBack.stop();
+}
