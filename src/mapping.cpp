@@ -56,8 +56,13 @@ void leftAlliance() {
   thread leftCustom(leftHomeGoalCustomLess); 
   arcturn(3, 8, 315);
   waitDrive();
+<<<<<<< HEAD
   wait(250, msec);
   driveProfile(25, false);
+=======
+  wait(200, msec);
+  driveProfile(30, false);
+>>>>>>> parent of 5d11e89 (progam save)
   leftCustom.interrupt();
   thread middleCustom(middleGoalCustomIntake);
   setPos(42, -5, false);
@@ -66,6 +71,7 @@ void leftAlliance() {
   middleCustom.interrupt();
   setIntakeSpeed(0);
   driveProfile(20, true);
+<<<<<<< HEAD
   setPos(0, -40, false);
   timeDrive(5, 100);
   thread sideCustom(sideGoalCustom);
@@ -84,6 +90,24 @@ void leftAlliance() {
   timeDrive(4, 700);
   //waitDrive();
   Controller.Screen.clearLine();
+=======
+  setPos(-1, -48, false);
+  timeDrive(4, 300);
+  thread sideCustom(sideGoalCustom);
+  waitDrive();
+  wait(200, msec);
+  driveProfile (20, false);
+  drivetrainTurn(140);
+  thread middleCustomScore(middleGoalCustom);
+  arcturn(5, 7, 90);
+  waitDrive();
+  setIntakeSpeed(-8);
+  driveProfile(10, false);
+  thread rightCustom(rightHomeGoalCustom);
+  setPos(-1, -98, false);
+  timeDrive(4, 200);
+  waitDrive();
+>>>>>>> parent of 5d11e89 (progam save)
   Controller.Screen.print(t.time(seconds));
   
 
