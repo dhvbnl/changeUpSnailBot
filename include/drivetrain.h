@@ -10,6 +10,7 @@ void setDrivetrainSpeed(int leftSpeed, int rightSpeed);
 
 void setDrivetrainCreep();
 void setDrivetrainLock();
+void setDrivetrainHold();
 
 //getters
 int getLeftSpeedInLinear();

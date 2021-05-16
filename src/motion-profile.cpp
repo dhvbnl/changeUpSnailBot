@@ -18,8 +18,8 @@ int accelerate() {
     while ((getLeftEncoderRotation() * convertInches) < acc.dist) {
       //speed = 4.0 * (fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1) + 2.6;
       speed = 5 * pow((fabs((fabs(getLeftEncoderRotation()) * convertInches) - lorig) + 1), 2) + 2.6;
-      if (speed > 11)
-        speed = 11;
+      //if (speed > 11)
+        //speed = 11;
       wait(10, msec);
     }
   //if the robot is going backwards
