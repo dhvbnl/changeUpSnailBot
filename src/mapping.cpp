@@ -57,10 +57,13 @@ void leftAlliance() {
   arcturn(3, 8, 315);
   waitDrive();
 <<<<<<< HEAD
+<<<<<<< HEAD
   wait(250, msec);
 <<<<<<< HEAD
   driveProfile(25, false);
 =======
+=======
+>>>>>>> parent of 5d11e89 (progam save)
   wait(200, msec);
   driveProfile(30, false);
 >>>>>>> parent of 5d11e89 (progam save)
@@ -77,24 +80,28 @@ void leftAlliance() {
   driveProfile(20, true);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   setPos(0, -40, false);
   timeDrive(5, 100);
 =======
   setPos(0, -46, false);
+=======
+  setPos(-1, -48, false);
+>>>>>>> parent of 5d11e89 (progam save)
   timeDrive(4, 300);
 >>>>>>> parent of d391863 (kinda working with cage)
   thread sideCustom(sideGoalCustom);
   waitDrive();
   wait(200, msec);
-  driveProfile (24, false);
+  driveProfile (20, false);
   drivetrainTurn(140);
   thread middleCustomScore(middleGoalCustom);
-  //arcturn(5, 7, 85);
-  arcturnTime(5, 7, 1000);
+  arcturn(5, 7, 90);
   waitDrive();
   setIntakeSpeed(-8);
   driveProfile(10, false);
   thread rightCustom(rightHomeGoalCustom);
+<<<<<<< HEAD
   setPos(3, -103, false);
   timeDrive(4, 700);
   //waitDrive();
@@ -113,6 +120,11 @@ void leftAlliance() {
   setIntakeSpeed(-8);
   driveProfile(10, false);
   thread rightCustom(rightHomeGoalCustom);
+  setPos(-1, -98, false);
+  timeDrive(4, 200);
+  waitDrive();
+>>>>>>> parent of 5d11e89 (progam save)
+=======
   setPos(-1, -98, false);
   timeDrive(4, 200);
   waitDrive();

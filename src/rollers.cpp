@@ -4,6 +4,7 @@
 int rollerSpeed = 0;
 //global descore checker
 <<<<<<< HEAD
+<<<<<<< HEAD
 int shootState = 0;
 <<<<<<< HEAD
 //global drivetrain state checker
@@ -13,6 +14,9 @@ int shootState = 2;
 >>>>>>> parent of 5d11e89 (progam save)
 =======
 >>>>>>> parent of d391863 (kinda working with cage)
+=======
+int shootState = 2;
+>>>>>>> parent of 5d11e89 (progam save)
 
 //global auton roller variables
 bool hoardstop = false;
@@ -117,6 +121,7 @@ void runMacros() {
     stopAllMacros();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     shootOne = thread(shootOneRollersSlow);
 =======
     shootTwo = thread(shootTwoRollers);
@@ -124,6 +129,9 @@ void runMacros() {
 =======
     rollerSpeed = 60;
 >>>>>>> parent of d391863 (kinda working with cage)
+=======
+    shootTwo = thread(shootTwoRollers);
+>>>>>>> parent of 5d11e89 (progam save)
   } else if (getL2Pos()) {
     stopAllMacros();
     hoardAll = thread(hoardAllRollers);
@@ -340,6 +348,7 @@ int resetForHoard() {
 //remove all balls to get rid of other coller
 int clearAllRollers() {
 <<<<<<< HEAD
+<<<<<<< HEAD
   if(getBallsDetected() == 0){
     rollerSpeed = -35;
     while(getBallsDetected() == 0)
@@ -347,6 +356,8 @@ int clearAllRollers() {
     rollerSpeed = 0;
     return 0;
   }
+=======
+>>>>>>> parent of 5d11e89 (progam save)
 =======
 >>>>>>> parent of 5d11e89 (progam save)
   pauseIntake();
@@ -360,6 +371,7 @@ int clearAllRollers() {
 
 //remove one ball from goal
 int descoreOneBall() {
+<<<<<<< HEAD
 <<<<<<< HEAD
   int getBallsStart = getBallsDetected();
   if (getBallsStart > 0) {
@@ -375,6 +387,10 @@ int descoreOneBall() {
       case 1: wait(100, msec);
     }
 >>>>>>> parent of d391863 (kinda working with cage)
+=======
+  if (getBallsDetected() > 0) {
+    wait(100, msec);
+>>>>>>> parent of 5d11e89 (progam save)
     pauseIntake();
     setIntakeSpeed(75);
     while (getbottomLineInfo())
@@ -393,12 +409,16 @@ int descoreTwoBalls() {
   if (getBallsDetected() > 0) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     wait(100, msec);
 >>>>>>> parent of 5d11e89 (progam save)
 =======
     wait(150, msec);
 >>>>>>> parent of d391863 (kinda working with cage)
+=======
+    wait(100, msec);
+>>>>>>> parent of 5d11e89 (progam save)
     pauseIntake();
     setIntakeSpeed(75);
     while (getbottomLineInfo())
@@ -407,22 +427,25 @@ int descoreTwoBalls() {
       wait(50, msec);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     setIntakeSpeed(75);
 =======
 >>>>>>> parent of d391863 (kinda working with cage)
     while (!getbottomLineInfo()){
+=======
+    while (!getbottomLineInfo())
+>>>>>>> parent of 5d11e89 (progam save)
       wait(50, msec);
       if(rollerSpeed < 50)
         rollerSpeed = 100;
-    }
-    while (!getmiddleLineInfo()){
+    while (!getmiddleLineInfo())
       wait(50, msec);
       if(rollerSpeed < 50)
         rollerSpeed = 100;
-    }
-    //rollerSpeed = 0;
+    rollerSpeed = 0;
     while(!getbottomLineInfo())
       wait(50, msec);
+<<<<<<< HEAD
 <<<<<<< HEAD
     setIntakeSpeed(-20);
 =======
@@ -442,6 +465,9 @@ int descoreTwoBalls() {
 =======
     setIntakeSpeed(-40);
 >>>>>>> parent of d391863 (kinda working with cage)
+=======
+    setIntakeSpeed(-100);
+>>>>>>> parent of 5d11e89 (progam save)
     wait(200, msec);
     playIntake();
   }
