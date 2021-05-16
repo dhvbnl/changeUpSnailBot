@@ -32,13 +32,6 @@ void setDrivetrainLock() {
   rFront.setStopping(brake);
 }
 
-void setDrivetrainHold() {
-  lFront.setStopping(hold);
-  lBack.setStopping(hold);
-  rBack.setStopping(hold);
-  rFront.setStopping(hold);
-}
-
 // getters
 
 //gets movement speed based on joystick location and
@@ -148,9 +141,9 @@ std::string tempInfoDrive() {
 // turn the robot based on absolute position from the original point of the robot
 void drivetrainTurn(double targetdeg) {
    // proportionality constants
-  double kP = 0.4;
-  double kI = 0.0006;
-  double kD = 0.6;
+  double kP = 0.45;
+  double kI = 0.0004;
+  double kD = 0.7;
 
   // PID loop variables
   double error = 1;

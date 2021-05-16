@@ -58,34 +58,43 @@ void leftAlliance() {
   waitDrive();
 <<<<<<< HEAD
   wait(250, msec);
+<<<<<<< HEAD
   driveProfile(25, false);
 =======
   wait(200, msec);
   driveProfile(30, false);
 >>>>>>> parent of 5d11e89 (progam save)
+=======
+  driveProfile(30, false);
+>>>>>>> parent of d391863 (kinda working with cage)
   leftCustom.interrupt();
   thread middleCustom(middleGoalCustomIntake);
   setPos(42, -5, false);
   wait(100, msec);
-  arcturn(0, -6, 148);
+  arcturn(0, -6, 147);
   middleCustom.interrupt();
   setIntakeSpeed(0);
   driveProfile(20, true);
 <<<<<<< HEAD
+<<<<<<< HEAD
   setPos(0, -40, false);
   timeDrive(5, 100);
+=======
+  setPos(0, -46, false);
+  timeDrive(4, 300);
+>>>>>>> parent of d391863 (kinda working with cage)
   thread sideCustom(sideGoalCustom);
   waitDrive();
   wait(200, msec);
   driveProfile (24, false);
-  drivetrainTurn(135);
+  drivetrainTurn(140);
   thread middleCustomScore(middleGoalCustom);
   //arcturn(5, 7, 85);
-  arcturnTime(5.2, 7, 1500);
+  arcturnTime(5, 7, 1000);
   waitDrive();
   setIntakeSpeed(-8);
   driveProfile(10, false);
-  setIntakeSpeed(-30);
+  thread rightCustom(rightHomeGoalCustom);
   setPos(3, -103, false);
   timeDrive(4, 700);
   //waitDrive();
@@ -283,5 +292,10 @@ void skills() {
 void test(){
   thread setspeed(rollerControl);
   thread test(shoot2Corner);
-  drivetrainTurn(90);
+  wait(3, sec);
+  setHoardStopTrue();
+  wait(2, sec);
+  setShootStartTrue();
+  wait(3, sec);
+  setCleanStartTrue();
 }
