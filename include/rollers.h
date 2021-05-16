@@ -42,7 +42,7 @@ void descoreChooser();
 
 int shootAllRollers();
 int shootOneRollers();
-int shootTwoRollers();
+int shootOneRollersSlow();
 int cycleCombo();
 int customMiddle();
 

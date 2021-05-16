@@ -32,6 +32,13 @@ void setDrivetrainLock() {
   rFront.setStopping(brake);
 }
 
+void setDrivetrainHold() {
+  lFront.setStopping(hold);
+  lBack.setStopping(hold);
+  rBack.setStopping(hold);
+  rFront.setStopping(hold);
+}
+
 // getters
 
 //gets movement speed based on joystick location and
@@ -141,9 +148,9 @@ std::string tempInfoDrive() {
 // turn the robot based on absolute position from the original point of the robot
 void drivetrainTurn(double targetdeg) {
    // proportionality constants
-  double kP = 0.45;
-  double kI = 0.0004;
-  double kD = 0.7;
+  double kP = 0.4;
+  double kI = 0.0006;
+  double kD = 0.6;
 
   // PID loop variables
   double error = 1;
@@ -222,6 +229,18 @@ void arcturn (double left, double right, double turnangle) {
     rBack.spin(fwd, right, volt);
     wait(10, msec);
   }
+  lFront.stop();
+  rFront.stop();
+  lBack.stop();
+  rBack.stop();
+}
+
+void arcturnTime (double left, double right, int length) {
+  lFront.spin(fwd, left, volt);
+  lBack.spin(fwd, left, volt);
+  rFront.spin(fwd, right, volt);
+  rBack.spin(fwd, right, volt);
+  wait(length, msec);
   lFront.stop();
   rFront.stop();
   lBack.stop();

@@ -3,20 +3,9 @@
 //global rollerSpeed checker
 int rollerSpeed = 0;
 //global descore checker
-<<<<<<< HEAD
-<<<<<<< HEAD
 int shootState = 0;
-<<<<<<< HEAD
 //global drivetrain state checker
 bool holdState = false;
-=======
-int shootState = 2;
->>>>>>> parent of 5d11e89 (progam save)
-=======
->>>>>>> parent of d391863 (kinda working with cage)
-=======
-int shootState = 2;
->>>>>>> parent of 5d11e89 (progam save)
 
 //global auton roller variables
 bool hoardstop = false;
@@ -113,25 +102,11 @@ void runMacros() {
     descoreChooser();
   } else if (getRightPos()) {
     stopAllMacros();
-    if(shootState == 2)
-      shootState = 0;
     shootOne = thread(shootOneRollers);
     descoreChooser();
   } else if (getYPos()) {
     stopAllMacros();
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     shootOne = thread(shootOneRollersSlow);
-=======
-    shootTwo = thread(shootTwoRollers);
->>>>>>> parent of 5d11e89 (progam save)
-=======
-    rollerSpeed = 60;
->>>>>>> parent of d391863 (kinda working with cage)
-=======
-    shootTwo = thread(shootTwoRollers);
->>>>>>> parent of 5d11e89 (progam save)
   } else if (getL2Pos()) {
     stopAllMacros();
     hoardAll = thread(hoardAllRollers);
@@ -150,7 +125,12 @@ void runMacros() {
     playIntake();
   } else if (getDownPos()) {
     stopAllMacros();
-    custom = thread(customMiddle);
+    wait(300, msec);
+    if(!holdState)
+      setDrivetrainHold();
+    else
+      setDrivetrainCreep();
+    holdState = !holdState;
   } else if (getAPos())
     shootState = 2;
   else if (getBPos())
@@ -203,7 +183,7 @@ int shootAllRollers() {
       wait(50, msec);
     rollerSpeed = 0;
   }
-  wait(250, msec);
+  wait(300, msec);
   rollerSpeed = 0;
   return 0;
 }
@@ -242,30 +222,22 @@ int shootOneRollers() {
 }
 
 //shoots only two balls for match play
-int shootTwoRollers(){
-  if(gettopLineInfo() && getmiddleLineInfo()){
-    rollerSpeed = 100;
-    while(getmiddleLineInfo())
-      wait(50, msec);
+int shootOneRollersSlow(){
+    if(gettopLineInfo()){
+    rollerSpeed = 35;
     while(gettopLineInfo())
       wait(50, msec);
+  }
+  else if(getmiddleLineInfo()){
+    rollerSpeed = 35;
     while(!gettopLineInfo())
       wait(50, msec);
     while(gettopLineInfo())
       wait(50, msec);
+    
   }
-  else if(getmiddleLineInfo() && getbottomLineInfo()){
-    rollerSpeed = 100;
-    while(getbottomLineInfo())
-      wait(50, msec);
-    while(getmiddleLineInfo())
-      wait(50, msec);
-    while(!getmiddleLineInfo())
-      wait(50, msec);
-    while(getmiddleLineInfo())
-      wait(50, msec);
-    while(gettopLineInfo())
-      wait(50, msec);
+  else if(getbottomLineInfo()){
+    rollerSpeed = 35;
     while(!gettopLineInfo())
       wait(50, msec);
     while(gettopLineInfo())
@@ -285,11 +257,19 @@ int shootTwoRollers(){
 //hoard balls to collect from the field
 int hoardAllRollers() {
   resetForHoard();
-  while (!getbottomLineInfo() && !getmiddleLineInfo())
-    wait(50, msec);
+  if(gettopLineInfo()){
+    rollerSpeed = -30;
+    while(!getmiddleLineInfo())
+      wait(50, msec);
+  }
   rollerSpeed = 50;
-  while (!getmiddleLineInfo())
+  while (!getmiddleLineInfo() && !gettopLineInfo())
     wait(50, msec);
+  if(gettopLineInfo()){
+    rollerSpeed = -30;
+    while(!getmiddleLineInfo())
+      wait(50, msec);
+  }
   rollerSpeed = 0;
   while (!getbottomLineInfo())
     wait(50, msec);
@@ -347,19 +327,15 @@ int resetForHoard() {
 
 //remove all balls to get rid of other coller
 int clearAllRollers() {
-<<<<<<< HEAD
-<<<<<<< HEAD
   if(getBallsDetected() == 0){
     rollerSpeed = -35;
-    while(getBallsDetected() == 0)
+    alignRollers.clear();
+    while(getBallsDetected() == 0 && alignRollers.time(msec) < 300)
       wait(10, msec);
     rollerSpeed = 0;
+    playIntake();
     return 0;
   }
-=======
->>>>>>> parent of 5d11e89 (progam save)
-=======
->>>>>>> parent of 5d11e89 (progam save)
   pauseIntake();
   setIntakeSpeed(-75);
   rollerSpeed = -100;
@@ -371,30 +347,13 @@ int clearAllRollers() {
 
 //remove one ball from goal
 int descoreOneBall() {
-<<<<<<< HEAD
-<<<<<<< HEAD
   int getBallsStart = getBallsDetected();
   if (getBallsStart > 0) {
-<<<<<<< HEAD
-=======
-  if (getBallsDetected() > 0) {
-    wait(100, msec);
->>>>>>> parent of 5d11e89 (progam save)
-=======
-    switch(getBallsStart){
-      case 3: wait(300, msec);
-      case 2: wait(100, msec);
-      case 1: wait(100, msec);
-    }
->>>>>>> parent of d391863 (kinda working with cage)
-=======
-  if (getBallsDetected() > 0) {
-    wait(100, msec);
->>>>>>> parent of 5d11e89 (progam save)
     pauseIntake();
-    setIntakeSpeed(75);
+    
     while (getbottomLineInfo())
       wait(50, msec);
+    setIntakeSpeed(75);
     while (!getbottomLineInfo())
       wait(50, msec);
     setIntakeSpeed(-100);
@@ -407,67 +366,28 @@ int descoreOneBall() {
 // remove two balls from goal
 int descoreTwoBalls() {
   if (getBallsDetected() > 0) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    wait(100, msec);
->>>>>>> parent of 5d11e89 (progam save)
-=======
-    wait(150, msec);
->>>>>>> parent of d391863 (kinda working with cage)
-=======
-    wait(100, msec);
->>>>>>> parent of 5d11e89 (progam save)
     pauseIntake();
-    setIntakeSpeed(75);
+    while(!getmiddleLineInfo())
+      wait(50, msec);
     while (getbottomLineInfo())
       wait(50, msec);
     while(getmiddleLineInfo())
       wait(50, msec);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     setIntakeSpeed(75);
-=======
->>>>>>> parent of d391863 (kinda working with cage)
     while (!getbottomLineInfo()){
-=======
-    while (!getbottomLineInfo())
->>>>>>> parent of 5d11e89 (progam save)
       wait(50, msec);
       if(rollerSpeed < 50)
-        rollerSpeed = 100;
-    while (!getmiddleLineInfo())
+        rollerSpeed = 30;
+    }
+    while (!getmiddleLineInfo()){
       wait(50, msec);
       if(rollerSpeed < 50)
-        rollerSpeed = 100;
+        rollerSpeed = 30;
+    }
     rollerSpeed = 0;
     while(!getbottomLineInfo())
       wait(50, msec);
-<<<<<<< HEAD
-<<<<<<< HEAD
     setIntakeSpeed(-20);
-=======
-    while (!getbottomLineInfo())
-      wait(50, msec);
-      if(rollerSpeed < 50)
-        rollerSpeed = 100;
-    while (!getmiddleLineInfo())
-      wait(50, msec);
-      if(rollerSpeed < 50)
-        rollerSpeed = 100;
-    rollerSpeed = 0;
-    while(!getbottomLineInfo())
-      wait(50, msec);
-    setIntakeSpeed(-100);
->>>>>>> parent of 5d11e89 (progam save)
-=======
-    setIntakeSpeed(-40);
->>>>>>> parent of d391863 (kinda working with cage)
-=======
-    setIntakeSpeed(-100);
->>>>>>> parent of 5d11e89 (progam save)
     wait(200, msec);
     playIntake();
   }
@@ -664,6 +584,15 @@ int leftHomeGoalCustomLess(){
       wait(50, msec);
     rollerSpeed = 0;
   }
+  else{
+    rollerSpeed = -30;
+    while(gettopLineInfo())
+      wait(50, msec);
+    rollerSpeed = 30;
+    while(!gettopLineInfo())
+      wait(50, msec);
+    rollerSpeed = 0;
+  }
   continueDrive = false;
   return 0;
 }
@@ -696,7 +625,7 @@ int sideGoalCustom(){
   rollerSpeed = 100;
   while(gettopLineInfo())
     wait(50, msec);
-  wait(200, msec);
+  wait(100, msec);
   rollerSpeed = 0;
   continueDrive = true;
   rollerSpeed = 30;
@@ -722,6 +651,7 @@ int rightHomeGoalCustom(){
   while(gettopLineInfo())
     wait(50, msec);
   wait(200, msec);
+  rollerSpeed = 0;
   continueDrive = true;
   return 0;
 }
