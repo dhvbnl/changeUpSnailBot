@@ -149,8 +149,8 @@ std::string tempInfoDrive() {
 void drivetrainTurn(double targetdeg) {
    // proportionality constants
   double kP = 0.4;
-  double kI = 0.0006;
-  double kD = 0.6;
+  double kI = 0.0009;
+  double kD = 0.62;
 
   // PID loop variables
   double error = 1;

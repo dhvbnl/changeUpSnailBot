@@ -224,12 +224,12 @@ int shootOneRollers() {
 //shoots only two balls for match play
 int shootOneRollersSlow(){
     if(gettopLineInfo()){
-    rollerSpeed = 35;
+    rollerSpeed = 40;
     while(gettopLineInfo())
       wait(50, msec);
   }
   else if(getmiddleLineInfo()){
-    rollerSpeed = 35;
+    rollerSpeed = 40;
     while(!gettopLineInfo())
       wait(50, msec);
     while(gettopLineInfo())
@@ -237,7 +237,7 @@ int shootOneRollersSlow(){
     
   }
   else if(getbottomLineInfo()){
-    rollerSpeed = 35;
+    rollerSpeed = 40;
     while(!gettopLineInfo())
       wait(50, msec);
     while(gettopLineInfo())
@@ -571,14 +571,29 @@ int leftHomeGoalCustomLess(){
   while(!getbottomLineInfo())
     wait(10, msec);
   rollerSpeed = 100;
+  while(!gettopLineInfo())
+    wait(50, msec);
   setIntakeSpeed(-20);
   while(gettopLineInfo())
     wait(50, msec);
   wait(100, msec);
   continueDrive = true;
+  rollerSpeed = 20;
+  while(!gettopLineInfo())
+    wait(50, msec);
+  rollerSpeed = 0;
+ 
+  wait(300, msec);
+  rollerSpeed = -40;
+  while(!getmiddleLineInfo())
+    wait(50, msec);
+  rollerSpeed = 40;
+  while(!gettopLineInfo())
+    wait(50, msec);
   rollerSpeed = 0;
   setIntakeSpeed(0);
-  if(!gettopLineInfo()){
+
+/*   if(!gettopLineInfo()){
     rollerSpeed = 30;
     while(!gettopLineInfo())
       wait(50, msec);
@@ -592,7 +607,7 @@ int leftHomeGoalCustomLess(){
     while(!gettopLineInfo())
       wait(50, msec);
     rollerSpeed = 0;
-  }
+  } */
   continueDrive = false;
   return 0;
 }
@@ -609,7 +624,7 @@ int middleGoalCustom(){
   setIntakeSpeed(100);
   while(!getbottomLineInfo())
     wait(50, msec);
-  wait(150, msec);
+  wait(100, msec);
   setIntakeSpeed(0);
   rollerSpeed = 100;
   while(getBallsDetected() != 0)
@@ -625,7 +640,7 @@ int sideGoalCustom(){
   rollerSpeed = 100;
   while(gettopLineInfo())
     wait(50, msec);
-  wait(100, msec);
+  wait(150, msec);
   rollerSpeed = 0;
   continueDrive = true;
   rollerSpeed = 30;
