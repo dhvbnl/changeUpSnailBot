@@ -216,7 +216,7 @@ int shootOneRollers() {
       wait(50, msec);
     rollerSpeed = 0;
   }
-  wait(50, msec);
+  wait(100, msec);
   rollerSpeed = 0;
   return 0;
 }
@@ -249,7 +249,7 @@ int shootOneRollersSlow(){
       wait(50, msec);
     rollerSpeed = 0;
   }
-  wait(50, msec);
+  wait(200, msec);
   rollerSpeed = 0;
   return 0;
 }

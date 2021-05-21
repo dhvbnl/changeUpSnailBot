@@ -6,41 +6,57 @@ thread hoardTwo;
 thread clean;
 
 void rightAlliance() {
-  // 15 second program starting on both sides
-  //threads to check odometry and for controller roller speeds
+  // 15 second program starting on the right side
   thread setspeed(rollerControl);
   thread pos(getPosition);
+  timer t;
 
   //deploy 
   deploy();
   setDrivetrainLock();
-  //move to first goal 
-  arcturn(7, 0, 110);
-  //hoard = thread(shootThreeRemoveOne);
-  timeDrive(5, 600);
-  while(getRollerSpeed() > 10) {
-    wait(50, msec);
-  }
+  wait(100, msec);
+  //move to first goal
+  //thread leftCustom(leftHomeGoalCustomLess); 
+  setIntakeSpeed(-40);
+  arcturn(1, 7, 325);
+  //waitDrive();
+  wait(250, msec);
   driveProfile(10, false);
-  
-  //"S" turn to the second goal
-  arcturn(-7, -3, 90);
-  arcturn(-3, -7, 178);
-  hoard.interrupt();
-  timeDrive(-6, 400);
-  drivetrainTurn(180);
-  timeDrive(6, 1900);
-  shoot = thread(shootOneRemoveTwo);
-  wait(500, msec);
-  while(getRollerSpeed() > 10) {
-    wait(50, msec);
-  }
-  timeDrive(-6, 900);
-  wait(300, msec);
-  hoardTwo = thread(shootTwoRemoveTwo);
-  //set position to third goal
-  setPos(-85, -8, false);
-  timeDrive(5, 700);
+  setIntakeSpeed(0);
+ // leftCustom.interrupt();
+  thread middleCustom(middleGoalCustomIntake);
+  setPos(42, -3, false);
+  wait(100, msec);
+  arcturn(0, -6.5, 150);
+  wait(200, msec);
+  middleCustom.interrupt();
+  setIntakeSpeed(50);
+  driveProfile(21, true);
+  setPos(1, -42, false);
+  setIntakeSpeed(-65);
+  //timeDrive(5, 100);
+  //thread sideCustom(sideGoalCustom);
+ // waitDrive();
+  wait(400, msec);
+  driveProfile (10, false);
+  setIntakeSpeed(0);
+  //drivetrainTurn(135);
+  setPos(21, -42, false);
+  wait(100, msec);
+  thread middleCustomScore(middleGoalCustom);
+  //arcturn(5, 7, 85);
+  drivetrainTurn(91);
+  timeDrive(6, 1000);
+  //arcturnTime(5.2, 7.5, 1500);
+  waitDrive();
+  setIntakeSpeed(-8);
+  driveProfile(10, false);
+  setIntakeSpeed(-30);
+  setPos(5, -100, false);
+  timeDrive(4, 700);
+  //waitDrive();
+  Controller.Screen.clearLine();
+  Controller.Screen.print(t.time(seconds));
 }
                                                     
 void leftAlliance() {
@@ -52,6 +68,7 @@ void leftAlliance() {
   //deploy 
   deploy();
   setDrivetrainLock();
+  wait(100, msec);
   //move to first goal
   //thread leftCustom(leftHomeGoalCustomLess); 
   setIntakeSpeed(-45);
@@ -62,9 +79,9 @@ void leftAlliance() {
   setIntakeSpeed(0);
  // leftCustom.interrupt();
   thread middleCustom(middleGoalCustomIntake);
-  setPos(42, -3, false);
+  setPos(41, -2, false);
   wait(100, msec);
-  arcturn(0, -6.5, 155);
+  arcturn(0, -6.5, 153);
   wait(200, msec);
   middleCustom.interrupt();
   setIntakeSpeed(50);
