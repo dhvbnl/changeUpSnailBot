@@ -44,6 +44,10 @@ void setRollerSpeed() {
   lRoller.spin(fwd, rollerSpeed, pct);
   rRoller.spin(fwd, rollerSpeed, pct);
 }
+
+void setRollerCustom(int speed){
+  rollerSpeed = speed;
+}
 // sets speed for both rollers based on one speed parameter
 
 void setRollerCreep() {
@@ -224,12 +228,12 @@ int shootOneRollers() {
 //shoots only two balls for match play
 int shootOneRollersSlow(){
     if(gettopLineInfo()){
-    rollerSpeed = 40;
+    rollerSpeed = 25;
     while(gettopLineInfo())
       wait(50, msec);
   }
   else if(getmiddleLineInfo()){
-    rollerSpeed = 40;
+    rollerSpeed = 25;
     while(!gettopLineInfo())
       wait(50, msec);
     while(gettopLineInfo())
@@ -237,7 +241,7 @@ int shootOneRollersSlow(){
     
   }
   else if(getbottomLineInfo()){
-    rollerSpeed = 40;
+    rollerSpeed = 25;
     while(!gettopLineInfo())
       wait(50, msec);
     while(gettopLineInfo())
@@ -249,7 +253,7 @@ int shootOneRollersSlow(){
       wait(50, msec);
     rollerSpeed = 0;
   }
-  wait(200, msec);
+  wait(300, msec);
   rollerSpeed = 0;
   return 0;
 }

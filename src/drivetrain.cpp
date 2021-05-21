@@ -148,9 +148,9 @@ std::string tempInfoDrive() {
 // turn the robot based on absolute position from the original point of the robot
 void drivetrainTurn(double targetdeg) {
    // proportionality constants
-  double kP = 0.4;
-  double kI = 0.0009;
-  double kD = 0.62;
+  double kP = 0.42;
+  double kI = 0.0012;
+  double kD = 0.6;
 
   // PID loop variables
   double error = 1;

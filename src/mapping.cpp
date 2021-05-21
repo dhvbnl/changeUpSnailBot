@@ -25,13 +25,13 @@ void rightAlliance() {
   setIntakeSpeed(0);
  // leftCustom.interrupt();
   thread middleCustom(middleGoalCustomIntake);
-  setPos(42, -3, false);
+  setPos(42, -4, false);
   wait(100, msec);
-  arcturn(0, -6.5, 150);
+  arcturn(0, -6.5, 154);
   wait(200, msec);
   middleCustom.interrupt();
   setIntakeSpeed(50);
-  driveProfile(21, true);
+  driveProfile(22, true);
   setPos(1, -42, false);
   setIntakeSpeed(-65);
   //timeDrive(5, 100);
@@ -45,14 +45,14 @@ void rightAlliance() {
   wait(100, msec);
   thread middleCustomScore(middleGoalCustom);
   //arcturn(5, 7, 85);
-  drivetrainTurn(91);
+  drivetrainTurn(90);
   timeDrive(6, 1000);
   //arcturnTime(5.2, 7.5, 1500);
   waitDrive();
   setIntakeSpeed(-8);
   driveProfile(10, false);
   setIntakeSpeed(-30);
-  setPos(5, -100, false);
+  setPos(5, -102, false);
   timeDrive(4, 700);
   //waitDrive();
   Controller.Screen.clearLine();
@@ -71,7 +71,7 @@ void leftAlliance() {
   wait(100, msec);
   //move to first goal
   //thread leftCustom(leftHomeGoalCustomLess); 
-  setIntakeSpeed(-45);
+  setIntakeSpeed(-40);
   arcturn(1, 7, 325);
   //waitDrive();
   wait(250, msec);
@@ -79,34 +79,39 @@ void leftAlliance() {
   setIntakeSpeed(0);
  // leftCustom.interrupt();
   thread middleCustom(middleGoalCustomIntake);
-  setPos(41, -2, false);
+  setPos(42, -1, false);
   wait(100, msec);
-  arcturn(0, -6.5, 153);
+  arcturn(0, -6.5, 155);
   wait(200, msec);
   middleCustom.interrupt();
-  setIntakeSpeed(50);
-  driveProfile(21, true);
-  setPos(1, -42, false);
+  setIntakeSpeed(60);
+  driveProfile(22, true);
+  wait(200, msec);
+  timeDrive(-6, 300);
+  setPos(1, -49, false);
+  if(!getbottomLineInfo())
+    setRollerCustom(-50);
   setIntakeSpeed(-65);
   //timeDrive(5, 100);
   //thread sideCustom(sideGoalCustom);
  // waitDrive();
   wait(400, msec);
+  setRollerCustom(0);
   driveProfile (10, false);
   setIntakeSpeed(0);
   //drivetrainTurn(135);
-  setPos(21, -42, false);
+  setPos(21, -44, false);
   wait(100, msec);
   thread middleCustomScore(middleGoalCustom);
   //arcturn(5, 7, 85);
-  drivetrainTurn(91);
+  drivetrainTurn(90);
   timeDrive(6, 1000);
   //arcturnTime(5.2, 7.5, 1500);
   waitDrive();
   setIntakeSpeed(-8);
   driveProfile(10, false);
   setIntakeSpeed(-30);
-  setPos(5, -100, false);
+  setPos(5, -110, false);
   timeDrive(4, 700);
   //waitDrive();
   Controller.Screen.clearLine();
@@ -283,7 +288,16 @@ void skills() {
 
 //test function for whatever needs sole tries
 void test(){
-  thread setspeed(rollerControl);
-  thread test(shoot2Corner);
+  //thread setspeed(rollerControl);
+  //thread test(shoot2Corner);
   drivetrainTurn(90);
+  wait(100, msec);
+  drivetrainTurn(0);
+  wait(100, msec);
+  drivetrainTurn(270);
+    wait(100, msec);
+  drivetrainTurn(315);
+    wait(100, msec);
+  drivetrainTurn(0);
+
 }

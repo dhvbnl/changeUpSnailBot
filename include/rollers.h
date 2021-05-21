@@ -8,6 +8,7 @@ int rollerControl();
 
 //setters
 void setRollerSpeed();
+void setRollerCustom(int speed);
 
 void setRollerCreep();
 void setRollerLock();
