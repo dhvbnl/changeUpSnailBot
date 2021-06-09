@@ -130,10 +130,14 @@ void runMacros() {
   } else if (getDownPos()) {
     stopAllMacros();
     wait(300, msec);
-    if(!holdState)
+    if(!holdState){
       setDrivetrainHold();
-    else
+      setIntakeLock();
+    }
+    else{
       setDrivetrainCreep();
+      setIntakeCreep();
+    }
     holdState = !holdState;
   } else if (getAPos())
     shootState = 2;

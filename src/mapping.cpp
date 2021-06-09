@@ -88,10 +88,10 @@ void leftAlliance() {
   driveProfile(22, true);
   wait(200, msec);
   timeDrive(-6, 300);
-  setPos(1, -49, false);
+  setPos(2, -50, false);
   if(!getbottomLineInfo())
     setRollerCustom(-50);
-  setIntakeSpeed(-65);
+  setIntakeSpeed(-80);
   //timeDrive(5, 100);
   //thread sideCustom(sideGoalCustom);
  // waitDrive();

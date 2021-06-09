@@ -21,12 +21,12 @@ void setIntakeSpeed(int speed) {
 }
 
 void setIntakeCreep() {
-  rIntake.setBrake(coast);
+  lIntake.setBrake(coast);
   rIntake.setBrake(coast);
 }
 
 void setIntakeLock() {
-  rIntake.setBrake(brake);
+  lIntake.setBrake(brake);
   rIntake.setBrake(brake);
 }
 
