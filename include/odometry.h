@@ -9,6 +9,6 @@ int getPosition();
 
 double getyPos();
 double getxPos();
-
+void horizontalmove();
 //debug
 void printPos();

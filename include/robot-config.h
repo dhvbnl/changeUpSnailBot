@@ -23,5 +23,6 @@ extern line lineBottom;
 
 extern encoder encoderLeft;
 extern encoder encoderRight;
+extern encoder encoderH;
 
 void  vexcodeInit();
