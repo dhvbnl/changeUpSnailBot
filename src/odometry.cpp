@@ -199,26 +199,27 @@ int getPosition()
 void horizontalmove() {
   double refAngle;
   int quad = 0;
+  double headingDeg = coor.headingRad * (180 / M_PI);
 
-  if (coor.headingRad < 90) { // Quad 1
-    refAngle  = coor.headingRad;
+  if (headingDeg < 90) { // Quad 1
+    refAngle  = headingDeg;
     quad = 1;
   } 
-  else if (coor.headingRad < 180) { // Quad 4
-    refAngle = 180 - coor.headingRad;
+  else if (headingDeg < 180) { // Quad 4
+    refAngle = 180 - headingDeg;
     quad = 2;
   } 
-  else if (coor.headingRad < 270) { // Quad 3
-    refAngle = coor.headingRad - 180;
+  else if (headingDeg < 270) { // Quad 3
+    refAngle = headingDeg - 180;
     quad = 3;
   } 
   else {
-    refAngle = 360 - coor.headingRad; // Quad 2
+    refAngle = 360 - headingDeg; // Quad 2
     quad = 4;
   }
 
-  double deltaX = cos(refAngle) * fabs(coor.deltaH);
-  double deltaY = sin(refAngle) * fabs(coor.deltaH); 
+  double deltaX = cos(refAngle * 180 / M_PI) * fabs(coor.deltaH);
+  double deltaY = sin(refAngle * 180 / M_PI) * fabs(coor.deltaH); 
 
   if (coor.deltaH > 0) { // moving right (positive direction)
     if (quad % 2 == 1) { // Quads 1 or 3
